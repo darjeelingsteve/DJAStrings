@@ -1,0 +1,88 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Automatically extracted untranslated string" : {
+
+    },
+    "I have a value which is %in_here%" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I have a value which is %1$in_here%2$"
+          }
+        }
+      }
+    },
+    "Manually added untranslated string" : {
+      "extractionState" : "manual"
+    },
+    "Plain string" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einfache saite"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "String uni"
+          }
+        }
+      }
+    },
+    "Stale string" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abgestandene zeichenfolge"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaîne obsolète"
+          }
+        }
+      }
+    },
+    "String with %1$d positional placeholders %2$lu" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "String mit %1$dpositionsplatzhaltern %2$lu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaîne avec %1$d des espaces réservés de position %2$lu"
+          }
+        }
+      }
+    },
+    "String with placeholder %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "String mit platzhalter %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Chaîne avec espace réservé %@"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
