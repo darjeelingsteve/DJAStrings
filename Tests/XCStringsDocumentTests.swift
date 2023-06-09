@@ -30,7 +30,7 @@ extension XCStringsDocumentTests {
         XCTAssertEqual(stringsDocument.sourceLanguage, "en")
         XCTAssertEqual(stringsDocument.version, "1.0")
         
-        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 7)
+        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 8)
         XCTAssertEqual(stringsDocument.orderedStringKeys[0], "Automatically extracted untranslated string")
         XCTAssertEqual(stringsDocument.orderedStringKeys[1], "Manually added untranslated string")
         XCTAssertEqual(stringsDocument.orderedStringKeys[2], "Plain string")
@@ -38,6 +38,7 @@ extension XCStringsDocumentTests {
         XCTAssertEqual(stringsDocument.orderedStringKeys[4], "String with %1$d positional placeholders %2$lu")
         XCTAssertEqual(stringsDocument.orderedStringKeys[5], "String with default value")
         XCTAssertEqual(stringsDocument.orderedStringKeys[6], "String with placeholder %@")
+        XCTAssertEqual(stringsDocument.orderedStringKeys[7], "ysn-yz-3Pz.text")
         
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.extractionState)
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations)
@@ -79,6 +80,15 @@ extension XCStringsDocumentTests {
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.localisations?["fr"]?.stringUnit.state, .needsReview)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.localisations?["fr"]?.stringUnit.value, "Chaîne avec espace réservé %@")
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.comment)
+        
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[7]]?.extractionState, .extractedWithValue)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[7]]?.localisations?["en"]?.stringUnit.state, .new)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[7]]?.localisations?["en"]?.stringUnit.value, "XIB Text")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[7]]?.localisations?["fr"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[7]]?.localisations?["fr"]?.stringUnit.value, "Texte XIB")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[7]]?.localisations?["de"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[7]]?.localisations?["de"]?.stringUnit.value, "XIB Text")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[7]]?.comment, "Class = \"UILabel\"; text = \"XIB Text\"; ObjectID = \"ysn-yz-3Pz\";")
     }
 }
 

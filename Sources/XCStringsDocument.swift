@@ -52,7 +52,7 @@ extension XCStringsDocument {
             case manual
             
             /// The string was extracted automatically by Xcode from usage of
-            /// `NSLocalizedStringWithDefaultValue`.
+            /// `NSLocalizedStringWithDefaultValue`, or from a XIB file.
             case extractedWithValue = "extracted_with_value"
             
             /// The string was extracted automatically by Xcode, but has since

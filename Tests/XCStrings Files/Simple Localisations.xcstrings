@@ -83,6 +83,30 @@
           }
         }
       }
+    },
+    "ysn-yz-3Pz.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"XIB Text\"; ObjectID = \"ysn-yz-3Pz\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "XIB Text"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "XIB Text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte XIB"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
