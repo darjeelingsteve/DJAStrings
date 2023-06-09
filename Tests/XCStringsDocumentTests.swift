@@ -81,3 +81,35 @@ extension XCStringsDocumentTests {
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.comment)
     }
 }
+
+// MARK: - Namespace-keyed Localisations
+
+extension XCStringsDocumentTests {
+    func testItLoadsANamespacedKeyedLocalisationsStringsFile() throws {
+        try givenAStringsDocument(fromFileNamed: "Namespaced-keyed Localisations")
+        XCTAssertEqual(stringsDocument.sourceLanguage, "en")
+        XCTAssertEqual(stringsDocument.version, "1.0")
+        
+        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 2)
+        XCTAssertEqual(stringsDocument.orderedStringKeys[0], "screen.footer_welcome")
+        XCTAssertEqual(stringsDocument.orderedStringKeys[1], "screen.title")
+        
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.extractionState, .manual)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.stringUnit.value, "Welcome, %@")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.stringUnit.value, "Bienvenue, %@")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.stringUnit.value, "Willkommen, %@")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.comment, "Main screen footer")
+        
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.extractionState, .manual)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.stringUnit.value, "Home")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.stringUnit.value, "Accueil")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.stringUnit.value, "Startseite")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.comment, "Main screen title")
+    }
+}
