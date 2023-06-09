@@ -48,8 +48,8 @@ extension XCStringsDocument {
             /// the `.xcstrings` file.
             case manual
             
-            /// The string was extracted automatically by Xcode and was
-            /// determined to have a value associated with it.
+            /// The string was extracted automatically by Xcode from usage of
+            /// `NSLocalizedStringWithDefaultValue`.
             case extractedWithValue = "extracted_with_value"
             
             /// The string was extracted automatically by Xcode, but has since

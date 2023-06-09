@@ -4,17 +4,6 @@
     "Automatically extracted untranslated string" : {
 
     },
-    "I have a value which is %in_here%" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "I have a value which is %1$in_here%2$"
-          }
-        }
-      }
-    },
     "Manually added untranslated string" : {
       "extractionState" : "manual"
     },
@@ -63,6 +52,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chaîne avec %1$d des espaces réservés de position %2$lu"
+          }
+        }
+      }
+    },
+    "String with default value" : {
+      "comment" : "Extracted from NSLocalizedStringWithDefaultValue",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "value"
           }
         }
       }
