@@ -41,6 +41,9 @@ extension XCStringsDocument {
         /// identifier of the translation language.
         let localisations: [String: Localisation]?
         
+        /// The comment associated with the localisation, if any.
+        let comment: String?
+        
         /// The different extraction states for a string localisation.
         enum ExtractionState: String, Decodable {
             
@@ -94,6 +97,7 @@ extension XCStringsDocument {
         private enum CodingKeys: String, CodingKey {
             case extractionState
             case localisations = "localizations"
+            case comment
         }
     }
 }

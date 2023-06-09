@@ -41,36 +41,43 @@ extension XCStringsDocumentTests {
         
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.extractionState)
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations)
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.comment)
         
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.extractionState, .manual)
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations)
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.comment)
         
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[2]]?.extractionState)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[2]]?.localisations?["de"]?.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[2]]?.localisations?["de"]?.stringUnit.value, "Einfache saite")
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[2]]?.localisations?["fr"]?.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[2]]?.localisations?["fr"]?.stringUnit.value, "String uni")
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[2]]?.comment)
         
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.extractionState, .stale)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.localisations?["de"]?.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.localisations?["de"]?.stringUnit.value, "Abgestandene zeichenfolge")
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.localisations?["fr"]?.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.localisations?["fr"]?.stringUnit.value, "Chaîne obsolète")
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.comment)
         
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.extractionState)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["de"]?.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["de"]?.stringUnit.value, "String mit %1$dpositionsplatzhaltern %2$lu")
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["fr"]?.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["fr"]?.stringUnit.value, "Chaîne avec %1$d des espaces réservés de position %2$lu")
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.comment)
         
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[5]]?.extractionState, .extractedWithValue)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[5]]?.localisations?["en"]?.stringUnit.state, .new)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[5]]?.localisations?["en"]?.stringUnit.value, "value")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[5]]?.comment, "Extracted from NSLocalizedStringWithDefaultValue")
         
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.extractionState)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.localisations?["de"]?.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.localisations?["de"]?.stringUnit.value, "String mit platzhalter %@")
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.localisations?["fr"]?.stringUnit.state, .needsReview)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.localisations?["fr"]?.stringUnit.value, "Chaîne avec espace réservé %@")
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[6]]?.comment)
     }
 }
