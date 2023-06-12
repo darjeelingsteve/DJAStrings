@@ -314,6 +314,42 @@ extension XCStringsDocumentTests {
     }
 }
 
+// MARK: - Variable-width Localisations
+
+extension XCStringsDocumentTests {
+    func testItLoadsAVariableWidthLocalisationsStringsFile() throws {
+        try givenAStringsDocument(fromFileNamed: "Variable-width Localisations")
+        XCTAssertEqual(stringsDocument.sourceLanguage, "en")
+        XCTAssertEqual(stringsDocument.version, "1.0")
+        
+        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 1)
+        XCTAssertEqual(stringsDocument.orderedStringKeys[0], "greetings_message")
+        
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.extractionState)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.width?.count, 3)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.width?["1"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.width?["1"]?.stringUnit.value, "Hi!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.width?["20"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.width?["20"]?.stringUnit.value, "Hello!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.width?["70"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.width?["70"]?.stringUnit.value, "Greetings and Salutations!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.width?.count, 3)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.width?["1"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.width?["1"]?.stringUnit.value, "Salut!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.width?["20"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.width?["20"]?.stringUnit.value, "Bonjour!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.width?["70"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.width?["70"]?.stringUnit.value, "Salutations et Salutations!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?.count, 3)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["1"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["1"]?.stringUnit.value, "Hallo!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["20"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["20"]?.stringUnit.value, "Hallo!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["70"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["70"]?.stringUnit.value, "Grüße und Begrüßungen!")
+    }
+}
+
 private extension XCStringsDocument.StringLocalisation.Localisation {
     var stringUnit: StringUnit? {
         switch self {
@@ -348,6 +384,17 @@ private extension XCStringsDocument.StringLocalisation.Localisation.Variations {
         switch self {
         case let .plural(plural):
             return plural
+        default:
+            return nil
+        }
+    }
+    
+    var width: [String: Variation]? {
+        switch self {
+        case let .width(widthVariations):
+            return widthVariations
+        default:
+            return nil
         }
     }
 }

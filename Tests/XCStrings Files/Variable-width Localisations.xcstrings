@@ -1,0 +1,82 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "greetings_message" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "width" : {
+              "1" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hallo!"
+                }
+              },
+              "20" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hallo!"
+                }
+              },
+              "70" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Grüße und Begrüßungen!"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "width" : {
+              "1" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hi!"
+                }
+              },
+              "20" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hello!"
+                }
+              },
+              "70" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Greetings and Salutations!"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "width" : {
+              "1" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Salut!"
+                }
+              },
+              "20" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bonjour!"
+                }
+              },
+              "70" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Salutations et Salutations!"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

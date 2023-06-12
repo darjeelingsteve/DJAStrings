@@ -135,10 +135,15 @@ extension XCStringsDocument {
                 /// A localisation that varies by pluralisation rules.
                 case plural(_: Plural)
                 
+                /// A localisation that varies by width rules.
+                case width(_: [String: Variation])
+                
                 init(from decoder: Decoder) throws {
                     let container = try decoder.container(keyedBy: CodingKeys.self)
                     if let plural = try container.decodeIfPresent(Plural.self, forKey: .plural) {
                         self = .plural(plural)
+                    } else if let widthVariations = try container.decodeIfPresent([String: Variation].self, forKey: .width) {
+                        self = .width(widthVariations)
                     } else {
                         throw XCStringsDocument.ParsingError.unrecognisedVariationType
                     }
@@ -182,6 +187,7 @@ extension XCStringsDocument {
                 
                 private enum CodingKeys: String, CodingKey {
                     case plural
+                    case width
                 }
             }
             
