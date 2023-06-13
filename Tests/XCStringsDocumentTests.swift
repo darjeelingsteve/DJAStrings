@@ -96,7 +96,7 @@ extension XCStringsDocumentTests {
 
 extension XCStringsDocumentTests {
     func testItLoadsANamespacedKeyedLocalisationsStringsFile() throws {
-        try givenAStringsDocument(fromFileNamed: "Namespaced-keyed Localisations")
+        try givenAStringsDocument(fromFileNamed: "Namespace-keyed Localisations")
         XCTAssertEqual(stringsDocument.sourceLanguage, "en")
         XCTAssertEqual(stringsDocument.version, "1.0")
         
