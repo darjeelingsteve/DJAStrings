@@ -1,0 +1,16 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "placeholders" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "String with placeholders %@ %a %e %f %1.2f %g %d %i %li %o %x %u %lu %c %s %p"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

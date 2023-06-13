@@ -1,0 +1,46 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "namespace_one.fourth_localisation" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fourth"
+          }
+        }
+      }
+    },
+    "namespace_one.fifth_localisation" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fifth"
+          }
+        }
+      }
+    },
+    "namespace_two.first_localisation" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First"
+          }
+        }
+      }
+    },
+    "namespace_two.second_localisation" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Second"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
