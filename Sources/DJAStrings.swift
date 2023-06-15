@@ -28,7 +28,7 @@ struct DJAStrings: ParsableCommand {
     @Argument var inputFiles: [String] = []
     
     mutating func run() throws {
-        guard topLevelLocalisationNamespace.rangeOfCharacter(from: .whitespacesAndNewlines) == nil else {
+        guard topLevelLocalisationNamespace.rangeOfCharacter(from: .alphanumerics.inverted) == nil else {
             throw DJAStringError.invalidTopLevelLocalisationNameapace(topLevelLocalisationNamespace)
         }
         let xcStringsFileURLs = Set(inputFiles.filter { $0.hasSuffix(".xcstrings") }).map { URL(fileURLWithPath: $0) }
@@ -75,7 +75,7 @@ enum DJAStringError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case let .invalidTopLevelLocalisationNameapace(topLevelLocalisationNamespace):
-            return "Invalid top-level localisation namespace: \"\(topLevelLocalisationNamespace)\". The top level namespace must not contain whitespace or newlines."
+            return "Invalid top-level localisation namespace: \"\(topLevelLocalisationNamespace)\". The top level namespace must only contain alphanumerics."
         }
     }
 }
