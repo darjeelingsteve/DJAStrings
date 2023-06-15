@@ -56,6 +56,14 @@ final class LocalisationGroup {
     }
 }
 
+// MARK: - LocalisationsTreeNode
+
+extension LocalisationGroup: LocalisationsTreeNode {
+    var childNodes: [LocalisationGroup] {
+        childGroups
+    }
+}
+
 private extension Localisation {
     init?(key: String, documentLocalisation: XCStringsDocument.StringLocalisation, sourceLanguage: String, tableName: String) throws {
         guard key.isSuitableSwiftSymbol else { return nil }
