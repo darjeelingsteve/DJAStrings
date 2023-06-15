@@ -20,30 +20,6 @@ final class LocalisationGroup {
     /// The child groups of the group.
     private(set) var childGroups = [LocalisationGroup]()
     
-    /// An individual localisation.
-    struct Localisation {
-        
-        /// The key used to look up the localisation in its parent localisation
-        /// table.
-        let key: String
-        
-        /// The name of the table containing `key`.
-        let tableName: String
-        
-        /// The placeholders contained within the 
-        let placeholders: [Placeholder]
-        
-        /// A placeholder in a localised format string.
-        struct Placeholder {
-            
-            /// The name of the placeholder, if any.
-            let name: String?
-            
-            /// The data type of the placeholder.
-            let type: DataType
-        }
-    }
-    
     /// Creates a new group with the given name.
     /// - Parameter name: The name of the group.
     init(name: String) {
@@ -80,7 +56,7 @@ final class LocalisationGroup {
     }
 }
 
-extension LocalisationGroup.Localisation {
+private extension Localisation {
     init?(key: String, documentLocalisation: XCStringsDocument.StringLocalisation, sourceLanguage: String, tableName: String) throws {
         guard key.isSuitableSwiftSymbol else { return nil }
         guard !(documentLocalisation.comment ?? "").contains("ObjectID =") else {
@@ -114,62 +90,8 @@ extension LocalisationGroup.Localisation {
     }
 }
 
-// MARK: - LocalisationGroup.Localisation.Placeholder.DataType
-
-extension LocalisationGroup.Localisation.Placeholder {
-    
-    /// The different data types that can be represented by placeholders in
-    /// localised format string.
-    enum DataType: CaseIterable {
-        case object
-        case float
-        case integer
-        case unsignedInteger
-        case char
-        case cString
-        case pointer
-        
-        var formatCharacters: [Character] {
-            switch self {
-            case .object:
-                return ["@"]
-            case .float:
-                return ["a", "e", "f", "g"]
-            case .integer:
-                return ["d", "i", "o", "x"]
-            case .unsignedInteger:
-                return ["u"]
-            case .char:
-                return ["c"]
-            case .cString:
-                return ["s"]
-            case .pointer:
-                return ["p"]
-            }
-        }
-        
-        init(formatCharacter character: Character) throws {
-            let lowercased = String(character).lowercased()
-            for dataType in DataType.allCases {
-                if dataType.formatCharacters.contains(lowercased) {
-                    self = dataType
-                    return
-                }
-            }
-            throw LocalisationGroup.ParsingError.unsupportedFormatCharacter(character)
-        }
-        
-        init(formatSpecifier: String) throws {
-            guard let formatCharacter = formatSpecifier.last else {
-                throw LocalisationGroup.ParsingError.unsupportedFormatSpecifier(formatSpecifier)
-            }
-            try self.init(formatCharacter: formatCharacter)
-        }
-    }
-}
-
 private extension Dictionary where Key == String, Value == XCStringsDocument.StringLocalisation.Localisation.Substitution {
-    func placeholders() throws -> [LocalisationGroup.Localisation.Placeholder] {
+    func placeholders() throws -> [Localisation.Placeholder] {
         let flattenedSubstitutions: [(key: String, argumentNumber: Int, formatSpecifier: String)] = reduce(into: []) { partialResult, substituionPair in
             partialResult.append((key: substituionPair.key,
                                   argumentNumber: substituionPair.value.argumentNumber,
@@ -178,8 +100,8 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
         return try flattenedSubstitutions
             .sorted(by: { $0.argumentNumber < $1.argumentNumber })
             .map { flattenedSubstitution in
-                LocalisationGroup.Localisation.Placeholder(name: flattenedSubstitution.key,
-                                                           type: try LocalisationGroup.Localisation.Placeholder.DataType(formatSpecifier: flattenedSubstitution.formatSpecifier))
+                Localisation.Placeholder(name: flattenedSubstitution.key,
+                                         type: try Localisation.Placeholder.DataType(formatSpecifier: flattenedSubstitution.formatSpecifier))
             }
     }
 }
@@ -188,7 +110,7 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
 
 private extension String {
     private static let placeholdersRegex: Regex = {
-        let allFormatCharacters = LocalisationGroup.Localisation.Placeholder.DataType.allCases.flatMap { $0.formatCharacters }
+        let allFormatCharacters = Localisation.Placeholder.DataType.allCases.flatMap { $0.formatCharacters }
         return try! Regex("[%](.*?)[\(allFormatCharacters)]")
     }()
     
@@ -196,7 +118,7 @@ private extension String {
         rangeOfCharacter(from: .whitespaces) == nil
     }
     
-    func placeholders() throws -> [LocalisationGroup.Localisation.Placeholder] {
+    func placeholders() throws -> [Localisation.Placeholder] {
         let matches = matches(of: String.placeholdersRegex)
         guard !matches.isEmpty else { return [] }
         let formatCharacters: [(Character, Int?)] = matches.compactMap { match in
@@ -209,7 +131,7 @@ private extension String {
             return (formatCharacter, positionalSpecifier)
         }
         
-        return try placeholderDataTypes(fromFormatCharacters: formatCharacters).map { LocalisationGroup.Localisation.Placeholder(name: nil, type: $0) }
+        return try placeholderDataTypes(fromFormatCharacters: formatCharacters).map { Localisation.Placeholder(name: nil, type: $0) }
     }
     
     /// Creates an array of
@@ -219,12 +141,12 @@ private extension String {
     /// optional positional specifier.
     /// - Returns: An array of placeholder data types corresponding to the given
     /// format characters and position specifiers.
-    private func placeholderDataTypes(fromFormatCharacters formatCharacters: [(Character, Int?)]) throws -> [LocalisationGroup.Localisation.Placeholder.DataType] {
-        var positionsAndDataTypes = [Int: LocalisationGroup.Localisation.Placeholder.DataType]()
+    private func placeholderDataTypes(fromFormatCharacters formatCharacters: [(Character, Int?)]) throws -> [Localisation.Placeholder.DataType] {
+        var positionsAndDataTypes = [Int: Localisation.Placeholder.DataType]()
         var nextNonPositionalIndex = 1
         
         for (character, positionalSpecifier) in formatCharacters {
-            guard let placeholderType = try? LocalisationGroup.Localisation.Placeholder.DataType(formatCharacter: character) else { continue }
+            guard let placeholderType = try? Localisation.Placeholder.DataType(formatCharacter: character) else { continue }
             let index: Int
             if let positionalSpecifier {
                 index = positionalSpecifier
@@ -255,7 +177,7 @@ extension LocalisationGroup {
     
     /// Errors that occur when parsing a localisation group.
     enum ParsingError: Error, LocalizedError {
-        case invalidPlaceholder(index: Int, previousDataType: LocalisationGroup.Localisation.Placeholder.DataType, newDataType: LocalisationGroup.Localisation.Placeholder.DataType)
+        case invalidPlaceholder(index: Int, previousDataType: Localisation.Placeholder.DataType, newDataType: Localisation.Placeholder.DataType)
         case unsupportedFormatCharacter(_: Character)
         case unsupportedFormatSpecifier(_: String)
         
