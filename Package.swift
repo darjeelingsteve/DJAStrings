@@ -27,7 +27,8 @@ let package = Package(
             name: "DJAStringsTests",
             dependencies: ["DJAStrings"],
             resources: [
-                .copy("XCStrings Files")
+                .copy("Resources/XCStrings Files"),
+                .copy("Resources/Custom.swift-format")
             ])
     ]
 )

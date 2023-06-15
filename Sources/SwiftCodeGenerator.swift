@@ -19,16 +19,18 @@ final class SwiftCodeGenerator {
             \(rootLocalisationsTreeNode.swiftRepresentation)
             """
             var output = ""
-            let formatter = try SwiftFormatter(configuration: .init(contentsOf: Bundle.module.url(forResource: "Default", withExtension: "swift-format")!))
+            let formatter = try SwiftFormatter(configuration: .init(contentsOf: formattingConfigurationFileURL))
             try formatter.format(source: rawSource, assumingFileURL: nil, to: &output)
             return output
         }
     }
     
     private let rootLocalisationsTreeNode: LocalisationsTreeNode
+    private let formattingConfigurationFileURL: URL
     
-    init(rootLocalisationsTreeNode: LocalisationsTreeNode) {
+    init(rootLocalisationsTreeNode: LocalisationsTreeNode, formattingConfigurationFileURL: URL?) {
         self.rootLocalisationsTreeNode = rootLocalisationsTreeNode
+        self.formattingConfigurationFileURL = formattingConfigurationFileURL ?? Bundle.module.url(forResource: "Default", withExtension: "swift-format")!
     }
 }
 

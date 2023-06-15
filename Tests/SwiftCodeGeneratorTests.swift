@@ -17,14 +17,18 @@ final class SwiftCodeGeneratorTests: XCTestCase {
         super.tearDown()
     }
     
-    private func givenASwiftCodeGenerator(withRootLocalisationsTreeNode rootLocalisationsTreeNode: LocalisationsTreeNode) {
-        swiftCodeGenerator = SwiftCodeGenerator(rootLocalisationsTreeNode: rootLocalisationsTreeNode)
+    private func givenASwiftCodeGenerator(withRootLocalisationsTreeNode rootLocalisationsTreeNode: LocalisationsTreeNode, formattingConfigurationFileURL: URL? = nil) {
+        swiftCodeGenerator = SwiftCodeGenerator(rootLocalisationsTreeNode: rootLocalisationsTreeNode, formattingConfigurationFileURL: formattingConfigurationFileURL)
     }
     
     private func whenSwiftCodeIsVended() throws {
         vendedSwiftCode = try swiftCodeGenerator.swiftSource
     }
-    
+}
+
+// MARK: - Enum Generation
+
+extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectOutputForASingleNodeWithOneLocalisations() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
@@ -203,6 +207,30 @@ public enum Root {
             }
         }
     }
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+}
+
+// MARK: - Custom Formatting
+
+extension SwiftCodeGeneratorTests {
+    func testItProducesTheCorrectOutputWhenACustomFormattingConfigurationIsSpecified() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [])
+                                                                                          ],
+                                                                                          childNodes: []),
+                                 formattingConfigurationFileURL: Bundle.module.url(forResource: "Custom", withExtension: "swift-format"))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+            static let localisation = NSLocalizedString("localisation", tableName: "Localizable", comment: "")
 }
 
 """
