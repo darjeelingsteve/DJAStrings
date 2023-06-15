@@ -21,6 +21,9 @@ struct DJAStrings: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path to the directory where the output of the command should be written.")
     private var outputDirectory: String = FileManager.default.currentDirectoryPath
     
+    @Option(name: .shortAndLong, help: "The path to a swift-format configuration file used to format the command's output.")
+    private var formattingConfigurationFilePath: String? = nil
+    
     /// The paths to the `.xcstrings` files passed to the command.
     @Argument var inputFiles: [String] = []
     
@@ -40,8 +43,10 @@ struct DJAStrings: ParsableCommand {
             .appendingPathComponent(topLevelLocalisationNamespace)
             .appendingPathExtension("swift")
         
+        let formattingConfigurationFileURL = formattingConfigurationFilePath != nil ? URL(fileURLWithPath: formattingConfigurationFilePath!) : nil
+        
         let outputString = SourceFileDecorator().addAttributionDocumentation(forFilenameAndExtension: outputPathURL.lastPathComponent,
-                                                                             sourceFileContents: try SwiftCodeGenerator(rootLocalisationsTreeNode: rootLocalisationGroup).swiftSource)
+                                                                             sourceFileContents: try SwiftCodeGenerator(rootLocalisationsTreeNode: rootLocalisationGroup, formattingConfigurationFileURL: formattingConfigurationFileURL).swiftSource)
         
         /*
          Only write the output to disk if it differs from the file that is
