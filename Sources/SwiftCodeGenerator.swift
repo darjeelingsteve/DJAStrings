@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftFormat
+import SwiftFormatConfiguration
 
 /// The code generator for producing Swift code from a localisations tree.
 final class SwiftCodeGenerator {
@@ -19,18 +20,31 @@ final class SwiftCodeGenerator {
             \(rootLocalisationsTreeNode.swiftRepresentation)
             """
             var output = ""
-            let formatter = try SwiftFormatter(configuration: .init(contentsOf: formattingConfigurationFileURL))
+            let formatter = try SwiftFormatter(configuration: formatConfiguration)
             try formatter.format(source: rawSource, assumingFileURL: nil, to: &output)
             return output
         }
     }
     
     private let rootLocalisationsTreeNode: LocalisationsTreeNode
-    private let formattingConfigurationFileURL: URL
+    private let formattingConfigurationFileURL: URL?
+    
+    private var formatConfiguration: SwiftFormatConfiguration.Configuration {
+        get throws {
+            if let formattingConfigurationFileURL {
+                return try SwiftFormatConfiguration.Configuration(contentsOf: formattingConfigurationFileURL)
+            } else {
+                var configuration = Configuration()
+                configuration.indentation = .spaces(4)
+                configuration.lineLength = 10_000
+                return configuration
+            }
+        }
+    }
     
     init(rootLocalisationsTreeNode: LocalisationsTreeNode, formattingConfigurationFileURL: URL?) {
         self.rootLocalisationsTreeNode = rootLocalisationsTreeNode
-        self.formattingConfigurationFileURL = formattingConfigurationFileURL ?? Bundle.module.url(forResource: "Default", withExtension: "swift-format")!
+        self.formattingConfigurationFileURL = formattingConfigurationFileURL
     }
 }
 
