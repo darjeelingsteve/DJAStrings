@@ -17,7 +17,7 @@ struct Localisation {
     /// The name of the table containing `key`.
     let tableName: String
     
-    /// The placeholders contained within the
+    /// The placeholders contained within the localisation.
     let placeholders: [Placeholder]
     
     /// A placeholder in a localised format string.
