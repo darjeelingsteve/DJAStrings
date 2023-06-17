@@ -172,8 +172,8 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
             self.argumentName = argumentName
             switch substitution.variations {
             case let .plural(plural):
-                previews = plural.previews.map { Localisation.Preview(description: "\(argumentName) \($0.description ?? "")",
-                                                                      value: $0.value.replacingOccurrences(of: "%arg", with: "`\(argumentName)`")) }
+                previews = plural.previews.map { Localisation.Preview(description: "\(argumentName.camelCased()) \($0.description ?? "")",
+                                                                      value: $0.value.replacingOccurrences(of: "%arg", with: "`\(argumentName.camelCased())`")) }
             case .width:
                 fatalError("Substitution arguments cannot be varied by width")
             }
