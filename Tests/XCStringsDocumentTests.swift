@@ -322,7 +322,7 @@ extension XCStringsDocumentTests {
         XCTAssertEqual(stringsDocument.sourceLanguage, "en")
         XCTAssertEqual(stringsDocument.version, "1.0")
         
-        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 1)
+        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 2)
         XCTAssertEqual(stringsDocument.orderedStringKeys[0], "greetings_message")
         
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.extractionState)
@@ -347,6 +347,52 @@ extension XCStringsDocumentTests {
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["20"]?.stringUnit.value, "Hallo!")
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["70"]?.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.width?["70"]?.stringUnit.value, "Grüße und Begrüßungen!")
+        
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.extractionState)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.width?.count, 2)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.width?["20"]?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.width?["20"]?.stringUnit.value, "%#@message_count_20@ in %#@inbox_count_20@.")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_20"]?.argumentNumber, 1)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_20"]?.formatSpecifier, "d")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_20"]?.variations.plural?.zero?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_20"]?.variations.plural?.zero?.stringUnit.value, "No msgs")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_20"]?.variations.plural?.one?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_20"]?.variations.plural?.one?.stringUnit.value, "%arg msg")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_20"]?.variations.plural?.other.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_20"]?.variations.plural?.other.stringUnit.value, "%arg msgs")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_20"]?.argumentNumber, 2)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_20"]?.formatSpecifier, "d")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_20"]?.variations.plural?.zero?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_20"]?.variations.plural?.zero?.stringUnit.value, "no boxes")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_20"]?.variations.plural?.one?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_20"]?.variations.plural?.one?.stringUnit.value, "%arg box")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_20"]?.variations.plural?.other.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_20"]?.variations.plural?.other.stringUnit.value, "%arg boxes")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_70"]?.argumentNumber, 1)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_70"]?.formatSpecifier, "d")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_70"]?.variations.plural?.zero?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_70"]?.variations.plural?.zero?.stringUnit.value, "no messages")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_70"]?.variations.plural?.one?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_70"]?.variations.plural?.one?.stringUnit.value, "%arg message")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_70"]?.variations.plural?.other.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["message_count_70"]?.variations.plural?.other.stringUnit.value, "%arg messages")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_70"]?.argumentNumber, 2)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_70"]?.formatSpecifier, "d")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_70"]?.variations.plural?.zero?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_70"]?.variations.plural?.zero?.stringUnit.value, "no inboxes")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_70"]?.variations.plural?.one?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_70"]?.variations.plural?.one?.stringUnit.value, "%arg inbox")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_70"]?.variations.plural?.other.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.substitutions?["inbox_count_70"]?.variations.plural?.other.stringUnit.value, "%arg inboxes")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.width?.count, 2)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.width?["20"]?.stringUnit.state, .new)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.width?["20"]?.stringUnit.value, "")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.width?["70"]?.stringUnit.state, .new)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.width?["70"]?.stringUnit.value, "")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.width?["20"]?.stringUnit.state, .new)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.width?["20"]?.stringUnit.value, "")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.width?["70"]?.stringUnit.state, .new)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.width?["70"]?.stringUnit.value, "")
     }
 }
 
@@ -362,7 +408,7 @@ private extension XCStringsDocument.StringLocalisation.Localisation {
     
     var variations: Variations? {
         switch self {
-        case let .variations(variations):
+        case let .variations(variations, _):
             return variations
         default:
             return nil
@@ -373,8 +419,8 @@ private extension XCStringsDocument.StringLocalisation.Localisation {
         switch self {
         case let .stringUnit(_, substitutions):
             return substitutions
-        default:
-            return nil
+        case let .variations(_, substitutions):
+            return substitutions
         }
     }
 }

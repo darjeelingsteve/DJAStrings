@@ -81,7 +81,7 @@ private extension Localisation {
             } else {
                 placeholders = try stringUnit.value.placeholders
             }
-        case let .variations(variations):
+        case let .variations(variations, _):
             switch variations {
             case let .plural(plural):
                 /// Use the variation with the greatest number of placeholders.
@@ -103,7 +103,7 @@ private extension Localisation {
             } else {
                 localisedValues = [LocalisedValue(description: nil, value: stringUnit.value)]
             }
-        case let .variations(variations):
+        case let .variations(variations, _):
             switch variations {
             case let .plural(plural):
                 localisedValues = plural.localisedValues
@@ -168,7 +168,7 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
                 localisedValues = plural.localisedValues.map { Localisation.LocalisedValue(description: "\(argumentName) \($0.description ?? "")",
                                                                                            value: $0.value.replacingOccurrences(of: "%arg", with: "`\(argumentName)`")) }
             case .width:
-                fatalError()
+                fatalError("Substitution arguments cannot be varied by width")
             }
         }
     }

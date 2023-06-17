@@ -76,6 +76,170 @@
           }
         }
       }
+    },
+    "message_count" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "width" : {
+              "20" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : ""
+                }
+              },
+              "70" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : ""
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "substitutions" : {
+            "inbox_count_20" : {
+              "argNum" : 2,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg box"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg boxes"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "no boxes"
+                    }
+                  }
+                }
+              }
+            },
+            "inbox_count_70" : {
+              "argNum" : 2,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg inbox"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg inboxes"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "no inboxes"
+                    }
+                  }
+                }
+              }
+            },
+            "message_count_20" : {
+              "argNum" : 1,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg msg"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg msgs"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "No msgs"
+                    }
+                  }
+                }
+              }
+            },
+            "message_count_70" : {
+              "argNum" : 1,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg message"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg messages"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "no messages"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "variations" : {
+            "width" : {
+              "20" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%#@message_count_20@ in %#@inbox_count_20@."
+                }
+              },
+              "70" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "You have %#@message_count_70@ in %#@inbox_count_70@"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "width" : {
+              "20" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : ""
+                }
+              },
+              "70" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : ""
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

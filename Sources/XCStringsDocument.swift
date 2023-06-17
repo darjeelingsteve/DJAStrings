@@ -68,15 +68,16 @@ extension XCStringsDocument {
             /// string key, with optional substitutions.
             case stringUnit(_: StringUnit, substitutions: [String: Substitution]?)
             
-            /// A localisation that includes variations.
-            case variations(_: Variations)
+            /// A localisation that includes variations, with optional
+            /// substitutions.
+            case variations(_: Variations, substitutions: [String: Substitution]?)
             
             init(from decoder: Decoder) throws {
                 let container = try decoder.container(keyedBy: CodingKeys.self)
                 if let stringUnit = try container.decodeIfPresent(StringUnit.self, forKey: .stringUnit) {
                     self = .stringUnit(stringUnit, substitutions: try container.decodeIfPresent([String: Substitution].self, forKey: .substitutions))
                 } else if let variations = try container.decodeIfPresent(Variations.self, forKey: .variations) {
-                    self = .variations(variations)
+                    self = .variations(variations, substitutions: try container.decodeIfPresent([String: Substitution].self, forKey: .substitutions))
                 } else {
                     throw XCStringsDocument.ParsingError.unrecognisedLocalisationType
                 }
