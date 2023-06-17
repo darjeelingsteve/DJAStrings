@@ -99,24 +99,24 @@ private extension Localisation {
         switch sourceLanguageLocalisation {
         case let .stringUnit(stringUnit, substitutions):
             if let substitutions {
-                localisedValues = substitutions.localisedValues(forSourceLanguageLocalisation: stringUnit)
+                previews = substitutions.previews(forSourceLanguageLocalisation: stringUnit)
             } else {
-                localisedValues = [LocalisedValue(description: nil, value: stringUnit.value)]
+                previews = [Preview(description: nil, value: stringUnit.value)]
             }
         case let .variations(variations, substitutions):
             switch variations {
             case let .plural(plural):
-                localisedValues = plural.localisedValues
+                previews = plural.previews
             case let .width(widths):
                 let orderedKeys = widths.keys.sorted(using: .localizedStandard)
                 if let substitutions {
-                    localisedValues = orderedKeys.flatMap { substitutions.localisedValues(forSourceLanguageLocalisation: widths[$0]!.stringUnit, descriptionPrefix: "Width \($0)") }
+                    previews = orderedKeys.flatMap { substitutions.previews(forSourceLanguageLocalisation: widths[$0]!.stringUnit, descriptionPrefix: "Width \($0)") }
                 } else {
-                    localisedValues = orderedKeys.map { LocalisedValue(description: "Width \($0)", value: widths[$0]!.stringUnit.value) }
+                    previews = orderedKeys.map { Preview(description: "Width \($0)", value: widths[$0]!.stringUnit.value) }
                 }
             }
         case .none:
-            localisedValues = []
+            previews = []
         }
     }
 }
@@ -138,42 +138,42 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
         }
     }
     
-    func localisedValues(forSourceLanguageLocalisation sourceLanguageLocalisation: XCStringsDocument.StringLocalisation.Localisation.StringUnit, descriptionPrefix: String? = nil) -> [Localisation.LocalisedValue] {
+    func previews(forSourceLanguageLocalisation sourceLanguageLocalisation: XCStringsDocument.StringLocalisation.Localisation.StringUnit, descriptionPrefix: String? = nil) -> [Localisation.Preview] {
         let includedInSource = filter { sourceLanguageLocalisation.value.contains($0.key.asSubstitutionPlaceholder) }
-        let argumentNameAndLocalisedValues = includedInSource.sorted(by: { $0.value.argumentNumber < $1.value.argumentNumber }).map { ArgumentNameAndLocalisedValues(argumentName: $0.key, substitution: $0.value) }
-        guard let firstArgumentNameAndLocalisedValues = argumentNameAndLocalisedValues.first else { return [] }
+        let argumentNameAndPreviews = includedInSource.sorted(by: { $0.value.argumentNumber < $1.value.argumentNumber }).map { ArgumentNameAndPreviews(argumentName: $0.key, substitution: $0.value) }
+        guard let firstArgumentNameAndPreviews = argumentNameAndPreviews.first else { return [] }
         
-        let valueDescriptionPrefix = descriptionPrefix != nil ? descriptionPrefix!.appending(", ") : ""
+        let previewDescriptionPrefix = descriptionPrefix != nil ? descriptionPrefix!.appending(", ") : ""
         
         /// Build an array of localised values using the localised values for
         /// the localisation's first argument.
-        var localisedValues = firstArgumentNameAndLocalisedValues.localisedValues.map { Localisation.LocalisedValue(description: $0.description != nil ? valueDescriptionPrefix + $0.description! : nil,
-                                                                                                                    value: sourceLanguageLocalisation.value.replacing(localisationArgumentName: firstArgumentNameAndLocalisedValues.argumentName, with: $0.value)) }
+        var localisedValues = firstArgumentNameAndPreviews.previews.map { Localisation.Preview(description: $0.description != nil ? previewDescriptionPrefix + $0.description! : nil,
+                                                                                               value: sourceLanguageLocalisation.value.replacing(localisationArgumentName: firstArgumentNameAndPreviews.argumentName, with: $0.value)) }
         /// For each subsequent argument, create a copy of the existing
         /// localised values, multiplied by the number of localised values
         /// belonging to the argument. Then, apply each of the arguments
         /// localised values to the elements in the multiplied array.
-        argumentNameAndLocalisedValues.dropFirst().forEach { argumentNameAndLocalisedValue in
-            localisedValues = Array(repeatingElementsOf: localisedValues, count: argumentNameAndLocalisedValue.localisedValues.count)
+        argumentNameAndPreviews.dropFirst().forEach { argumentNameAndLocalisedValue in
+            localisedValues = Array(repeatingElementsOf: localisedValues, count: argumentNameAndLocalisedValue.previews.count)
             for index in 0..<localisedValues.count {
-                let localisedValue = argumentNameAndLocalisedValue.localisedValues[index % argumentNameAndLocalisedValue.localisedValues.count]
-                localisedValues[index] = Localisation.LocalisedValue(description: (localisedValues[index].description ?? "") + ", \(localisedValue.description ?? "")",
-                                                                     value: localisedValues[index].value.replacing(localisationArgumentName: argumentNameAndLocalisedValue.argumentName, with: localisedValue.value))
+                let localisedValue = argumentNameAndLocalisedValue.previews[index % argumentNameAndLocalisedValue.previews.count]
+                localisedValues[index] = Localisation.Preview(description: (localisedValues[index].description ?? "") + ", \(localisedValue.description ?? "")",
+                                                              value: localisedValues[index].value.replacing(localisationArgumentName: argumentNameAndLocalisedValue.argumentName, with: localisedValue.value))
             }
         }
         return localisedValues
     }
     
-    private struct ArgumentNameAndLocalisedValues {
+    private struct ArgumentNameAndPreviews {
         let argumentName: String
-        let localisedValues: [Localisation.LocalisedValue]
+        let previews: [Localisation.Preview]
         
         init(argumentName: String, substitution: XCStringsDocument.StringLocalisation.Localisation.Substitution) {
             self.argumentName = argumentName
             switch substitution.variations {
             case let .plural(plural):
-                localisedValues = plural.localisedValues.map { Localisation.LocalisedValue(description: "\(argumentName) \($0.description ?? "")",
-                                                                                           value: $0.value.replacingOccurrences(of: "%arg", with: "`\(argumentName)`")) }
+                previews = plural.previews.map { Localisation.Preview(description: "\(argumentName) \($0.description ?? "")",
+                                                                      value: $0.value.replacingOccurrences(of: "%arg", with: "`\(argumentName)`")) }
             case .width:
                 fatalError("Substitution arguments cannot be varied by width")
             }
@@ -182,25 +182,25 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
 }
 
 private extension XCStringsDocument.StringLocalisation.Localisation.Variations.Plural {
-    var localisedValues: [Localisation.LocalisedValue] {
-        var localisedValues = [Localisation.LocalisedValue]()
+    var previews: [Localisation.Preview] {
+        var previews = [Localisation.Preview]()
         if let zero {
-            localisedValues.append(Localisation.LocalisedValue(description: "Zero", value: zero.stringUnit.value))
+            previews.append(Localisation.Preview(description: "Zero", value: zero.stringUnit.value))
         }
         if let one {
-            localisedValues.append(Localisation.LocalisedValue(description: "One", value: one.stringUnit.value))
+            previews.append(Localisation.Preview(description: "One", value: one.stringUnit.value))
         }
         if let two {
-            localisedValues.append(Localisation.LocalisedValue(description: "Two", value: two.stringUnit.value))
+            previews.append(Localisation.Preview(description: "Two", value: two.stringUnit.value))
         }
         if let few {
-            localisedValues.append(Localisation.LocalisedValue(description: "Few", value: few.stringUnit.value))
+            previews.append(Localisation.Preview(description: "Few", value: few.stringUnit.value))
         }
         if let many {
-            localisedValues.append(Localisation.LocalisedValue(description: "Many", value: many.stringUnit.value))
+            previews.append(Localisation.Preview(description: "Many", value: many.stringUnit.value))
         }
-        localisedValues.append(Localisation.LocalisedValue(description: "Other", value: other.stringUnit.value))
-        return localisedValues
+        previews.append(Localisation.Preview(description: "Other", value: other.stringUnit.value))
+        return previews
     }
 }
 

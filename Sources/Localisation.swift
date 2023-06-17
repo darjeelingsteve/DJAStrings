@@ -20,11 +20,11 @@ struct Localisation {
     /// The placeholders contained within the localisation.
     let placeholders: [Placeholder]
     
-    /// The different values associated with the localisation, in the source
-    /// language. Standard localisations without variations will have a single
-    /// value, whereas localisations with plural or width variations will have a
-    /// value for each variation.
-    let localisedValues: [LocalisedValue]
+    /// Preview of the different vsriations associated with the localisation,
+    /// in the source language. Standard localisations without variations will
+    /// have a single preview, whereas localisations with plural or width
+    /// variations will have a preview for each variation.
+    let previews: [Preview]
 }
 
 // MARK: - Localisation.Placeholder
@@ -41,18 +41,18 @@ extension Localisation {
     }
 }
 
-// MARK: - Localisation.LocalisedValue
+// MARK: - Localisation.Preview
 
 extension Localisation {
     
-    /// An individual localised value for a localisation.
-    struct LocalisedValue {
+    /// A preview of an individual variant of a localisation.
+    struct Preview {
         
-        /// The description of the value. `nil` for the default value of a
+        /// The description of the preview. `nil` for the default value of a
         /// localisation containing no variations.
         let description: String?
         
-        /// The localised value.
+        /// A preview of how the localisation will appear.
         let value: String
     }
 }
