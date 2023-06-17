@@ -69,14 +69,22 @@ private extension Localisation {
     var swiftRepresentation: String {
         let symbolName = (key.components(separatedBy: ".").last ?? key).camelCased()
         if placeholders.isEmpty {
-            return "static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", comment: \"\")"
+            return """
+\(documentationComment)
+static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", comment: \"\")
+"""
         } else {
             return """
+\(documentationComment)
 static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
     String(format: NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", comment: \"\"), \(placeholderVarArgs))
 }
 """
         }
+    }
+    
+    private var documentationComment: String {
+        previews.map { $0.documentationComment }.joined(separator: "\n///\n")
     }
     
     private var placeholderFunctionParameters: String {
@@ -116,6 +124,16 @@ private extension Localisation.Placeholder.DataType {
         case .pointer:
             return "UnsafeRawPointer"
         }
+    }
+}
+
+private extension Localisation.Preview {
+    var documentationComment: String {
+        let valueComment = "/// \(value)"
+        guard let description else {
+            return valueComment
+        }
+        return "/// \(description)\n\(valueComment)"
     }
 }
 
