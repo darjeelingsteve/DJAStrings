@@ -84,7 +84,15 @@ static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
     }
     
     private var documentationComment: String {
-        previews.map { $0.documentationComment }.joined(separator: "\n///\n")
+        let previewsComments = previews.map { $0.documentationComment }.joined(separator: "\n///\n")
+        guard previews.count >= 2 else {
+            return previewsComments
+        }
+        return """
+/// Key: `\(key)`, table name: `\(tableName)`
+///
+\(previewsComments)
+"""
     }
     
     private var placeholderFunctionParameters: String {

@@ -302,6 +302,8 @@ public enum Root {
 import Foundation
 
 public enum Root {
+    /// Key: `localisation`, table name: `Localizable`
+    ///
     /// **Description One**
     /// Value One
     ///
