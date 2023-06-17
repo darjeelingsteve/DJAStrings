@@ -103,13 +103,17 @@ private extension Localisation {
             } else {
                 localisedValues = [LocalisedValue(description: nil, value: stringUnit.value)]
             }
-        case let .variations(variations, _):
+        case let .variations(variations, substitutions):
             switch variations {
             case let .plural(plural):
                 localisedValues = plural.localisedValues
             case let .width(widths):
                 let orderedKeys = widths.keys.sorted(using: .localizedStandard)
-                localisedValues = orderedKeys.map { LocalisedValue(description: "Width \($0)", value: widths[$0]!.stringUnit.value) }
+                if let substitutions {
+                    localisedValues = orderedKeys.flatMap { substitutions.localisedValues(forSourceLanguageLocalisation: widths[$0]!.stringUnit, descriptionPrefix: "Width \($0)") }
+                } else {
+                    localisedValues = orderedKeys.map { LocalisedValue(description: "Width \($0)", value: widths[$0]!.stringUnit.value) }
+                }
             }
         case .none:
             localisedValues = []
@@ -134,13 +138,16 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
         }
     }
     
-    func localisedValues(forSourceLanguageLocalisation sourceLanguageLocalisation: XCStringsDocument.StringLocalisation.Localisation.StringUnit) -> [Localisation.LocalisedValue] {
-        let argumentNameAndLocalisedValues = sorted(by: { $0.value.argumentNumber < $1.value.argumentNumber }).map { ArgumentNameAndLocalisedValues(argumentName: $0.key, substitution: $0.value) }
+    func localisedValues(forSourceLanguageLocalisation sourceLanguageLocalisation: XCStringsDocument.StringLocalisation.Localisation.StringUnit, descriptionPrefix: String? = nil) -> [Localisation.LocalisedValue] {
+        let includedInSource = filter { sourceLanguageLocalisation.value.contains($0.key.asSubstitutionPlaceholder) }
+        let argumentNameAndLocalisedValues = includedInSource.sorted(by: { $0.value.argumentNumber < $1.value.argumentNumber }).map { ArgumentNameAndLocalisedValues(argumentName: $0.key, substitution: $0.value) }
         guard let firstArgumentNameAndLocalisedValues = argumentNameAndLocalisedValues.first else { return [] }
+        
+        let valueDescriptionPrefix = descriptionPrefix != nil ? descriptionPrefix!.appending(", ") : ""
         
         /// Build an array of localised values using the localised values for
         /// the localisation's first argument.
-        var localisedValues = firstArgumentNameAndLocalisedValues.localisedValues.map { Localisation.LocalisedValue(description: $0.description,
+        var localisedValues = firstArgumentNameAndLocalisedValues.localisedValues.map { Localisation.LocalisedValue(description: $0.description != nil ? valueDescriptionPrefix + $0.description! : nil,
                                                                                                                     value: sourceLanguageLocalisation.value.replacing(localisationArgumentName: firstArgumentNameAndLocalisedValues.argumentName, with: $0.value)) }
         /// For each subsequent argument, create a copy of the existing
         /// localised values, multiplied by the number of localised values
@@ -227,8 +234,12 @@ private extension String {
         }
     }
     
+    var asSubstitutionPlaceholder: String {
+        "%#@\(self)@"
+    }
+    
     func replacing(localisationArgumentName: String, with value: String) -> String {
-        replacingOccurrences(of: "%#@\(localisationArgumentName)@", with: value)
+        replacingOccurrences(of: localisationArgumentName.asSubstitutionPlaceholder, with: value)
     }
     
     /// Creates an array of

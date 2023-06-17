@@ -215,7 +215,7 @@
               "70" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "You have %#@message_count_70@ in %#@inbox_count_70@"
+                  "value" : "You have %#@message_count_70@ in %#@inbox_count_70@."
                 }
               }
             }
