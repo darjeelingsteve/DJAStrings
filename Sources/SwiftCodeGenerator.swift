@@ -133,7 +133,7 @@ private extension Localisation.Preview {
         guard let description else {
             return valueComment
         }
-        return "/// \(description)\n\(valueComment)"
+        return "/// **\(description)**\n\(valueComment)"
     }
 }
 

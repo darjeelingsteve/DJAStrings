@@ -277,7 +277,7 @@ extension SwiftCodeGeneratorTests {
 import Foundation
 
 public enum Root {
-    /// Description
+    /// **Description**
     /// Value
     static let localisation = NSLocalizedString("localisation", tableName: "Localizable", comment: "")
 }
@@ -302,13 +302,13 @@ public enum Root {
 import Foundation
 
 public enum Root {
-    /// Description One
+    /// **Description One**
     /// Value One
     ///
-    /// Description Two
+    /// **Description Two**
     /// Value Two
     ///
-    /// Description Three
+    /// **Description Three**
     /// Value Three
     static let localisation = NSLocalizedString("localisation", tableName: "Localizable", comment: "")
 }
