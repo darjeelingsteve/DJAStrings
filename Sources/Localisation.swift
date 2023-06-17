@@ -20,6 +20,16 @@ struct Localisation {
     /// The placeholders contained within the localisation.
     let placeholders: [Placeholder]
     
+    /// The different values associated with the localisation, in the source
+    /// language. Standard localisations without variations will have a single
+    /// value, whereas localisations with plural or width variations will have a
+    /// value for each variation.
+    let localisedValues: [LocalisedValue]
+}
+
+// MARK: - Localisation.Placeholder
+
+extension Localisation {
     /// A placeholder in a localised format string.
     struct Placeholder {
         
@@ -28,6 +38,22 @@ struct Localisation {
         
         /// The data type of the placeholder.
         let type: DataType
+    }
+}
+
+// MARK: - Localisation.LocalisedValue
+
+extension Localisation {
+    
+    /// An individual localised value for a localisation.
+    struct LocalisedValue {
+        
+        /// The description of the value. `nil` for the default value of a
+        /// localisation containing no variations.
+        let description: String?
+        
+        /// The localised value.
+        let value: String
     }
 }
 

@@ -119,7 +119,6 @@ extension LocalisationGroupTests {
         givenALocalisationGroup()
         try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Simple Localisations")
         XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].key, "strings.placeholder")
-        XCTAssertEqual(localisationGroup.childGroups[0].localisations.count, 4)
         XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].placeholders.count, 1)
         XCTAssertNil(localisationGroup.childGroups[0].localisations[0].placeholders[0].name)
         XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].placeholders[0].type, .object)
@@ -180,5 +179,80 @@ extension LocalisationGroupTests {
         XCTAssertEqual(localisationGroup.localisations[0].placeholders[14].type, .cString)
         XCTAssertNil(localisationGroup.localisations[0].placeholders[15].name)
         XCTAssertEqual(localisationGroup.localisations[0].placeholders[15].type, .pointer)
+    }
+}
+
+// MARK: - Localised Values
+
+extension LocalisationGroupTests {
+    func testItGeneratesTheCorrectLocalisedValuesForSimpleLocalisations() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Simple Localisations")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].key, "strings.placeholder")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues.count, 1)
+        XCTAssertNil(localisationGroup.childGroups[0].localisations[0].localisedValues[0].description)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues[0].value, "String with placeholder %@")
+        
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].key, "strings.plain")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues.count, 1)
+        XCTAssertNil(localisationGroup.childGroups[0].localisations[1].localisedValues[0].description)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[0].value, "Plain String")
+        
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[2].key, "strings.positional_placeholders")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[2].localisedValues.count, 1)
+        XCTAssertNil(localisationGroup.childGroups[0].localisations[2].localisedValues[0].description)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[2].localisedValues[0].value, "String with %1$d positional placeholders %2$lu")
+        
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[3].key, "strings.stale")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[3].localisedValues.count, 1)
+        XCTAssertNil(localisationGroup.childGroups[0].localisations[3].localisedValues[0].description)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[3].localisedValues[0].value, "Stale string")
+    }
+    
+    func testItGeneratesTheCorrectLocalisedValuesForPluralisedLocalisations() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Pluralised Localisations")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].key, "messages.count")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues.count, 3)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues[0].description, "Zero")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues[0].value, "You have no new messages")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues[1].description, "One")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues[1].value, "You have %d new message")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues[2].description, "Other")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].localisedValues[2].value, "You have %d new messages")
+        
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].key, "messages.message_and_inbox_count")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues.count, 9)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[0].description, "message_count Zero, inbox_count Zero")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[0].value, "You have no messages across no inboxes")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[1].description, "message_count Zero, inbox_count One")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[1].value, "You have no messages across `inbox_count` inbox")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[2].description, "message_count Zero, inbox_count Other")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[2].value, "You have no messages across `inbox_count` inboxes")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[3].description, "message_count One, inbox_count Zero")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[3].value, "You have `message_count` message across no inboxes")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[4].description, "message_count One, inbox_count One")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[4].value, "You have `message_count` message across `inbox_count` inbox")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[5].description, "message_count One, inbox_count Other")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[5].value, "You have `message_count` message across `inbox_count` inboxes")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[6].description, "message_count Other, inbox_count Zero")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[6].value, "You have `message_count` messages across no inboxes")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[7].description, "message_count Other, inbox_count One")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[7].value, "You have `message_count` messages across `inbox_count` inbox")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[8].description, "message_count Other, inbox_count Other")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].localisedValues[8].value, "You have `message_count` messages across `inbox_count` inboxes")
+    }
+    
+    func testItGeneratesTheCorrectLocalisedValuesForVariableWidthLocalisations() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Variable-width Localisations")
+        XCTAssertEqual(localisationGroup.localisations[0].key, "greetings_message")
+        XCTAssertEqual(localisationGroup.localisations[0].localisedValues.count, 3)
+        XCTAssertEqual(localisationGroup.localisations[0].localisedValues[0].description, "Width 1")
+        XCTAssertEqual(localisationGroup.localisations[0].localisedValues[0].value, "Hi!")
+        XCTAssertEqual(localisationGroup.localisations[0].localisedValues[1].description, "Width 20")
+        XCTAssertEqual(localisationGroup.localisations[0].localisedValues[1].value, "Hello!")
+        XCTAssertEqual(localisationGroup.localisations[0].localisedValues[2].description, "Width 70")
+        XCTAssertEqual(localisationGroup.localisations[0].localisedValues[2].value, "Greetings and Salutations!")
     }
 }

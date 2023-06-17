@@ -73,12 +73,13 @@ private extension Localisation {
         }
         self.key = key
         self.tableName = tableName
-        switch documentLocalisation.localisations?[sourceLanguage] {
+        let sourceLanguageLocalisation = documentLocalisation.localisations?[sourceLanguage]
+        switch sourceLanguageLocalisation {
         case let .stringUnit(stringUnit, substitutions):
             if let substitutions {
-                placeholders = try substitutions.placeholders()
+                placeholders = try substitutions.placeholders
             } else {
-                placeholders = try stringUnit.value.placeholders()
+                placeholders = try stringUnit.value.placeholders
             }
         case let .variations(variations):
             switch variations {
@@ -86,7 +87,7 @@ private extension Localisation {
                 /// Use the variation with the greatest number of placeholders.
                 let allVariations = [plural.zero, plural.one, plural.two, plural.few, plural.many, plural.other]
                 let variationPlaceholders = try allVariations
-                    .compactMap { try $0?.stringUnit.value.placeholders() }
+                    .compactMap { try $0?.stringUnit.value.placeholders }
                     .sorted(by: { $0.count < $1.count })
                 placeholders = variationPlaceholders.last ?? []
             case .width:
@@ -95,22 +96,104 @@ private extension Localisation {
         case .none:
             placeholders = []
         }
+        switch sourceLanguageLocalisation {
+        case let .stringUnit(stringUnit, substitutions):
+            if let substitutions {
+                localisedValues = substitutions.localisedValues(forSourceLanguageLocalisation: stringUnit)
+            } else {
+                localisedValues = [LocalisedValue(description: nil, value: stringUnit.value)]
+            }
+        case let .variations(variations):
+            switch variations {
+            case let .plural(plural):
+                localisedValues = plural.localisedValues
+            case let .width(widths):
+                let orderedKeys = widths.keys.sorted(using: .localizedStandard)
+                localisedValues = orderedKeys.map { LocalisedValue(description: "Width \($0)", value: widths[$0]!.stringUnit.value) }
+            }
+        case .none:
+            localisedValues = []
+        }
     }
 }
 
 private extension Dictionary where Key == String, Value == XCStringsDocument.StringLocalisation.Localisation.Substitution {
-    func placeholders() throws -> [Localisation.Placeholder] {
-        let flattenedSubstitutions: [(key: String, argumentNumber: Int, formatSpecifier: String)] = reduce(into: []) { partialResult, substituionPair in
-            partialResult.append((key: substituionPair.key,
-                                  argumentNumber: substituionPair.value.argumentNumber,
-                                  formatSpecifier: substituionPair.value.formatSpecifier))
-        }
-        return try flattenedSubstitutions
-            .sorted(by: { $0.argumentNumber < $1.argumentNumber })
-            .map { flattenedSubstitution in
-                Localisation.Placeholder(name: flattenedSubstitution.key,
-                                         type: try Localisation.Placeholder.DataType(formatSpecifier: flattenedSubstitution.formatSpecifier))
+    var placeholders: [Localisation.Placeholder] {
+        get throws {
+            let flattenedSubstitutions: [(key: String, argumentNumber: Int, formatSpecifier: String)] = reduce(into: []) { partialResult, substituionPair in
+                partialResult.append((key: substituionPair.key,
+                                      argumentNumber: substituionPair.value.argumentNumber,
+                                      formatSpecifier: substituionPair.value.formatSpecifier))
             }
+            return try flattenedSubstitutions
+                .sorted(by: { $0.argumentNumber < $1.argumentNumber })
+                .map { flattenedSubstitution in
+                    Localisation.Placeholder(name: flattenedSubstitution.key,
+                                             type: try Localisation.Placeholder.DataType(formatSpecifier: flattenedSubstitution.formatSpecifier))
+                }
+        }
+    }
+    
+    func localisedValues(forSourceLanguageLocalisation sourceLanguageLocalisation: XCStringsDocument.StringLocalisation.Localisation.StringUnit) -> [Localisation.LocalisedValue] {
+        let argumentNameAndLocalisedValues = sorted(by: { $0.value.argumentNumber < $1.value.argumentNumber }).map { ArgumentNameAndLocalisedValues(argumentName: $0.key, substitution: $0.value) }
+        guard let firstArgumentNameAndLocalisedValues = argumentNameAndLocalisedValues.first else { return [] }
+        
+        /// Build an array of localised values using the localised values for
+        /// the localisation's first argument.
+        var localisedValues = firstArgumentNameAndLocalisedValues.localisedValues.map { Localisation.LocalisedValue(description: $0.description,
+                                                                                                                    value: sourceLanguageLocalisation.value.replacing(localisationArgumentName: firstArgumentNameAndLocalisedValues.argumentName, with: $0.value)) }
+        /// For each subsequent argument, create a copy of the existing
+        /// localised values, multiplied by the number of localised values
+        /// belonging to the argument. Then, apply each of the arguments
+        /// localised values to the elements in the multiplied array.
+        argumentNameAndLocalisedValues.dropFirst().forEach { argumentNameAndLocalisedValue in
+            localisedValues = Array(repeatingElementsOf: localisedValues, count: argumentNameAndLocalisedValue.localisedValues.count)
+            for index in 0..<localisedValues.count {
+                let localisedValue = argumentNameAndLocalisedValue.localisedValues[index % argumentNameAndLocalisedValue.localisedValues.count]
+                localisedValues[index] = Localisation.LocalisedValue(description: (localisedValues[index].description ?? "") + ", \(localisedValue.description ?? "")",
+                                                                     value: localisedValues[index].value.replacing(localisationArgumentName: argumentNameAndLocalisedValue.argumentName, with: localisedValue.value))
+            }
+        }
+        return localisedValues
+    }
+    
+    private struct ArgumentNameAndLocalisedValues {
+        let argumentName: String
+        let localisedValues: [Localisation.LocalisedValue]
+        
+        init(argumentName: String, substitution: XCStringsDocument.StringLocalisation.Localisation.Substitution) {
+            self.argumentName = argumentName
+            switch substitution.variations {
+            case let .plural(plural):
+                localisedValues = plural.localisedValues.map { Localisation.LocalisedValue(description: "\(argumentName) \($0.description ?? "")",
+                                                                                           value: $0.value.replacingOccurrences(of: "%arg", with: "`\(argumentName)`")) }
+            case .width:
+                fatalError()
+            }
+        }
+    }
+}
+
+private extension XCStringsDocument.StringLocalisation.Localisation.Variations.Plural {
+    var localisedValues: [Localisation.LocalisedValue] {
+        var localisedValues = [Localisation.LocalisedValue]()
+        if let zero {
+            localisedValues.append(Localisation.LocalisedValue(description: "Zero", value: zero.stringUnit.value))
+        }
+        if let one {
+            localisedValues.append(Localisation.LocalisedValue(description: "One", value: one.stringUnit.value))
+        }
+        if let two {
+            localisedValues.append(Localisation.LocalisedValue(description: "Two", value: two.stringUnit.value))
+        }
+        if let few {
+            localisedValues.append(Localisation.LocalisedValue(description: "Few", value: few.stringUnit.value))
+        }
+        if let many {
+            localisedValues.append(Localisation.LocalisedValue(description: "Many", value: many.stringUnit.value))
+        }
+        localisedValues.append(Localisation.LocalisedValue(description: "Other", value: other.stringUnit.value))
+        return localisedValues
     }
 }
 
@@ -126,20 +209,26 @@ private extension String {
         rangeOfCharacter(from: .whitespaces) == nil
     }
     
-    func placeholders() throws -> [Localisation.Placeholder] {
-        let matches = matches(of: String.placeholdersRegex)
-        guard !matches.isEmpty else { return [] }
-        let formatCharacters: [(Character, Int?)] = matches.compactMap { match in
-            let matchedSubstring = self[match.range]
-            guard let formatCharacter = matchedSubstring.last else { return nil }
-            let removedPercentAndFormatCharacters = matchedSubstring.dropFirst().dropLast()
-            guard let dollarIndex = removedPercentAndFormatCharacters.firstIndex(of: "$"), let positionalSpecifier = Int(removedPercentAndFormatCharacters[removedPercentAndFormatCharacters.startIndex..<dollarIndex]) else {
-                return (formatCharacter, nil)
+    var placeholders: [Localisation.Placeholder] {
+        get throws {
+            let matches = matches(of: String.placeholdersRegex)
+            guard !matches.isEmpty else { return [] }
+            let formatCharacters: [(Character, Int?)] = matches.compactMap { match in
+                let matchedSubstring = self[match.range]
+                guard let formatCharacter = matchedSubstring.last else { return nil }
+                let removedPercentAndFormatCharacters = matchedSubstring.dropFirst().dropLast()
+                guard let dollarIndex = removedPercentAndFormatCharacters.firstIndex(of: "$"), let positionalSpecifier = Int(removedPercentAndFormatCharacters[removedPercentAndFormatCharacters.startIndex..<dollarIndex]) else {
+                    return (formatCharacter, nil)
+                }
+                return (formatCharacter, positionalSpecifier)
             }
-            return (formatCharacter, positionalSpecifier)
+            
+            return try placeholderDataTypes(fromFormatCharacters: formatCharacters).map { Localisation.Placeholder(name: nil, type: $0) }
         }
-        
-        return try placeholderDataTypes(fromFormatCharacters: formatCharacters).map { Localisation.Placeholder(name: nil, type: $0) }
+    }
+    
+    func replacing(localisationArgumentName: String, with value: String) -> String {
+        replacingOccurrences(of: "%#@\(localisationArgumentName)@", with: value)
     }
     
     /// Creates an array of
@@ -176,6 +265,16 @@ private extension String {
         return positionsAndDataTypes
             .sorted { $0.0 < $1.0 }
             .map { $0.value }
+    }
+}
+
+// MARK: - Array Extensions
+
+private extension Array {
+    init(repeatingElementsOf array: [Element], count: Int) {
+        self.init(array.flatMap { element in
+            Array(repeating: element, count: array.count)
+        })
     }
 }
 

@@ -32,7 +32,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectOutputForASingleNodeWithOneLocalisations() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [])
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [], localisedValues: [])
                                                                                           ],
                                                                                           childNodes: []))
         try whenSwiftCodeIsVended()
@@ -51,8 +51,8 @@ public enum Root {
     func testItProducesTheCorrectOutputForASingleNodeWithMultipleLocalisations() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", placeholders: []),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", placeholders: [])
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", placeholders: [], localisedValues: []),
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", placeholders: [], localisedValues: [])
                                                                                           ],
                                                                                           childNodes: []))
         try whenSwiftCodeIsVended()
@@ -76,19 +76,19 @@ public enum Root {
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", placeholders: []),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: nil, type: .object)])
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", placeholders: [], localisedValues: []),
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: nil, type: .object)], localisedValues: [])
                                                                                                                       ],
                                                                                                                       childNodes: []),
                                                                                             TestLocalisationsTreeNode(name: "child_two",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", placeholders: []),
-                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)])
+                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", placeholders: [], localisedValues: []),
+                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], localisedValues: [])
                                                                                                                       ],
                                                                                                                       childNodes: [
                                                                                                                         TestLocalisationsTreeNode(name: "nested_child",
                                                                                                                                                   localisations: [
-                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", placeholders: [])
+                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", placeholders: [], localisedValues: [])
                                                                                                                                                   ],
                                                                                                                                                   childNodes: [])
                                                                                                                       ])
@@ -127,25 +127,25 @@ public enum Root {
     func testItProducesTheCorrectOutputForASingleNodeWithMultipleLocalisationsAndMultipleChildNodes() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", placeholders: []),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", placeholders: [])
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", placeholders: [], localisedValues: []),
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", placeholders: [], localisedValues: [])
                                                                                           ],
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", placeholders: []),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: nil, type: .object)])
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", placeholders: [], localisedValues: []),
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: nil, type: .object)], localisedValues: [])
                                                                                                                       ],
                                                                                                                       childNodes: []),
                                                                                             TestLocalisationsTreeNode(name: "child_two",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", placeholders: []),
-                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)])
+                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", placeholders: [], localisedValues: []),
+                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], localisedValues: [])
                                                                                                                       ],
                                                                                                                       childNodes: [
                                                                                                                         TestLocalisationsTreeNode(name: "nested_child",
                                                                                                                                                   localisations: [
-                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", placeholders: [])
+                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", placeholders: [], localisedValues: [])
                                                                                                                                                   ],
                                                                                                                                                   childNodes: [])
                                                                                                                       ])
@@ -186,7 +186,7 @@ public enum Root {
     }
     
     func testItProducesTheCorrectOutputForADeeplyNestedChildNodes() throws {
-        let childThree = TestLocalisationsTreeNode(name: "child_three", localisations: [Localisation(key: "child_one.child_two.child_three.one", tableName: "Localizable", placeholders: [])], childNodes: [])
+        let childThree = TestLocalisationsTreeNode(name: "child_three", localisations: [Localisation(key: "child_one.child_two.child_three.one", tableName: "Localizable", placeholders: [], localisedValues: [])], childNodes: [])
         let childTwo = TestLocalisationsTreeNode(name: "child_two", localisations: [], childNodes: [childThree])
         let childOne = TestLocalisationsTreeNode(name: "child_one", localisations: [], childNodes: [childTwo])
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
@@ -220,7 +220,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectOutputWhenACustomFormattingConfigurationIsSpecified() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [])
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [], localisedValues: [])
                                                                                           ],
                                                                                           childNodes: []),
                                  formattingConfigurationFileURL: Bundle.module.url(forResource: "Custom", withExtension: "swift-format"))
