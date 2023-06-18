@@ -182,10 +182,10 @@ extension LocalisationGroupTests {
     }
 }
 
-// MARK: - Localised Values
+// MARK: - Previews
 
 extension LocalisationGroupTests {
-    func testItGeneratesTheCorrectLocalisedValuesForSimpleLocalisations() throws {
+    func testItGeneratesTheCorrectPreviewsForSimpleLocalisations() throws {
         givenALocalisationGroup()
         try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Simple Localisations")
         XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].key, "strings.placeholder")
@@ -209,7 +209,7 @@ extension LocalisationGroupTests {
         XCTAssertEqual(localisationGroup.childGroups[0].localisations[3].previews[0].value, "Stale string")
     }
     
-    func testItGeneratesTheCorrectLocalisedValuesForPluralisedLocalisations() throws {
+    func testItGeneratesTheCorrectPreviewsForPluralisedLocalisations() throws {
         givenALocalisationGroup()
         try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Pluralised Localisations")
         XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].key, "messages.count")
@@ -243,7 +243,7 @@ extension LocalisationGroupTests {
         XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].previews[8].value, "You have `messageCount` messages across `inboxCount` inboxes")
     }
     
-    func testItGeneratesTheCorrectLocalisedValuesForVariableWidthLocalisations() throws {
+    func testItGeneratesTheCorrectPreviewsForVariableWidthLocalisations() throws {
         givenALocalisationGroup()
         try whenAParsedStringsDocumentIsApplied(withFilename: "Variable-width Localisations")
         XCTAssertEqual(localisationGroup.localisations[0].key, "greetings_message")
