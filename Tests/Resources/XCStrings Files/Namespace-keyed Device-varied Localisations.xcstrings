@@ -1,0 +1,340 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "device.messages.cta" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "substitutions" : {
+            "inbox_count" : {
+              "argNum" : 2,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "needs_review",
+                      "value" : "%arg Nachricht"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "needs_review",
+                      "value" : "%arg Nachrichten"
+                    }
+                  }
+                }
+              }
+            },
+            "message_count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "needs_review",
+                      "value" : "%arg Posteingang anzuzeigen"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "needs_review",
+                      "value" : "%arg Posteingängen anzuzeigen"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "variations" : {
+            "device" : {
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Klicken Sie hier, um Ihre %#@message_count@ in %#@inbox_count@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie hier, um Ihre %#@message_count@ in %#@inbox_count@."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "substitutions" : {
+            "inbox_count" : {
+              "argNum" : 2,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg inbox"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg inboxes"
+                    }
+                  }
+                }
+              }
+            },
+            "message_count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg message"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg messages"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "variations" : {
+            "device" : {
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Click to view your %#@message_count@ in %#@inbox_count@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap to view your %#@message_count@ in %#@inbox_count@."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "substitutions" : {
+            "inbox_count" : {
+              "argNum" : 2,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "needs_review",
+                      "value" : "votre %arg message"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "needs_review",
+                      "value" : "vos %arg messages"
+                    }
+                  }
+                }
+              }
+            },
+            "message_count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "needs_review",
+                      "value" : "%arg boîte de réception"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "needs_review",
+                      "value" : "%arg boîtes de réception"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "variations" : {
+            "device" : {
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cliquez pour afficher %#@message_count@ dans %#@inbox_count@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez pour afficher %#@message_count@ dans %#@inbox_count@."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "device.tap" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "device" : {
+              "appletv" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Klicken Sie auf Ihr Apple TV"
+                }
+              },
+              "applewatch" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr Apple Watch"
+                }
+              },
+              "ipad" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr iPad"
+                }
+              },
+              "iphone" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr iPhone"
+                }
+              },
+              "ipod" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr iPod"
+                }
+              },
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Klicken Sie auf Ihr Mac"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr Gerät"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "device" : {
+              "appletv" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Click your Apple TV"
+                }
+              },
+              "applewatch" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your Apple Watch"
+                }
+              },
+              "ipad" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your iPad"
+                }
+              },
+              "iphone" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your iPhone"
+                }
+              },
+              "ipod" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your iPod"
+                }
+              },
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Click your Mac"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your device"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "device" : {
+              "appletv" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cliquez sur votre Apple TV"
+                }
+              },
+              "applewatch" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre Apple Watch"
+                }
+              },
+              "ipad" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre iPad"
+                }
+              },
+              "iphone" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre iPhone"
+                }
+              },
+              "ipod" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre iPod"
+                }
+              },
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cliquez sur votre Mac"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre appareil"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

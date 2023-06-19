@@ -95,7 +95,7 @@ extension XCStringsDocumentTests {
 // MARK: - Namespace-keyed Localisations
 
 extension XCStringsDocumentTests {
-    func testItLoadsANamespacedKeyedLocalisationsStringsFile() throws {
+    func testItLoadsANamespaceKeyedLocalisationsStringsFile() throws {
         try givenAStringsDocument(fromFileNamed: "Namespace-keyed Localisations")
         XCTAssertEqual(stringsDocument.sourceLanguage, "en")
         XCTAssertEqual(stringsDocument.version, "1.0")
@@ -222,7 +222,7 @@ extension XCStringsDocumentTests {
 // MARK: - Namespace-keyed Pluralised Localisations
 
 extension XCStringsDocumentTests {
-    func testItLoadsANamespacedKeyedPluralisedLocalisationsStringsFile() throws {
+    func testItLoadsANamespaceKeyedPluralisedLocalisationsStringsFile() throws {
         try givenAStringsDocument(fromFileNamed: "Namespace-keyed Pluralised Localisations")
         XCTAssertEqual(stringsDocument.sourceLanguage, "en")
         XCTAssertEqual(stringsDocument.version, "1.0")
@@ -311,6 +311,131 @@ extension XCStringsDocumentTests {
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.substitutions?["inbox_count"]?.variations.plural?.other.stringUnit.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.substitutions?["inbox_count"]?.variations.plural?.other.stringUnit.value, "%arg Posteingänge")
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.comment)
+    }
+}
+
+// MARK: - Device-varied Localisations
+
+extension XCStringsDocumentTests {
+    func testItLoadsADeviceVariedLocalisationsStringsFile() throws {
+        try givenAStringsDocument(fromFileNamed: "Device-varied Localisations")
+        XCTAssertEqual(stringsDocument.sourceLanguage, "en")
+        XCTAssertEqual(stringsDocument.version, "1.0")
+        
+        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 1)
+        XCTAssertEqual(stringsDocument.orderedStringKeys[0], "Tap your device")
+        
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.extractionState, .manual)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.iPhone?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.iPhone?.stringUnit.value, "Tap your iPhone")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.iPod?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.iPod?.stringUnit.value, "Tap your iPod")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.iPad?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.iPad?.stringUnit.value, "Tap your iPad")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.appleWatch?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.appleWatch?.stringUnit.value, "Tap your Apple Watch")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.appleTV?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.appleTV?.stringUnit.value, "Click your Apple TV")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.mac?.stringUnit.value, "Click your Mac")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.other?.stringUnit.value, "Tap your device")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.iPhone?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.iPhone?.stringUnit.value, "Appuyez sur votre iPhone")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.iPod?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.iPod?.stringUnit.value, "Appuyez sur votre iPod")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.iPad?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.iPad?.stringUnit.value, "Appuyez sur votre iPad")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.appleWatch?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.appleWatch?.stringUnit.value, "Appuyez sur votre Apple Watch")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.appleTV?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.appleTV?.stringUnit.value, "Cliquez sur votre Apple TV")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.mac?.stringUnit.value, "Cliquez sur votre Mac")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.other?.stringUnit.value, "Appuyez sur votre appareil")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.iPhone?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.iPhone?.stringUnit.value, "Tippen Sie auf Ihr iPhone")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.iPod?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.iPod?.stringUnit.value, "Tippen Sie auf Ihr iPod")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.iPad?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.iPad?.stringUnit.value, "Tippen Sie auf Ihr iPad")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.appleWatch?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.appleWatch?.stringUnit.value, "Tippen Sie auf Ihr Apple Watch")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.appleTV?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.appleTV?.stringUnit.value, "Klicken Sie auf Ihr Apple TV")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.mac?.stringUnit.value, "Klicken Sie auf Ihr Mac")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.other?.stringUnit.value, "Tippen Sie auf Ihr Gerät")
+    }
+    
+    func testItLoadsANamespaceKeyedDeviceVariedLocalisationsStringsFile() throws {
+        try givenAStringsDocument(fromFileNamed: "Namespace-keyed Device-varied Localisations")
+        XCTAssertEqual(stringsDocument.sourceLanguage, "en")
+        XCTAssertEqual(stringsDocument.version, "1.0")
+        
+        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 2)
+        XCTAssertEqual(stringsDocument.orderedStringKeys[0], "device.messages.cta")
+        XCTAssertEqual(stringsDocument.orderedStringKeys[1], "device.tap")
+        
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.extractionState, .manual)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.mac?.stringUnit.value, "Click to view your %#@message_count@ in %#@inbox_count@.")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.device?.other?.stringUnit.value, "Tap to view your %#@message_count@ in %#@inbox_count@.")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.mac?.stringUnit.value, "Cliquez pour afficher %#@message_count@ dans %#@inbox_count@.")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["fr"]?.variations?.device?.other?.stringUnit.value, "Appuyez pour afficher %#@message_count@ dans %#@inbox_count@.")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.mac?.stringUnit.value, "Klicken Sie hier, um Ihre %#@message_count@ in %#@inbox_count@.")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["de"]?.variations?.device?.other?.stringUnit.value, "Tippen Sie hier, um Ihre %#@message_count@ in %#@inbox_count@.")
+        
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.extractionState, .manual)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.iPhone?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.iPhone?.stringUnit.value, "Tap your iPhone")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.iPod?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.iPod?.stringUnit.value, "Tap your iPod")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.iPad?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.iPad?.stringUnit.value, "Tap your iPad")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.appleWatch?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.appleWatch?.stringUnit.value, "Tap your Apple Watch")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.appleTV?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.appleTV?.stringUnit.value, "Click your Apple TV")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.mac?.stringUnit.value, "Click your Mac")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["en"]?.variations?.device?.other?.stringUnit.value, "Tap your device")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.iPhone?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.iPhone?.stringUnit.value, "Appuyez sur votre iPhone")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.iPod?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.iPod?.stringUnit.value, "Appuyez sur votre iPod")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.iPad?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.iPad?.stringUnit.value, "Appuyez sur votre iPad")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.appleWatch?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.appleWatch?.stringUnit.value, "Appuyez sur votre Apple Watch")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.appleTV?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.appleTV?.stringUnit.value, "Cliquez sur votre Apple TV")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.mac?.stringUnit.value, "Cliquez sur votre Mac")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["fr"]?.variations?.device?.other?.stringUnit.value, "Appuyez sur votre appareil")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.iPhone?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.iPhone?.stringUnit.value, "Tippen Sie auf Ihr iPhone")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.iPod?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.iPod?.stringUnit.value, "Tippen Sie auf Ihr iPod")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.iPad?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.iPad?.stringUnit.value, "Tippen Sie auf Ihr iPad")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.appleWatch?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.appleWatch?.stringUnit.value, "Tippen Sie auf Ihr Apple Watch")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.appleTV?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.appleTV?.stringUnit.value, "Klicken Sie auf Ihr Apple TV")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.mac?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.mac?.stringUnit.value, "Klicken Sie auf Ihr Mac")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.other?.stringUnit.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[1]]?.localisations?["de"]?.variations?.device?.other?.stringUnit.value, "Tippen Sie auf Ihr Gerät")
     }
 }
 
@@ -430,6 +555,15 @@ private extension XCStringsDocument.StringLocalisation.Localisation.Variations {
         switch self {
         case let .plural(plural):
             return plural
+        default:
+            return nil
+        }
+    }
+    
+    var device: Device? {
+        switch self {
+        case let .device(device):
+            return device
         default:
             return nil
         }

@@ -136,6 +136,9 @@ extension XCStringsDocument {
                 /// A localisation that varies by pluralisation rules.
                 case plural(_: Plural)
                 
+                /// A localisation that varies by device type.
+                case device(_: Device)
+                
                 /// A localisation that varies by width rules.
                 case width(_: [String: Variation])
                 
@@ -143,6 +146,8 @@ extension XCStringsDocument {
                     let container = try decoder.container(keyedBy: CodingKeys.self)
                     if let plural = try container.decodeIfPresent(Plural.self, forKey: .plural) {
                         self = .plural(plural)
+                    } else if let device = try container.decodeIfPresent(Device.self, forKey: .device) {
+                        self = .device(device)
                     } else if let widthVariations = try container.decodeIfPresent([String: Variation].self, forKey: .width) {
                         self = .width(widthVariations)
                     } else {
@@ -179,6 +184,42 @@ extension XCStringsDocument {
                     let other: Variation
                 }
                 
+                /// The different forms that the localisation takes, based on
+                /// device.
+                struct Device: Decodable {
+                    
+                    /// The variation to use for the iPhone device, if any.
+                    let iPhone: Variation?
+                    
+                    /// The variation to use for the iPod device, if any.
+                    let iPod: Variation?
+                    
+                    /// The variation to use for the iPad device, if any.
+                    let iPad: Variation?
+                    
+                    /// The variation to use for the Apple Watch device, if any.
+                    let appleWatch: Variation?
+                    
+                    /// The variation to use for the Apple TV device, if any.
+                    let appleTV: Variation?
+                    
+                    /// The variation to use for the Mac device, if any.
+                    let mac: Variation?
+                    
+                    /// The variation to use for Other devices, if any.
+                    let other: Variation?
+                    
+                    private enum CodingKeys: String, CodingKey {
+                        case iPhone = "iphone"
+                        case iPod = "ipod"
+                        case iPad = "ipad"
+                        case appleWatch = "applewatch"
+                        case appleTV = "appletv"
+                        case mac = "mac"
+                        case other = "other"
+                    }
+                }
+                
                 /// An individual string variation.
                 struct Variation: Decodable {
                     
@@ -188,6 +229,7 @@ extension XCStringsDocument {
                 
                 private enum CodingKeys: String, CodingKey {
                     case plural
+                    case device
                     case width
                 }
             }

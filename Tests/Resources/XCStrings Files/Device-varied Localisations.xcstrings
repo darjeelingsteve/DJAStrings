@@ -1,0 +1,155 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Tap your device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "device" : {
+              "appletv" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Klicken Sie auf Ihr Apple TV"
+                }
+              },
+              "applewatch" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr Apple Watch"
+                }
+              },
+              "ipad" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr iPad"
+                }
+              },
+              "iphone" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr iPhone"
+                }
+              },
+              "ipod" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr iPod"
+                }
+              },
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Klicken Sie auf Ihr Mac"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr Gerät"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "device" : {
+              "appletv" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Click your Apple TV"
+                }
+              },
+              "applewatch" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your Apple Watch"
+                }
+              },
+              "ipad" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your iPad"
+                }
+              },
+              "iphone" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your iPhone"
+                }
+              },
+              "ipod" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your iPod"
+                }
+              },
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Click your Mac"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your device"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "device" : {
+              "appletv" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cliquez sur votre Apple TV"
+                }
+              },
+              "applewatch" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre Apple Watch"
+                }
+              },
+              "ipad" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre iPad"
+                }
+              },
+              "iphone" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre iPhone"
+                }
+              },
+              "ipod" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre iPod"
+                }
+              },
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cliquez sur votre Mac"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre appareil"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
