@@ -52,13 +52,13 @@ private extension LocalisationsTreeNode {
     var swiftRepresentation: String {
         var swiftRepresentation = """
 public enum \(name.titleCased()) {
-\(localisations.map { $0.swiftRepresentation }.joined(separator: "\n\n"))
+\(localisations.sorted(by: { $0.key < $1.key }).map { $0.swiftRepresentation }.joined(separator: "\n\n"))
 """
         if !childNodes.isEmpty {
             if !localisations.isEmpty {
                 swiftRepresentation.append("\n\n")
             }
-            swiftRepresentation.append(childNodes.map { $0.swiftRepresentation }.joined(separator: "\n\n"))
+            swiftRepresentation.append(childNodes.sorted(by: { $0.name < $1.name }).map { $0.swiftRepresentation }.joined(separator: "\n\n"))
         }
         swiftRepresentation.append("}")
         return swiftRepresentation
