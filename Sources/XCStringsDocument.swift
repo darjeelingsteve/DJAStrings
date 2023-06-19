@@ -23,7 +23,7 @@ struct XCStringsDocument: Decodable {
     
     /// The keys of the `strings` dictionary, sorted using natural ordering.
     var orderedStringKeys: [String] {
-        strings.keys.sorted()
+        strings.keys.sorted(using: .localizedStandard)
     }
 }
 
@@ -62,7 +62,7 @@ extension XCStringsDocument {
         
         /// The localised (translated) variant of the localisable string for a
         /// particular language.
-        enum Localisation: Decodable {
+        indirect enum Localisation: Decodable {
             
             /// The string that will be used in place of the default language
             /// string key, with optional substitutions.
@@ -140,7 +140,7 @@ extension XCStringsDocument {
                 case device(_: Device)
                 
                 /// A localisation that varies by width rules.
-                case width(_: [String: Variation])
+                case width(_: [String: Localisation])
                 
                 init(from decoder: Decoder) throws {
                     let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -148,7 +148,7 @@ extension XCStringsDocument {
                         self = .plural(plural)
                     } else if let device = try container.decodeIfPresent(Device.self, forKey: .device) {
                         self = .device(device)
-                    } else if let widthVariations = try container.decodeIfPresent([String: Variation].self, forKey: .width) {
+                    } else if let widthVariations = try container.decodeIfPresent([String: Localisation].self, forKey: .width) {
                         self = .width(widthVariations)
                     } else {
                         throw XCStringsDocument.ParsingError.unrecognisedVariationType
@@ -161,27 +161,27 @@ extension XCStringsDocument {
                     
                     /// The variation to use for the "zero" plural category, if
                     /// any.
-                    let zero: Variation?
+                    let zero: Localisation?
                     
                     /// The variation to use for the "one" plural category, if
                     /// any.
-                    let one: Variation?
+                    let one: Localisation?
                     
                     /// The variation  to use for the "two" plural category, if
                     /// any.
-                    let two: Variation?
+                    let two: Localisation?
                     
                     /// The variation to use for the "few" plural category, if
                     /// any.
-                    let few: Variation?
+                    let few: Localisation?
                     
                     /// The variation to use for the "many" plural category, if
                     /// any.
-                    let many: Variation?
+                    let many: Localisation?
                     
                     /// The variation to use for the "other" (default) plural
                     /// category.
-                    let other: Variation
+                    let other: Localisation
                 }
                 
                 /// The different forms that the localisation takes, based on
@@ -189,25 +189,25 @@ extension XCStringsDocument {
                 struct Device: Decodable {
                     
                     /// The variation to use for the iPhone device, if any.
-                    let iPhone: Variation?
+                    let iPhone: Localisation?
                     
                     /// The variation to use for the iPod device, if any.
-                    let iPod: Variation?
+                    let iPod: Localisation?
                     
                     /// The variation to use for the iPad device, if any.
-                    let iPad: Variation?
+                    let iPad: Localisation?
                     
                     /// The variation to use for the Apple Watch device, if any.
-                    let appleWatch: Variation?
+                    let appleWatch: Localisation?
                     
                     /// The variation to use for the Apple TV device, if any.
-                    let appleTV: Variation?
+                    let appleTV: Localisation?
                     
                     /// The variation to use for the Mac device, if any.
-                    let mac: Variation?
+                    let mac: Localisation?
                     
                     /// The variation to use for Other devices, if any.
-                    let other: Variation?
+                    let other: Localisation?
                     
                     private enum CodingKeys: String, CodingKey {
                         case iPhone = "iphone"
@@ -220,12 +220,32 @@ extension XCStringsDocument {
                     }
                 }
                 
-                /// An individual string variation.
-                struct Variation: Decodable {
-                    
-                    /// The variation's translation.
-                    let stringUnit: StringUnit
-                }
+//                /// An individual string variation.
+//                struct Variation: Decodable {
+//                    
+//                    /// The variation's translation.
+//                    let stringUnit: StringUnit
+//                    
+//                    init(from decoder: Decoder) throws {
+//                        let container = try decoder.container(keyedBy: CodingKeys.self)
+//                        if let stringUnit = try container.decodeIfPresent(StringUnit.self, forKey: .stringUnit) {
+//                            self.stringUnit = stringUnit
+//                            return
+//                        } else if let variation = try container.decodeIfPresent(Variations.self, forKey: .variations) {
+//                            throw XCStringsDocument.ParsingError.unrecognisedVariationType
+//                        }
+//                        throw XCStringsDocument.ParsingError.unrecognisedVariationType
+//                    }
+//                    
+//                    /// This may need to be removed and a `Localisation` used
+//                    /// in its place to support device-varied localisations
+//                    /// that are plural varied.
+//                    
+//                    private enum CodingKeys: CodingKey {
+//                        case stringUnit
+//                        case variations
+//                    }
+//                }
                 
                 private enum CodingKeys: String, CodingKey {
                     case plural

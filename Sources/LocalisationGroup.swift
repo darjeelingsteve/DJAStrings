@@ -74,52 +74,85 @@ private extension Localisation {
         self.key = key
         self.tableName = tableName
         let sourceLanguageLocalisation = documentLocalisation.localisations?[sourceLanguage]
-        switch sourceLanguageLocalisation {
-        case let .stringUnit(stringUnit, substitutions):
-            if let substitutions {
-                placeholders = try substitutions.placeholders
-            } else {
-                placeholders = try stringUnit.value.placeholders
+        placeholders = try sourceLanguageLocalisation?.placeholders ?? []
+        previews = try sourceLanguageLocalisation?.previews ?? []
+    }
+}
+
+private extension XCStringsDocument.StringLocalisation.Localisation {
+    var placeholders: [Localisation.Placeholder] {
+        get throws {
+            switch self {
+            case let .stringUnit(stringUnit, substitutions):
+                if let substitutions {
+                    return try substitutions.placeholders
+                } else {
+                    return try stringUnit.value.placeholders
+                }
+            case let .variations(variations, substitutions):
+                if let substitutions {
+                    return try substitutions.placeholders
+                } else {
+                    var candidatePlaceholders: [[Localisation.Placeholder]]
+                    switch variations {
+                    case let .plural(plural):
+                        candidatePlaceholders = try plural.populatedVariations.map { try $0.variation.placeholders }
+                    case let .device(device):
+                        candidatePlaceholders = try device.populatedVariations.map { try $0.variation.placeholders }
+                    case .width:
+                        candidatePlaceholders = []
+                    }
+                    /// Use the greatest number of placeholders from any of the
+                    /// variations.
+                    return candidatePlaceholders.sorted(by: { $0.count < $1.count }).last ?? []
+                }
             }
-        case let .variations(variations, _):
-            switch variations {
-            case let .plural(plural):
-                placeholders = try plural.populatedVariations.map { $0.variation }.placeholders
-            case let .device(device):
-                placeholders = try device.populatedVariations.map { $0.variation }.placeholders
-            case .width:
-                placeholders = []
-            }
-        case .none:
-            placeholders = []
         }
-        switch sourceLanguageLocalisation {
-        case let .stringUnit(stringUnit, substitutions):
-            if let substitutions {
-                previews = substitutions.previews(forSourceLanguageLocalisedString: stringUnit.value)
-            } else {
-                previews = [Preview(description: nil, value: stringUnit.value)]
-            }
-        case let .variations(variations, substitutions):
-            switch variations {
-            case let .plural(plural):
-                previews = plural.populatedVariations.previews
-            case let .device(device):
+    }
+    
+    var previews: [Localisation.Preview] {
+        get throws {
+            switch self {
+            case let .stringUnit(stringUnit, substitutions):
                 if let substitutions {
-                    previews = device.populatedVariations.flatMap { substitutions.previews(forSourceLanguageLocalisedString: $0.variation.stringUnit.value, descriptionPrefix: "Device \($0.name)") }
+                    return substitutions.previews(forSourceLanguageLocalisedString: stringUnit.value)
                 } else {
-                    previews = device.populatedVariations.previews
+                    return [Localisation.Preview(description: nil, value: stringUnit.value)]
                 }
-            case let .width(widths):
-                let orderedKeys = widths.keys.sorted(using: .localizedStandard)
-                if let substitutions {
-                    previews = orderedKeys.flatMap { substitutions.previews(forSourceLanguageLocalisedString: widths[$0]!.stringUnit.value, descriptionPrefix: "Width \($0)") }
-                } else {
-                    previews = orderedKeys.map { Preview(description: "Width \($0)", value: widths[$0]!.stringUnit.value) }
+            case let .variations(variations, substitutions):
+                switch variations {
+                case let .plural(plural):
+                    return plural.populatedVariations.previews
+                case let .device(device):
+                    if let substitutions {
+                        return device.populatedVariations.flatMap { populatedVariation in
+                            switch populatedVariation.variation {
+                            case let .stringUnit(stringUnit, _):
+                                return substitutions.previews(forSourceLanguageLocalisedString: stringUnit.value, descriptionPrefix: "Device \(populatedVariation.name)")
+                            case .variations:
+                                return []
+                            }
+                        }
+                    }
+                    return try device.populatedVariations.flatMap { populatedVariation in
+                        let variationPreviews = try populatedVariation.variation.previews
+                        return variationPreviews.map { variationPreview in
+                            var description = "Device \(populatedVariation.name)"
+                            if variationPreview.description != nil {
+                                description += ", \(variationPreview.description!)"
+                            }
+                            return Localisation.Preview(description: description, value: variationPreview.value)
+                        }
+                    }
+                case let .width(widths):
+                    let orderedKeys = widths.keys.sorted(using: .localizedStandard)
+                    if let substitutions {
+                        return try orderedKeys.flatMap { substitutions.previews(forSourceLanguageLocalisedString: try widths[$0]!.previews[0].value, descriptionPrefix: "Width \($0)") }
+                    } else {
+                        return try orderedKeys.map { Localisation.Preview(description: "Width \($0)", value: try widths[$0]!.previews[0].value) }
+                    }
                 }
             }
-        case .none:
-            previews = []
         }
     }
 }
@@ -148,23 +181,23 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
         
         let previewDescriptionPrefix = descriptionPrefix != nil ? descriptionPrefix!.appending(", ") : ""
         
-        /// Build an array of localised values using the localised values for
-        /// the localisation's first argument.
-        var localisedValues = firstArgumentNameAndPreviews.previews.map { Localisation.Preview(description: $0.description != nil ? previewDescriptionPrefix + $0.description! : nil,
-                                                                                               value: sourceLanguageLocalisedString.replacing(localisationArgumentName: firstArgumentNameAndPreviews.argumentName, with: $0.value)) }
+        /// Build an array of previews using the previews for localisation's
+        /// first argument.
+        var previews = firstArgumentNameAndPreviews.previews.map { Localisation.Preview(description: $0.description != nil ? previewDescriptionPrefix + $0.description! : nil,
+                                                                                        value: sourceLanguageLocalisedString.replacing(localisationArgumentName: firstArgumentNameAndPreviews.argumentName, with: $0.value)) }
         /// For each subsequent argument, create a copy of the existing
-        /// localised values, multiplied by the number of localised values
-        /// belonging to the argument. Then, apply each of the arguments
-        /// localised values to the elements in the multiplied array.
-        argumentNameAndPreviews.dropFirst().forEach { argumentNameAndLocalisedValue in
-            localisedValues = Array(repeatingElementsOf: localisedValues, count: argumentNameAndLocalisedValue.previews.count)
-            for index in 0..<localisedValues.count {
-                let localisedValue = argumentNameAndLocalisedValue.previews[index % argumentNameAndLocalisedValue.previews.count]
-                localisedValues[index] = Localisation.Preview(description: (localisedValues[index].description ?? "") + ", \(localisedValue.description ?? "")",
-                                                              value: localisedValues[index].value.replacing(localisationArgumentName: argumentNameAndLocalisedValue.argumentName, with: localisedValue.value))
+        /// previews, multiplied by the number of previews belonging to the
+        /// argument. Then, apply each of the arguments previews to the elements
+        /// in the multiplied array.
+        argumentNameAndPreviews.dropFirst().forEach { argumentNameAndPreview in
+            previews = Array(repeatingElementsOf: previews, count: argumentNameAndPreview.previews.count)
+            for index in 0..<previews.count {
+                let preview = argumentNameAndPreview.previews[index % argumentNameAndPreview.previews.count]
+                previews[index] = Localisation.Preview(description: (previews[index].description ?? "") + ", \(preview.description ?? "")",
+                                                              value: previews[index].value.replacing(localisationArgumentName: argumentNameAndPreview.argumentName, with: preview.value))
             }
         }
-        return localisedValues
+        return previews
     }
     
     private struct ArgumentNameAndPreviews {
@@ -240,22 +273,19 @@ private extension XCStringsDocument.StringLocalisation.Localisation.Variations.D
 
 private struct NamedVariation {
     let name: String
-    let variation: XCStringsDocument.StringLocalisation.Localisation.Variations.Variation
-}
-
-private extension Array where Element == XCStringsDocument.StringLocalisation.Localisation.Variations.Variation? {
-    var placeholders: [Localisation.Placeholder] {
-        get throws {
-            let variationPlaceholders = try compactMap { try $0?.stringUnit.value.placeholders }
-                .sorted(by: { $0.count < $1.count })
-            return variationPlaceholders.last ?? []
-        }
-    }
+    let variation: XCStringsDocument.StringLocalisation.Localisation
 }
 
 private extension Array where Element == NamedVariation {
     var previews: [Localisation.Preview] {
-        map { Localisation.Preview(description: $0.name, value: $0.variation.stringUnit.value) }
+        compactMap { namedVariation in
+            switch namedVariation.variation {
+            case let .stringUnit(stringUnit, _):
+                return Localisation.Preview(description: namedVariation.name, value: stringUnit.value)
+            case .variations:
+                return nil
+            }
+        }
     }
 }
 
