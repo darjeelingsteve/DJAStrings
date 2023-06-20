@@ -159,7 +159,7 @@ extension LocalisationGroupTests {
         XCTAssertEqual(localisationGroup.childGroups[0].childGroups[1].localisations[0].placeholders[1].type, .integer)
     }
     
-    func testItproducesPlaceholdersForAllPlaceholderTokenTypes() throws {
+    func testItProducesPlaceholdersForAllPlaceholderTokenTypes() throws {
         givenALocalisationGroup()
         try whenAParsedStringsDocumentIsApplied(withFilename: "All Placeholder Type Localisations")
         XCTAssertEqual(localisationGroup.localisations.count, 1)
