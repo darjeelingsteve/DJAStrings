@@ -372,5 +372,16 @@ extension LocalisationGroupTests {
         XCTAssertEqual(localisationGroup.localisations[2].previews[2].value, "Greetings and Salutations iPod!")
         XCTAssertEqual(localisationGroup.localisations[2].previews[3].description, "Width 70, Device Other")
         XCTAssertEqual(localisationGroup.localisations[2].previews[3].value, "Greetings and Salutations!")
+        
+        XCTAssertEqual(localisationGroup.localisations[3].key, "width_varied_by_plural")
+        XCTAssertEqual(localisationGroup.localisations[3].previews.count, 4)
+        XCTAssertEqual(localisationGroup.localisations[3].previews[0].description, "Width 20, One")
+        XCTAssertEqual(localisationGroup.localisations[3].previews[0].value, "Hello %d!")
+        XCTAssertEqual(localisationGroup.localisations[3].previews[1].description, "Width 20, Other")
+        XCTAssertEqual(localisationGroup.localisations[3].previews[1].value, "Hellos %d!")
+        XCTAssertEqual(localisationGroup.localisations[3].previews[2].description, "Width 70, One")
+        XCTAssertEqual(localisationGroup.localisations[3].previews[2].value, "Greetings and Salutation %d!")
+        XCTAssertEqual(localisationGroup.localisations[3].previews[3].description, "Width 70, Other")
+        XCTAssertEqual(localisationGroup.localisations[3].previews[3].value, "Greetings and Salutations %d!")
     }
 }

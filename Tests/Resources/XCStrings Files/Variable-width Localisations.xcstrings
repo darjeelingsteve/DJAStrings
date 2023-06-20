@@ -286,6 +286,52 @@
           }
         }
       }
+    },
+    "width_varied_by_plural" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "width" : {
+              "20" : {
+                "variations" : {
+                  "plural" : {
+                    "one" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Hello %d!"
+                      }
+                    },
+                    "other" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Hellos %d!"
+                      }
+                    }
+                  }
+                }
+              },
+              "70" : {
+                "variations" : {
+                  "plural" : {
+                    "one" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Greetings and Salutation %d!"
+                      }
+                    },
+                    "other" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Greetings and Salutations %d!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
