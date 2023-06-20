@@ -361,5 +361,16 @@ extension LocalisationGroupTests {
         XCTAssertEqual(localisationGroup.localisations[1].previews[16].value, "You have `messageCount70` messages in `inboxCount70` inbox.")
         XCTAssertEqual(localisationGroup.localisations[1].previews[17].description, "Width 70, messageCount70 Other, inboxCount70 Other")
         XCTAssertEqual(localisationGroup.localisations[1].previews[17].value, "You have `messageCount70` messages in `inboxCount70` inboxes.")
+        
+        XCTAssertEqual(localisationGroup.localisations[2].key, "width_varied_by_device")
+        XCTAssertEqual(localisationGroup.localisations[2].previews.count, 4)
+        XCTAssertEqual(localisationGroup.localisations[2].previews[0].description, "Width 20, Device iPod")
+        XCTAssertEqual(localisationGroup.localisations[2].previews[0].value, "Hello iPod!")
+        XCTAssertEqual(localisationGroup.localisations[2].previews[1].description, "Width 20, Device Other")
+        XCTAssertEqual(localisationGroup.localisations[2].previews[1].value, "Hello!")
+        XCTAssertEqual(localisationGroup.localisations[2].previews[2].description, "Width 70, Device iPod")
+        XCTAssertEqual(localisationGroup.localisations[2].previews[2].value, "Greetings and Salutations iPod!")
+        XCTAssertEqual(localisationGroup.localisations[2].previews[3].description, "Width 70, Device Other")
+        XCTAssertEqual(localisationGroup.localisations[2].previews[3].value, "Greetings and Salutations!")
     }
 }

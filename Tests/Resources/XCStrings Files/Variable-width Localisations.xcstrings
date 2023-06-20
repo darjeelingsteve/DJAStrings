@@ -240,6 +240,52 @@
           }
         }
       }
+    },
+    "width_varied_by_device" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "width" : {
+              "20" : {
+                "variations" : {
+                  "device" : {
+                    "ipod" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Hello iPod!"
+                      }
+                    },
+                    "other" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Hello!"
+                      }
+                    }
+                  }
+                }
+              },
+              "70" : {
+                "variations" : {
+                  "device" : {
+                    "ipod" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Greetings and Salutations iPod!"
+                      }
+                    },
+                    "other" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Greetings and Salutations!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

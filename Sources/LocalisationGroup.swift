@@ -138,8 +138,8 @@ private extension XCStringsDocument.StringLocalisation.Localisation {
                         let variationPreviews = try populatedVariation.variation.previews
                         return variationPreviews.map { variationPreview in
                             var description = "Device \(populatedVariation.name)"
-                            if variationPreview.description != nil {
-                                description += ", \(variationPreview.description!)"
+                            if let variationPreviewDescription = variationPreview.description {
+                                description += ", \(variationPreviewDescription)"
                             }
                             return Localisation.Preview(description: description, value: variationPreview.value)
                         }
@@ -149,7 +149,15 @@ private extension XCStringsDocument.StringLocalisation.Localisation {
                     if let substitutions {
                         return try orderedKeys.flatMap { substitutions.previews(forSourceLanguageLocalisedString: try widths[$0]!.previews[0].value, descriptionPrefix: "Width \($0)") }
                     } else {
-                        return try orderedKeys.map { Localisation.Preview(description: "Width \($0)", value: try widths[$0]!.previews[0].value) }
+                        return try orderedKeys.flatMap { key in
+                            try widths[key]!.previews.map { variationPreview in
+                                var description = "Width \(key)"
+                                if let variationPreviewDescription = variationPreview.description {
+                                    description += ", \(variationPreviewDescription)"
+                                }
+                                return Localisation.Preview(description: description, value: variationPreview.value)
+                            }
+                        }
                     }
                 }
             }
