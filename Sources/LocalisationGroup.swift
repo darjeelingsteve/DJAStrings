@@ -137,11 +137,8 @@ private extension XCStringsDocument.StringLocalisation.Localisation {
                     return try device.populatedVariations.flatMap { populatedVariation in
                         let variationPreviews = try populatedVariation.variation.previews
                         return variationPreviews.map { variationPreview in
-                            var description = "Device \(populatedVariation.name)"
-                            if let variationPreviewDescription = variationPreview.description {
-                                description += ", \(variationPreviewDescription)"
-                            }
-                            return Localisation.Preview(description: description, value: variationPreview.value)
+                            Localisation.Preview(description: variationPreview.description.previewDescription(withPrefix: "Device \(populatedVariation.name)"),
+                                                 value: variationPreview.value)
                         }
                     }
                 case let .width(widths):
@@ -151,11 +148,8 @@ private extension XCStringsDocument.StringLocalisation.Localisation {
                     } else {
                         return try orderedKeys.flatMap { key in
                             try widths[key]!.previews.map { variationPreview in
-                                var description = "Width \(key)"
-                                if let variationPreviewDescription = variationPreview.description {
-                                    description += ", \(variationPreviewDescription)"
-                                }
-                                return Localisation.Preview(description: description, value: variationPreview.value)
+                                Localisation.Preview(description: variationPreview.description.previewDescription(withPrefix: "Width \(key)"),
+                                                     value: variationPreview.value)
                             }
                         }
                     }
@@ -187,11 +181,9 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
         let argumentNameAndPreviews = includedInSource.sorted(by: { $0.value.argumentNumber < $1.value.argumentNumber }).map { ArgumentNameAndPreviews(argumentName: $0.key, substitution: $0.value) }
         guard let firstArgumentNameAndPreviews = argumentNameAndPreviews.first else { return [] }
         
-        let previewDescriptionPrefix = descriptionPrefix != nil ? descriptionPrefix!.appending(", ") : ""
-        
         /// Build an array of previews using the previews for localisation's
         /// first argument.
-        var previews = firstArgumentNameAndPreviews.previews.map { Localisation.Preview(description: $0.description != nil ? previewDescriptionPrefix + $0.description! : nil,
+        var previews = firstArgumentNameAndPreviews.previews.map { Localisation.Preview(description: $0.description.previewDescription(withPrefix: descriptionPrefix),
                                                                                         value: sourceLanguageLocalisedString.replacing(localisationArgumentName: firstArgumentNameAndPreviews.argumentName, with: $0.value)) }
         /// For each subsequent argument, create a copy of the existing
         /// previews, multiplied by the number of previews belonging to the
@@ -369,6 +361,20 @@ private extension String {
         return positionsAndDataTypes
             .sorted { $0.0 < $1.0 }
             .map { $0.value }
+    }
+}
+
+private extension Optional where Wrapped == String {
+    func previewDescription(withPrefix prefix: String?) -> String? {
+        switch self {
+        case .none:
+            return prefix
+        case let .some(wrapped):
+            if let prefix {
+                return "\(prefix), \(wrapped)"
+            }
+            return wrapped
+        }
     }
 }
 
