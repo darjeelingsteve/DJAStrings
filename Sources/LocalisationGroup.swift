@@ -73,6 +73,7 @@ private extension Localisation {
         }
         self.key = key
         self.tableName = tableName
+        comment = documentLocalisation.comment
         let sourceLanguageLocalisation = documentLocalisation.localisations?[sourceLanguage]
         placeholders = try sourceLanguageLocalisation?.placeholders ?? []
         previews = try sourceLanguageLocalisation?.previews ?? []

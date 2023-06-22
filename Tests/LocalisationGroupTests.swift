@@ -98,6 +98,19 @@ extension LocalisationGroupTests {
     }
 }
 
+// MARK: - Comments
+
+extension LocalisationGroupTests {
+    func testItUsesTheCommentsFromTheStringsFile() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Simple Localisations")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].comment, "String with placeholder")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].comment, "Plain string")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[2].comment, "String with positional placeholders")
+        XCTAssertNil(localisationGroup.childGroups[0].localisations[3].comment)
+    }
+}
+
 // MARK: - Placeholders
 
 extension LocalisationGroupTests {

@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "strings.placeholder" : {
+      "comment" : "String with placeholder",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -23,29 +24,8 @@
         }
       }
     },
-    "strings.positional_placeholders" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "String mit %1$d positionsplatzhaltern %2$lu"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "String with %1$d positional placeholders %2$lu"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chaîne avec %1$d des espaces réservés de position %2$lu"
-          }
-        }
-      }
-    },
     "strings.plain" : {
+      "comment" : "Plain string",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -67,12 +47,35 @@
         }
       }
     },
+    "strings.positional_placeholders" : {
+      "comment" : "String with positional placeholders",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "String mit %1$d positionsplatzhaltern %2$lu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "String with %1$d positional placeholders %2$lu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaîne avec %1$d des espaces réservés de position %2$lu"
+          }
+        }
+      }
+    },
     "strings.stale" : {
       "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abgestandene zeichenfolge"
           }
         },
@@ -84,7 +87,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Chaîne obsolète"
           }
         }

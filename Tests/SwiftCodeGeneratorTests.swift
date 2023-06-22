@@ -32,7 +32,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectOutputForASingleNodeWithOneLocalisations() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised")
                                                                                             ])
                                                                                           ],
@@ -54,10 +54,10 @@ public enum Root {
     func testItProducesTheCorrectOutputForASingleNodeWithMultipleLocalisations() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised One")
                                                                                             ]),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised Two")
                                                                                             ])
                                                                                           ],
@@ -85,27 +85,27 @@ public enum Root {
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: []),
                                                                                             TestLocalisationsTreeNode(name: "child_two",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
+                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: [
                                                                                                                         TestLocalisationsTreeNode(name: "nested_child",
                                                                                                                                                   localisations: [
-                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", placeholders: [], previews: [
+                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                                                                         Localisation.Preview(description: nil, value: "Child Two Nested One")
                                                                                                                                                     ])
                                                                                                                                                   ],
@@ -151,37 +151,37 @@ public enum Root {
     func testItProducesTheCorrectOutputForASingleNodeWithMultipleLocalisationsAndMultipleChildNodes() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation One")
                                                                                             ]),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation Two")
                                                                                             ])
                                                                                           ],
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: []),
                                                                                             TestLocalisationsTreeNode(name: "child_two",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
+                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: [
                                                                                                                         TestLocalisationsTreeNode(name: "nested_child",
                                                                                                                                                   localisations: [
-                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", placeholders: [], previews: [
+                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                                                                         Localisation.Preview(description: nil, value: "Child Two Nested One")
                                                                                                                                                     ])
                                                                                                                                                   ],
@@ -231,7 +231,7 @@ public enum Root {
     }
     
     func testItProducesTheCorrectOutputForADeeplyNestedChildNodes() throws {
-        let childThree = TestLocalisationsTreeNode(name: "child_three", localisations: [Localisation(key: "child_one.child_two.child_three.one", tableName: "Localizable", placeholders: [], previews: [Localisation.Preview(description: nil, value: "Child Three")])], childNodes: [])
+        let childThree = TestLocalisationsTreeNode(name: "child_three", localisations: [Localisation(key: "child_one.child_two.child_three.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [Localisation.Preview(description: nil, value: "Child Three")])], childNodes: [])
         let childTwo = TestLocalisationsTreeNode(name: "child_two", localisations: [], childNodes: [childThree])
         let childOne = TestLocalisationsTreeNode(name: "child_one", localisations: [], childNodes: [childTwo])
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
@@ -266,7 +266,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectDocumentationCommentForLocalisationPreviewsWithADescription() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: "Description", value: "Value")
                                                                                             ])
                                                                                           ],
@@ -289,7 +289,7 @@ public enum Root {
     func testItProducesTheCorrectDocumentationCommentsForLocalisationsWithMultiplePreviews() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: "Description One", value: "Value One"),
                                                                                                 Localisation.Preview(description: "Description Two", value: "Value Two"),
                                                                                                 Localisation.Preview(description: "Description Three", value: "Value Three"),
@@ -326,7 +326,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectOutputWhenACustomFormattingConfigurationIsSpecified() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation")
                                                                                             ])
                                                                                           ],

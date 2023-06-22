@@ -17,6 +17,9 @@ struct Localisation {
     /// The name of the table containing `key`.
     let tableName: String
     
+    /// The comment assigned to the localisation, if any.
+    let comment: String?
+    
     /// The placeholders contained within the localisation.
     let placeholders: [Placeholder]
     
