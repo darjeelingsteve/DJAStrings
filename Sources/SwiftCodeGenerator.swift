@@ -71,7 +71,7 @@ private extension Localisation {
         if placeholders.isEmpty {
             return """
 \(documentationComment)
-static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", comment: \"\")
+static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", comment: \"\(comment ?? "")\")
 """
         } else {
             return """

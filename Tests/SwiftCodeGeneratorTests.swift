@@ -260,6 +260,38 @@ public enum Root {
     }
 }
 
+// MARK: - Comment Parameter
+
+extension SwiftCodeGeneratorTests {
+    func testItIncludesTheLocalisationCommentsInTheCallToTheLocalizedStringFunction() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", comment: "Comment One", placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised One")
+                                                                                            ]),
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", comment: "Comment Two", placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised Two")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised One
+    static let localisationOne = NSLocalizedString("localisation_one", tableName: "Localizable", comment: "Comment One")
+
+    /// Localised Two
+    static let localisationTwo = NSLocalizedString("localisation_two", tableName: "Localizable", comment: "Comment Two")
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+}
+
 // MARK: - Preview Comments
 
 extension SwiftCodeGeneratorTests {
