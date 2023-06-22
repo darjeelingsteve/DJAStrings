@@ -290,6 +290,28 @@ public enum Root {
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
     }
+    
+    func testItProducesTheCorrectCommentWhenTheSourceFileCommentContainsNewlines() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: "Comment\nwith\nnewlines", placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", comment: "Comment with newlines")
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
 }
 
 // MARK: - Preview Comments
