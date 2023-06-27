@@ -71,17 +71,24 @@ public enum \(name.titleCased()) {
 private extension Localisation {
     var swiftRepresentation: String {
         let symbolName = (key.components(separatedBy: ".").last ?? key).camelCased()
-        let defaultValueParameter = defaultLanguageValue != nil ? " value: \"\(defaultLanguageValue!)\"," : ""
+        let localizedStringParameters = [
+            "\"\(key)\"",
+            "tableName: \"\(tableName)\"",
+            "bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self)",
+            defaultLanguageValue != nil ? " value: \"\(defaultLanguageValue!)\"" : nil,
+            "comment: \"\(comment?.components(separatedBy: .newlines).joined(separator: " ") ?? "")\""
+        ]
+        let localizedStringFunctionCall = "NSLocalizedString(\(localizedStringParameters.compactMap { $0 }.joined(separator: ", ")))"
         if placeholders.isEmpty {
             return """
 \(documentationComment)
-static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self),\(defaultValueParameter) comment: \"\(comment?.components(separatedBy: .newlines).joined(separator: " ") ?? "")\")
+static let \(symbolName) = \(localizedStringFunctionCall)
 """
         } else {
             return """
 \(documentationComment)
 static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
-    String(format: NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self),\(defaultValueParameter) comment: \"\"), \(placeholderVarArgs))
+    String(format: \(localizedStringFunctionCall), \(placeholderVarArgs))
 }
 """
         }
