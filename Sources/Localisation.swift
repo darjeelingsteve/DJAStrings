@@ -8,7 +8,7 @@
 import Foundation
 
 /// An individual localisation.
-struct Localisation {
+struct Localisation: Equatable {
     
     /// The key used to look up the localisation in its parent localisation
     /// table.
@@ -34,7 +34,7 @@ struct Localisation {
 
 extension Localisation {
     /// A placeholder in a localised format string.
-    struct Placeholder {
+    struct Placeholder: Equatable {
         
         /// The name of the placeholder, if any.
         let name: String?
@@ -49,7 +49,7 @@ extension Localisation {
 extension Localisation {
     
     /// A preview of an individual variant of a localisation.
-    struct Preview {
+    struct Preview: Equatable {
         
         /// The description of the preview. `nil` for the default value of a
         /// localisation containing no variations.
