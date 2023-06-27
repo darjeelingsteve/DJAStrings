@@ -11,6 +11,7 @@ import SwiftFormatConfiguration
 
 /// The code generator for producing Swift code from a localisations tree.
 final class SwiftCodeGenerator {
+    fileprivate static let StringsBundleClassName = "DJAStringsBundleClass"
     
     /// The generated Swift source from the receiver's localisation tree.
     var swiftSource: String {
@@ -18,6 +19,8 @@ final class SwiftCodeGenerator {
             let rawSource = """
             import Foundation
             \(rootLocalisationsTreeNode.swiftRepresentation)
+            
+            private final class \(SwiftCodeGenerator.StringsBundleClassName) {}
             """
             var output = ""
             let formatter = try SwiftFormatter(configuration: formatConfiguration)
@@ -71,13 +74,13 @@ private extension Localisation {
         if placeholders.isEmpty {
             return """
 \(documentationComment)
-static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", comment: \"\(comment?.components(separatedBy: .newlines).joined(separator: " ") ?? "")\")
+static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self), comment: \"\(comment?.components(separatedBy: .newlines).joined(separator: " ") ?? "")\")
 """
         } else {
             return """
 \(documentationComment)
 static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
-    String(format: NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", comment: \"\"), \(placeholderVarArgs))
+    String(format: NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self), comment: \"\"), \(placeholderVarArgs))
 }
 """
         }
