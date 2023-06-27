@@ -79,7 +79,7 @@ extension XCStringsDocument {
                 } else if let variations = try container.decodeIfPresent(Variations.self, forKey: .variations) {
                     self = .variations(variations, substitutions: try container.decodeIfPresent([String: Substitution].self, forKey: .substitutions))
                 } else {
-                    throw XCStringsDocument.ParsingError.unrecognisedLocalisationType
+                    throw DJAStringsError.unrecognisedLocalisationType
                 }
             }
             
@@ -151,7 +151,7 @@ extension XCStringsDocument {
                     } else if let widthVariations = try container.decodeIfPresent([String: Localisation].self, forKey: .width) {
                         self = .width(widthVariations)
                     } else {
-                        throw XCStringsDocument.ParsingError.unrecognisedVariationType
+                        throw DJAStringsError.unrecognisedVariationType
                     }
                 }
                 

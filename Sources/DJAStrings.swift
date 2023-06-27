@@ -29,7 +29,7 @@ struct DJAStrings: ParsableCommand {
     
     mutating func run() throws {
         guard topLevelLocalisationNamespace.rangeOfCharacter(from: .alphanumerics.inverted) == nil else {
-            throw DJAStringError.invalidTopLevelLocalisationNameapace(topLevelLocalisationNamespace)
+            throw DJAStringsError.invalidTopLevelLocalisationNamespace(topLevelLocalisationNamespace)
         }
         let xcStringsFileURLs = Set(inputFiles.filter { $0.hasSuffix(".xcstrings") }).map { URL(fileURLWithPath: $0) }
         let parsedXCStringsDocuments = try xcStringsFileURLs.map { xcStringsFileURL in

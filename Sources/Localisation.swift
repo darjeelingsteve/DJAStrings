@@ -102,12 +102,12 @@ extension Localisation.Placeholder {
                     return
                 }
             }
-            throw LocalisationGroup.ParsingError.unsupportedFormatCharacter(character)
+            throw DJAStringsError.unsupportedFormatCharacter(character)
         }
         
         init(formatSpecifier: String) throws {
             guard let formatCharacter = formatSpecifier.last else {
-                throw LocalisationGroup.ParsingError.unsupportedFormatSpecifier(formatSpecifier)
+                throw DJAStringsError.unsupportedFormatSpecifier(formatSpecifier)
             }
             try self.init(formatCharacter: formatCharacter)
         }

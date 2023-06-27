@@ -351,9 +351,9 @@ private extension String {
             guard index > 0 else { continue }
             
             if let existingEntry = positionsAndDataTypes[index], existingEntry != placeholderType {
-                throw LocalisationGroup.ParsingError.invalidPlaceholder(index: index,
-                                                                        previousDataType: existingEntry,
-                                                                        newDataType: placeholderType)
+                throw DJAStringsError.invalidPlaceholder(index: index,
+                                                         previousDataType: existingEntry,
+                                                         newDataType: placeholderType)
             } else {
                 positionsAndDataTypes[index] = placeholderType
             }
