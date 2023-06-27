@@ -98,6 +98,43 @@ extension LocalisationGroupTests {
     }
 }
 
+// MARK: - Default Values
+
+extension LocalisationGroupTests {
+    func testItProvidesTheCorrectDefaultValuesForSimpleLocalisations() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Simple Localisations")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].defaultLanguageValue, "String with placeholder %@")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].defaultLanguageValue, "Plain String")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[2].defaultLanguageValue, "String with %1$d positional placeholders %2$lu")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[3].defaultLanguageValue, "Stale string")
+    }
+    
+    func testItReturnsNilDefaultValuesForPluralisedLocalisations() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Pluralised Localisations")
+        XCTAssertNil(localisationGroup.childGroups[0].localisations[0].defaultLanguageValue)
+        XCTAssertNil(localisationGroup.childGroups[0].localisations[1].defaultLanguageValue)
+    }
+    
+    func testItReturnsNilDefaultValuesForDeviceVaryingLocalisations() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Device-varied Localisations")
+        XCTAssertNil(localisationGroup.childGroups[0].localisations[0].defaultLanguageValue)
+        XCTAssertNil(localisationGroup.childGroups[0].childGroups[0].localisations[0].defaultLanguageValue)
+        XCTAssertNil(localisationGroup.childGroups[0].childGroups[1].localisations[0].defaultLanguageValue)
+    }
+    
+    func testItReturnsNilDefaultValuesForVariableWidthLocalisations() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Variable-width Localisations")
+        XCTAssertNil(localisationGroup.localisations[0].defaultLanguageValue)
+        XCTAssertNil(localisationGroup.localisations[1].defaultLanguageValue)
+        XCTAssertNil(localisationGroup.localisations[2].defaultLanguageValue)
+        XCTAssertNil(localisationGroup.localisations[3].defaultLanguageValue)
+    }
+}
+
 // MARK: - Comments
 
 extension LocalisationGroupTests {

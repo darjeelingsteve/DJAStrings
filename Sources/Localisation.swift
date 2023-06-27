@@ -17,6 +17,11 @@ struct Localisation: Equatable {
     /// The name of the table containing `key`.
     let tableName: String
     
+    /// The value of the localisation in the default development language, if
+    /// any. Localisations whose value is a variation (e.g by device or plural)
+    /// will return `nil` for this property.
+    let defaultLanguageValue: String?
+    
     /// The comment assigned to the localisation, if any.
     let comment: String?
     

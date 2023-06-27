@@ -75,12 +75,23 @@ private extension Localisation {
         self.tableName = tableName
         comment = documentLocalisation.comment
         let sourceLanguageLocalisation = documentLocalisation.localisations?[sourceLanguage]
+        defaultLanguageValue = sourceLanguageLocalisation?.defaultLanguageValue
         placeholders = try sourceLanguageLocalisation?.placeholders ?? []
         previews = try sourceLanguageLocalisation?.previews ?? []
     }
 }
 
 private extension XCStringsDocument.StringLocalisation.Localisation {
+    var defaultLanguageValue: String? {
+        switch self {
+        case let .stringUnit(stringUnit, substitutions):
+            guard substitutions == nil else { return nil }
+            return stringUnit.value
+        case .variations:
+            return nil
+        }
+    }
+    
     var placeholders: [Localisation.Placeholder] {
         get throws {
             switch self {

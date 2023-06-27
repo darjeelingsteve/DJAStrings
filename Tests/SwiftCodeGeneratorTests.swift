@@ -29,10 +29,10 @@ final class SwiftCodeGeneratorTests: XCTestCase {
 // MARK: - Enum Generation
 
 extension SwiftCodeGeneratorTests {
-    func testItProducesTheCorrectOutputForASingleNodeWithOneLocalisations() throws {
+    func testItProducesTheCorrectOutputForASingleNodeWithOneLocalisation() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised")
                                                                                             ])
                                                                                           ],
@@ -56,10 +56,10 @@ private final class DJAStringsBundleClass {}
     func testItProducesTheCorrectOutputForASingleNodeWithMultipleLocalisations() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised One")
                                                                                             ]),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised Two")
                                                                                             ])
                                                                                           ],
@@ -89,27 +89,27 @@ private final class DJAStringsBundleClass {}
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: []),
                                                                                             TestLocalisationsTreeNode(name: "child_two",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
+                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: [
                                                                                                                         TestLocalisationsTreeNode(name: "nested_child",
                                                                                                                                                   localisations: [
-                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                                                                         Localisation.Preview(description: nil, value: "Child Two Nested One")
                                                                                                                                                     ])
                                                                                                                                                   ],
@@ -157,37 +157,37 @@ private final class DJAStringsBundleClass {}
     func testItProducesTheCorrectOutputForASingleNodeWithMultipleLocalisationsAndMultipleChildNodes() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation One")
                                                                                             ]),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation Two")
                                                                                             ])
                                                                                           ],
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: []),
                                                                                             TestLocalisationsTreeNode(name: "child_two",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
+                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: [
                                                                                                                         TestLocalisationsTreeNode(name: "nested_child",
                                                                                                                                                   localisations: [
-                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                                                                         Localisation.Preview(description: nil, value: "Child Two Nested One")
                                                                                                                                                     ])
                                                                                                                                                   ],
@@ -238,8 +238,8 @@ private final class DJAStringsBundleClass {}
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
     }
     
-    func testItProducesTheCorrectOutputForADeeplyNestedChildNodes() throws {
-        let childThree = TestLocalisationsTreeNode(name: "child_three", localisations: [Localisation(key: "child_one.child_two.child_three.one", tableName: "Localizable", comment: nil, placeholders: [], previews: [Localisation.Preview(description: nil, value: "Child Three")])], childNodes: [])
+    func testItProducesTheCorrectOutputForDeeplyNestedChildNodes() throws {
+        let childThree = TestLocalisationsTreeNode(name: "child_three", localisations: [Localisation(key: "child_one.child_two.child_three.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [Localisation.Preview(description: nil, value: "Child Three")])], childNodes: [])
         let childTwo = TestLocalisationsTreeNode(name: "child_two", localisations: [], childNodes: [childThree])
         let childOne = TestLocalisationsTreeNode(name: "child_one", localisations: [], childNodes: [childTwo])
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
@@ -270,16 +270,57 @@ private final class DJAStringsBundleClass {}
     }
 }
 
+// MARK: - Default Value Parameter
+
+extension SwiftCodeGeneratorTests {
+    func testItGeneratesTheCorrectOutputForLocalisationsWithDefaultValues() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "Localisation", comment: nil, placeholders: [], previews: [])
+                                                                                          ],
+                                                                                          childNodes: [
+                                                                                            TestLocalisationsTreeNode(name: "child_one",
+                                                                                                                      localisations: [
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: "Child One", comment: nil, placeholders: [], previews: []),
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: "Child Two", comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [])
+                                                                                                                      ],
+                                                                                                                      childNodes: [])]))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+
+    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Localisation", comment: "")
+
+    public enum ChildOne {
+
+        static let one = NSLocalizedString("child_one.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Child One", comment: "")
+
+        static func two(_ p0: CustomStringConvertible) -> String {
+            String(format: NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Child Two", comment: ""), p0.description)
+        }
+    }
+}
+
+private final class DJAStringsBundleClass {}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+}
+
 // MARK: - Comment Parameter
 
 extension SwiftCodeGeneratorTests {
     func testItIncludesTheLocalisationCommentsInTheCallToTheLocalizedStringFunction() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", comment: "Comment One", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, comment: "Comment One", placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised One")
                                                                                             ]),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", comment: "Comment Two", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, comment: "Comment Two", placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised Two")
                                                                                             ])
                                                                                           ],
@@ -306,7 +347,7 @@ private final class DJAStringsBundleClass {}
     func testItProducesTheCorrectCommentWhenTheSourceFileCommentContainsNewlines() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: "Comment\nwith\nnewlines", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: "Comment\nwith\nnewlines", placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised")
                                                                                             ])
                                                                                           ],
@@ -334,7 +375,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectDocumentationCommentForLocalisationPreviewsWithADescription() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: "Description", value: "Value")
                                                                                             ])
                                                                                           ],
@@ -359,7 +400,7 @@ private final class DJAStringsBundleClass {}
     func testItProducesTheCorrectDocumentationCommentsForLocalisationsWithMultiplePreviews() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: "Description One", value: "Value One"),
                                                                                                 Localisation.Preview(description: "Description Two", value: "Value Two"),
                                                                                                 Localisation.Preview(description: "Description Three", value: "Value Three"),
@@ -398,7 +439,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectOutputWhenACustomFormattingConfigurationIsSpecified() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation")
                                                                                             ])
                                                                                           ],

@@ -71,16 +71,17 @@ public enum \(name.titleCased()) {
 private extension Localisation {
     var swiftRepresentation: String {
         let symbolName = (key.components(separatedBy: ".").last ?? key).camelCased()
+        let defaultValueParameter = defaultLanguageValue != nil ? " value: \"\(defaultLanguageValue!)\"," : ""
         if placeholders.isEmpty {
             return """
 \(documentationComment)
-static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self), comment: \"\(comment?.components(separatedBy: .newlines).joined(separator: " ") ?? "")\")
+static let \(symbolName) = NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self),\(defaultValueParameter) comment: \"\(comment?.components(separatedBy: .newlines).joined(separator: " ") ?? "")\")
 """
         } else {
             return """
 \(documentationComment)
 static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
-    String(format: NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self), comment: \"\"), \(placeholderVarArgs))
+    String(format: NSLocalizedString(\"\(key)\", tableName: \"\(tableName)\", bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self),\(defaultValueParameter) comment: \"\"), \(placeholderVarArgs))
 }
 """
         }
