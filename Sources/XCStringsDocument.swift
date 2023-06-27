@@ -268,10 +268,3 @@ extension XCStringsDocument {
         }
     }
 }
-
-extension XCStringsDocument {
-    enum ParsingError: Error {
-        case unrecognisedLocalisationType
-        case unrecognisedVariationType
-    }
-}

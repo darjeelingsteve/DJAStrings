@@ -68,14 +68,3 @@ struct DJAStrings: ParsableCommand {
         }
     }
 }
-
-enum DJAStringError: Error, LocalizedError {
-    case invalidTopLevelLocalisationNameapace(_ topLevelLocalisationNamespace: String)
-    
-    var errorDescription: String? {
-        switch self {
-        case let .invalidTopLevelLocalisationNameapace(topLevelLocalisationNamespace):
-            return "Invalid top-level localisation namespace: \"\(topLevelLocalisationNamespace)\". The top level namespace must only contain alphanumerics."
-        }
-    }
-}
