@@ -314,7 +314,7 @@ private final class DJAStringsBundleClass {}
 // MARK: - Comment Parameter
 
 extension SwiftCodeGeneratorTests {
-    func testItIncludesTheLocalisationCommentsInTheCallToTheLocalizedStringFunction() throws {
+    func testItIncludesTheLocalisationCommentsInTheCallToTheLocalizedStringFunctionAndDocumentation() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
                                                                                             Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, comment: "Comment One", placeholders: [], previews: [
@@ -332,9 +332,15 @@ import Foundation
 
 public enum Root {
     /// Localised One
+    ///
+    /// **Comment**
+    /// Comment One
     static let localisationOne = NSLocalizedString("localisation_one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "Comment One")
 
     /// Localised Two
+    ///
+    /// **Comment**
+    /// Comment Two
     static let localisationTwo = NSLocalizedString("localisation_two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "Comment Two")
 }
 
@@ -359,6 +365,9 @@ import Foundation
 
 public enum Root {
     /// Localised
+    ///
+    /// **Comment**
+    /// Comment with newlines
     static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "Comment with newlines")
 }
 
@@ -424,6 +433,44 @@ public enum Root {
     /// **Description Three**
     /// Value Three
     static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItProducesTheCorrectDocumentationCommentsForLocalisationsWithMultiplePreviewsAndAComment() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: "I have multiple previews", placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: "Description One", value: "Value One"),
+                                                                                                Localisation.Preview(description: "Description Two", value: "Value Two"),
+                                                                                                Localisation.Preview(description: "Description Three", value: "Value Three"),
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Key: `localisation`, table name: `Localizable`
+    ///
+    /// **Description One**
+    /// Value One
+    ///
+    /// **Description Two**
+    /// Value Two
+    ///
+    /// **Description Three**
+    /// Value Three
+    ///
+    /// **Comment**
+    /// I have multiple previews
+    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "I have multiple previews")
 }
 
 private final class DJAStringsBundleClass {}

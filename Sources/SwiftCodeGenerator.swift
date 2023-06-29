@@ -71,22 +71,23 @@ public enum \(name.titleCased()) {
 private extension Localisation {
     var swiftRepresentation: String {
         let symbolName = (key.components(separatedBy: ".").last ?? key).camelCased()
+        let formattedComment = comment?.components(separatedBy: .newlines).joined(separator: " ")
         let localizedStringParameters = [
             "\"\(key)\"",
             "tableName: \"\(tableName)\"",
             "bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self)",
             defaultLanguageValue != nil ? " value: \"\(defaultLanguageValue!)\"" : nil,
-            "comment: \"\(comment?.components(separatedBy: .newlines).joined(separator: " ") ?? "")\""
+            "comment: \"\(formattedComment ?? "")\""
         ]
         let localizedStringFunctionCall = "NSLocalizedString(\(localizedStringParameters.compactMap { $0 }.joined(separator: ", ")))"
         if placeholders.isEmpty {
             return """
-\(documentationComment)
+\(documentationComment(withLocalisationComment: formattedComment))
 static let \(symbolName) = \(localizedStringFunctionCall)
 """
         } else {
             return """
-\(documentationComment)
+\(documentationComment(withLocalisationComment: formattedComment))
 static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
     String(format: \(localizedStringFunctionCall), \(placeholderVarArgs))
 }
@@ -94,15 +95,23 @@ static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
         }
     }
     
-    private var documentationComment: String {
-        let previewsComments = previews.map { $0.documentationComment }.joined(separator: "\n///\n")
-        guard previews.count >= 2 else {
-            return previewsComments
+    private func documentationComment(withLocalisationComment localisationComment: String?) -> String {
+        let previewsCommentComponents = previews.map { $0.documentationComment }
+        let allCommentComponents = previewsCommentComponents + [localisationComment != nil ? "/// **Comment**\n/// \(localisationComment!)" : nil].compactMap { $0 }
+        let allCommentsString = allCommentComponents.joined(separator: "\n///\n")
+        guard previewsCommentComponents.count > 1 else {
+            /// We only have one preview, which is likely to be the
+            /// localisation's translated value, so format our documentation so
+            /// that it is the primary content displayed during autocompletion.
+            return allCommentsString
         }
+        /// We have multiple previews, so make the primary documentation content
+        /// be the string key and table name, with the previews and possible
+        /// comment displayed in the "Discussion" section.
         return """
 /// Key: `\(key)`, table name: `\(tableName)`
 ///
-\(previewsComments)
+\(allCommentsString)
 """
     }
     
