@@ -32,7 +32,7 @@ final class LocalisationGroupTests: XCTestCase {
         localisationGroup = LocalisationGroup(name: name)
     }
     
-    private func whenAParsedStringsDocumentIsApplied(withFilename filename: String, subdirectories: [String]? = nil) throws {
+    private func whenAParsedStringsDocumentIsApplied(withFilename filename: String, subdirectories: [String]? = nil, incorporatesTableNamesInChildGroups: Bool = false) throws {
         let url: URL
         if let subdirectories {
             url = Bundle.module.resourceURL!.appending(path: (["XCStrings Files"] + subdirectories).joined(separator: "/")).appending(path: filename).appendingPathExtension("xcstrings")
@@ -40,7 +40,8 @@ final class LocalisationGroupTests: XCTestCase {
             url = Bundle.module.urls(forResourcesWithExtension: "xcstrings", subdirectory: "XCStrings Files")!.first { $0.lastPathComponent.hasPrefix(filename) }!
         }
         let parsedStringsDocument = try ParsedStringsDocument(stringsDocumentURL: url)
-        try localisationGroup.applying(document: parsedStringsDocument)
+        try localisationGroup.applying(document: parsedStringsDocument,
+                                       incorporatesTableNamesInChildGroups: incorporatesTableNamesInChildGroups)
     }
 }
 
@@ -95,6 +96,65 @@ extension LocalisationGroupTests {
         XCTAssertEqual(localisationGroup.childGroups[1].localisations[0].tableName, "Localizable Two")
         XCTAssertEqual(localisationGroup.childGroups[1].localisations[1].key, "namespace_two.second_localisation")
         XCTAssertEqual(localisationGroup.childGroups[1].localisations[1].tableName, "Localizable Two")
+    }
+    
+    func testItIncorporatesTableNamesAsChildGroupsWhenRequested() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Pluralised Localisations", incorporatesTableNamesInChildGroups: true)
+        XCTAssertTrue(localisationGroup.localisations.isEmpty)
+        XCTAssertEqual(localisationGroup.childGroups.count, 1)
+        XCTAssertEqual(localisationGroup.childGroups[0].name, "namespacekeyed_pluralised_localisations")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups.count, 1)
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[0].key, "messages.count")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[0].tableName, "Namespace-keyed Pluralised Localisations")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[1].key, "messages.message_and_inbox_count")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[1].tableName, "Namespace-keyed Pluralised Localisations")
+    }
+    
+    func testItDoesNotMergeLocalisationsFromLocalisationsInNamespacesAcrossMultipleFilesWhenIncorporatingTableNamesInToChildGroup() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Localizable One", subdirectories: ["Overlapping Namespaces"], incorporatesTableNamesInChildGroups: true)
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Localizable Two", subdirectories: ["Overlapping Namespaces"], incorporatesTableNamesInChildGroups: true)
+        XCTAssertEqual(localisationGroup.localisations.count, 0)
+        XCTAssertEqual(localisationGroup.childGroups.count, 2)
+        
+        XCTAssertEqual(localisationGroup.childGroups[0].name, "localizable_one")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations.count, 3)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].key, "cancel")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[0].tableName, "Localizable One")
+        XCTAssertTrue(localisationGroup.childGroups[0].localisations[0].placeholders.isEmpty)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].key, "done")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[1].tableName, "Localizable One")
+        XCTAssertTrue(localisationGroup.childGroups[0].localisations[1].placeholders.isEmpty)
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[2].key, "ok")
+        XCTAssertEqual(localisationGroup.childGroups[0].localisations[2].tableName, "Localizable One")
+        XCTAssertTrue(localisationGroup.childGroups[0].localisations[2].placeholders.isEmpty)
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups.count, 1)
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].name, "namespace_one")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations.count, 3)
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[0].key, "namespace_one.first_localisation")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[0].tableName, "Localizable One")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[1].key, "namespace_one.second_localisation")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[1].tableName, "Localizable One")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[2].key, "namespace_one.third_localisation")
+        XCTAssertEqual(localisationGroup.childGroups[0].childGroups[0].localisations[2].tableName, "Localizable One")
+        
+        XCTAssertEqual(localisationGroup.childGroups[1].name, "localizable_two")
+        XCTAssertTrue(localisationGroup.childGroups[1].localisations.isEmpty)
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups.count, 2)
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[0].name, "namespace_one")
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[0].localisations.count, 2)
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[0].localisations[0].key, "namespace_one.fifth_localisation")
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[0].localisations[0].tableName, "Localizable Two")
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[0].localisations[1].key, "namespace_one.fourth_localisation")
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[0].localisations[1].tableName, "Localizable Two")
+        
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[1].name, "namespace_two")
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[1].localisations.count, 2)
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[1].localisations[0].key, "namespace_two.first_localisation")
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[1].localisations[0].tableName, "Localizable Two")
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[1].localisations[1].key, "namespace_two.second_localisation")
+        XCTAssertEqual(localisationGroup.childGroups[1].childGroups[1].localisations[1].tableName, "Localizable Two")
     }
 }
 

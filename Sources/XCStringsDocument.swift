@@ -220,33 +220,6 @@ extension XCStringsDocument {
                     }
                 }
                 
-//                /// An individual string variation.
-//                struct Variation: Decodable {
-//                    
-//                    /// The variation's translation.
-//                    let stringUnit: StringUnit
-//                    
-//                    init(from decoder: Decoder) throws {
-//                        let container = try decoder.container(keyedBy: CodingKeys.self)
-//                        if let stringUnit = try container.decodeIfPresent(StringUnit.self, forKey: .stringUnit) {
-//                            self.stringUnit = stringUnit
-//                            return
-//                        } else if let variation = try container.decodeIfPresent(Variations.self, forKey: .variations) {
-//                            throw XCStringsDocument.ParsingError.unrecognisedVariationType
-//                        }
-//                        throw XCStringsDocument.ParsingError.unrecognisedVariationType
-//                    }
-//                    
-//                    /// This may need to be removed and a `Localisation` used
-//                    /// in its place to support device-varied localisations
-//                    /// that are plural varied.
-//                    
-//                    private enum CodingKeys: CodingKey {
-//                        case stringUnit
-//                        case variations
-//                    }
-//                }
-                
                 private enum CodingKeys: String, CodingKey {
                     case plural
                     case device

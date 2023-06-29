@@ -32,13 +32,16 @@ final class LocalisationGroup {
     /// to child groups of the receiver.
     /// - Parameter document: The parsed document from which to obtain
     /// localisation details.
-    func applying(document: ParsedStringsDocument) throws {
+    /// - Parameter incorporatesTableNamesInChildGroups: A `Boolean` value
+    /// indicating whether the name of the localisation table from which a
+    /// localisation derives should be included in the receiver's `childGroups`.
+    func applying(document: ParsedStringsDocument, incorporatesTableNamesInChildGroups: Bool) throws {
         let localisations = try document.stringsDocument.strings.sorted(by: { $0.key < $1.key }).compactMap { key, documentLocalisation in
             try Localisation(key: key, documentLocalisation: documentLocalisation, sourceLanguage: document.stringsDocument.sourceLanguage, tableName: document.tableName)
         }
         localisations.forEach { localisation in
             var groupForLocalisation = self
-            let namespaceComponents = localisation.key.components(separatedBy: ".").dropLast()
+            let namespaceComponents = [incorporatesTableNamesInChildGroups ? localisation.tableName.snakeCased() : nil].compactMap { $0 } + localisation.key.components(separatedBy: ".").dropLast()
             namespaceComponents.forEach { namespaceComponent in
                 groupForLocalisation = groupForLocalisation.childGroup(forName: namespaceComponent)
             }

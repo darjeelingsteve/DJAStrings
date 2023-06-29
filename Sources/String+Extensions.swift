@@ -9,17 +9,26 @@ import Foundation
 
 extension String {
     func camelCased() -> String {
-        components(separatedBy: "_").enumerated().map({ element -> String in
+        components(separatedBy: "_").enumerated().map{ element -> String in
             let token = element.element
             return firstCharacter(forToken: token, atIndex: element.offset) + token.dropFirst()
-        }).joined()
+        }.joined()
     }
     
     func titleCased() -> String {
-        components(separatedBy: "_").enumerated().map({ element -> String in
+        components(separatedBy: "_").enumerated().map { element -> String in
             let token = element.element
             return token.prefix(1).uppercased() + token.dropFirst()
-        }).joined()
+        }.joined()
+    }
+    
+    func snakeCased() -> String {
+        let alphanumericsAndWhitespace = CharacterSet.alphanumerics.union(.whitespaces)
+        let nonAlphanumericOrWhitespaceStripped = String(unicodeScalars.filter(alphanumericsAndWhitespace.contains))
+        return nonAlphanumericOrWhitespaceStripped.components(separatedBy: .whitespaces).enumerated().map { element -> String in
+            let token = element.element
+            return token.prefix(1).lowercased() + token.dropFirst()
+        }.joined(separator: "_")
     }
     
     private func firstCharacter(forToken token: String, atIndex index: Int) -> String {
