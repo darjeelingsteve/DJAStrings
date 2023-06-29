@@ -18,6 +18,9 @@ struct DJAStrings: ParsableCommand {
     @Option(name: .shortAndLong, help: "The name of the the top-level namespace in the output Swift source file.")
     private var topLevelLocalisationNamespace: String = "DJAStrings"
     
+    @Flag(name: .shortAndLong, help: "When enabled, includes the localisation table name as a namespace in the output Swift source file.")
+    private var includesTableNameNamespaces: Bool = false
+    
     @Option(name: .shortAndLong, help: "The path to the directory where the output of the command should be written.")
     private var outputDirectory: String = FileManager.default.currentDirectoryPath
     
@@ -39,7 +42,8 @@ struct DJAStrings: ParsableCommand {
             try ParsedStringsDocument(stringsDocumentURL: xcStringsFileURL)
         }
         let rootLocalisationGroup = LocalisationGroup(name: topLevelLocalisationNamespace)
-        try parsedXCStringsDocuments.forEach { try rootLocalisationGroup.applying(document: $0) }
+        try parsedXCStringsDocuments.forEach { try rootLocalisationGroup.applying(document: $0,
+                                                                                  incorporatesTableNamesInChildGroups: includesTableNameNamespaces) }
         
         let outputDirectoryURL = URL(fileURLWithPath: outputDirectory)
         let outputPathURL = outputDirectoryURL
