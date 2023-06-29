@@ -18,6 +18,18 @@ final class ErrorsTests: XCTestCase {
         super.tearDown()
     }
     
+    func testItVendsTheCorrectLocalizedDescriptionForTheNoValidInputFilesErrorWhenThereAreNoInputFiles() {
+        givenAnError(.noValidInputFiles([]))
+        whenTheErrorLocalizedDescriptionIsVended()
+        XCTAssertEqual(vendedLocalizedDescription, "No files passed to DJAStrings for processing")
+    }
+    
+    func testItVendsTheCorrectLocalizedDescriptionForTheNoValidInputFilesErrorWhenTheInputFilesAreNotStringCatalogs() {
+        givenAnError(.noValidInputFiles(["Picture.png", "Music.m4a"]))
+        whenTheErrorLocalizedDescriptionIsVended()
+        XCTAssertEqual(vendedLocalizedDescription, "No String Catalogs found in [Picture.png, Music.m4a]")
+    }
+    
     func testItVendsTheCorrectLocalizedDescriptionForTheInvalidTopLevelLocalisationNamespaceError() {
         givenAnError(.invalidTopLevelLocalisationNamespace("Invalid"))
         whenTheErrorLocalizedDescriptionIsVended()

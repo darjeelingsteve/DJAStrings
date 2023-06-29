@@ -9,6 +9,9 @@ import Foundation
 
 /// The errors produced by DJAStrings.
 enum DJAStringsError: Error, LocalizedError {
+    /// Thrown when no String Catalogs are passed to DJAStrings.
+    case noValidInputFiles(_ inputFilePaths: [String])
+    
     /// Thrown when an invalid top-level localisation namespace is provided.
     case invalidTopLevelLocalisationNamespace(_ topLevelLocalisationNamespace: String)
     
@@ -33,6 +36,11 @@ enum DJAStringsError: Error, LocalizedError {
     
     var errorDescription: String? {
         switch self {
+        case let .noValidInputFiles(inputFilePaths):
+            if inputFilePaths.isEmpty {
+                return "No files passed to DJAStrings for processing"
+            }
+            return "No String Catalogs found in [\(inputFilePaths.joined(separator: ", "))]"
         case let .invalidTopLevelLocalisationNamespace(topLevelLocalisationNamespace):
             return "Invalid top-level localisation namespace: \"\(topLevelLocalisationNamespace)\". The top level namespace must only contain alphanumerics."
         case .unrecognisedLocalisationType:

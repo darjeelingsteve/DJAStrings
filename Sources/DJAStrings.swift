@@ -32,6 +32,9 @@ struct DJAStrings: ParsableCommand {
             throw DJAStringsError.invalidTopLevelLocalisationNamespace(topLevelLocalisationNamespace)
         }
         let xcStringsFileURLs = Set(inputFiles.filter { $0.hasSuffix(".xcstrings") }).map { URL(fileURLWithPath: $0) }
+        guard !xcStringsFileURLs.isEmpty else {
+            throw DJAStringsError.noValidInputFiles(inputFiles)
+        }
         let parsedXCStringsDocuments = try xcStringsFileURLs.map { xcStringsFileURL in
             try ParsedStringsDocument(stringsDocumentURL: xcStringsFileURL)
         }
