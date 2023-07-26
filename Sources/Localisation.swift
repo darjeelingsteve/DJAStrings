@@ -28,7 +28,7 @@ struct Localisation: Equatable {
     /// The placeholders contained within the localisation.
     let placeholders: [Placeholder]
     
-    /// Preview of the different vsriations associated with the localisation,
+    /// Preview of the different variations associated with the localisation,
     /// in the source language. Standard localisations without variations will
     /// have a single preview, whereas localisations with plural or width
     /// variations will have a preview for each variation.
