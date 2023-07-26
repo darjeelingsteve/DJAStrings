@@ -13,6 +13,12 @@
                   "value" : "Klicken Sie auf Ihr Apple TV"
                 }
               },
+              "applevision" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tippen Sie auf Ihr Apple Vision"
+                }
+              },
               "applewatch" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -61,6 +67,12 @@
                   "value" : "Click your Apple TV"
                 }
               },
+              "applevision" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tap your Apple Vision"
+                }
+              },
               "applewatch" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -107,6 +119,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Cliquez sur votre Apple TV"
+                }
+              },
+              "applevision" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Appuyez sur votre Apple Vision"
                 }
               },
               "applewatch" : {

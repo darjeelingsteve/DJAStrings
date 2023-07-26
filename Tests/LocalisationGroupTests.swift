@@ -368,6 +368,7 @@ extension LocalisationGroupTests {
             Localisation.Preview(description: "Device Apple Watch", value: "Tap your Apple Watch"),
             Localisation.Preview(description: "Device Apple TV", value: "Click your Apple TV"),
             Localisation.Preview(description: "Device Mac", value: "Click your Mac"),
+            Localisation.Preview(description: "Device Apple Vision", value: "Tap your Apple Vision"),
             Localisation.Preview(description: "Device Other", value: "Tap your device")
         ])
     }
