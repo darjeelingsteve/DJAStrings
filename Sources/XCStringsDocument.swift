@@ -206,6 +206,9 @@ extension XCStringsDocument {
                     /// The variation to use for the Mac device, if any.
                     let mac: Localisation?
                     
+                    /// The variation to use for Apple Vision devices, if any.
+                    let appleVision: Localisation?
+                    
                     /// The variation to use for Other devices, if any.
                     let other: Localisation?
                     
@@ -216,6 +219,7 @@ extension XCStringsDocument {
                         case appleWatch = "applewatch"
                         case appleTV = "appletv"
                         case mac = "mac"
+                        case appleVision = "applevision"
                         case other = "other"
                     }
                 }
