@@ -279,6 +279,9 @@ private extension XCStringsDocument.StringLocalisation.Localisation.Variations.D
         if let mac {
             populatedVariations.append(NamedVariation(name: "Mac", variation: mac))
         }
+        if let appleVision {
+            populatedVariations.append(NamedVariation(name: "Apple Vision", variation: appleVision))
+        }
         if let other {
             populatedVariations.append(NamedVariation(name: "Other", variation: other))
         }
