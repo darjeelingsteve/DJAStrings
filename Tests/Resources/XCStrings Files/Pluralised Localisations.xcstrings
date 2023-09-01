@@ -1,6 +1,35 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Localisation with plural variation in %d language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Lokalisierung mit Pluralvariation in %d Sprache"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Lokalisierung mit Pluralvariation in %d Sprachen"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localisation avec variation plurielle dans %d langue"
+          }
+        }
+      }
+    },
     "You have %1$d messages across %2$d inboxes" : {
       "extractionState" : "manual",
       "localizations" : {
