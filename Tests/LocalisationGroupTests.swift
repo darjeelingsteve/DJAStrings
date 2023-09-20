@@ -192,6 +192,7 @@ extension LocalisationGroupTests {
         XCTAssertNil(localisationGroup.localisations[1].defaultLanguageValue)
         XCTAssertNil(localisationGroup.localisations[2].defaultLanguageValue)
         XCTAssertNil(localisationGroup.localisations[3].defaultLanguageValue)
+        XCTAssertNil(localisationGroup.localisations[4].defaultLanguageValue)
     }
 }
 
@@ -419,6 +420,16 @@ extension LocalisationGroupTests {
             Localisation.Preview(description: "Width 20, Other", value: "Hellos %d!"),
             Localisation.Preview(description: "Width 70, One", value: "Greetings and Salutation %d!"),
             Localisation.Preview(description: "Width 70, Other", value: "Greetings and Salutations %d!")
+        ])
+        
+        XCTAssertEqual(localisationGroup.localisations[4].key, "width_varied_by_plural_and_device")
+        XCTAssertEqual(localisationGroup.localisations[4].previews, [
+            Localisation.Preview(description: "Width 20, Device iPhone, One", value: "Hello iPhone %d!"),
+            Localisation.Preview(description: "Width 20, Device iPhone, Other", value: "Hellos iPhone %d!"),
+            Localisation.Preview(description: "Width 20, Device Other", value: "Hello Other Device %d!"),
+            Localisation.Preview(description: "Width 70, Device Apple Watch, One", value: "Greetings and Salutation Apple Watch %d!"),
+            Localisation.Preview(description: "Width 70, Device Apple Watch, Other", value: "Greetings and Salutations Apple Watch %d!"),
+            Localisation.Preview(description: "Width 70, Device Other", value: "Greetings and Salutations Other Device %d!")
         ])
     }
 }

@@ -332,6 +332,76 @@
           }
         }
       }
+    },
+    "width_varied_by_plural_and_device" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "width" : {
+              "20" : {
+                "variations" : {
+                  "device" : {
+                    "iphone" : {
+                      "variations" : {
+                        "plural" : {
+                          "one" : {
+                            "stringUnit" : {
+                              "state" : "translated",
+                              "value" : "Hello iPhone %d!"
+                            }
+                          },
+                          "other" : {
+                            "stringUnit" : {
+                              "state" : "translated",
+                              "value" : "Hellos iPhone %d!"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "other" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Hello Other Device %d!"
+                      }
+                    }
+                  }
+                }
+              },
+              "70" : {
+                "variations" : {
+                  "device" : {
+                    "applewatch" : {
+                      "variations" : {
+                        "plural" : {
+                          "one" : {
+                            "stringUnit" : {
+                              "state" : "translated",
+                              "value" : "Greetings and Salutation Apple Watch %d!"
+                            }
+                          },
+                          "other" : {
+                            "stringUnit" : {
+                              "state" : "translated",
+                              "value" : "Greetings and Salutations Apple Watch %d!"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "other" : {
+                      "stringUnit" : {
+                        "state" : "translated",
+                        "value" : "Greetings and Salutations Other Device %d!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

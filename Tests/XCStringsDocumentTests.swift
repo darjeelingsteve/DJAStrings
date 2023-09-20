@@ -490,11 +490,12 @@ extension XCStringsDocumentTests {
         XCTAssertEqual(stringsDocument.sourceLanguage, "en")
         XCTAssertEqual(stringsDocument.version, "1.0")
         
-        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 4)
+        XCTAssertEqual(stringsDocument.orderedStringKeys.count, 5)
         XCTAssertEqual(stringsDocument.orderedStringKeys[0], "greetings_message")
         XCTAssertEqual(stringsDocument.orderedStringKeys[1], "message_count")
         XCTAssertEqual(stringsDocument.orderedStringKeys[2], "width_varied_by_device")
         XCTAssertEqual(stringsDocument.orderedStringKeys[3], "width_varied_by_plural")
+        XCTAssertEqual(stringsDocument.orderedStringKeys[4], "width_varied_by_plural_and_device")
         
         XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.extractionState)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[0]]?.localisations?["en"]?.variations?.width?.count, 3)
@@ -586,6 +587,21 @@ extension XCStringsDocumentTests {
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.plural?.one?.stringUnit?.value, "Greetings and Salutation %d!")
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.plural?.other.stringUnit?.state, .translated)
         XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[3]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.plural?.other.stringUnit?.value, "Greetings and Salutations %d!")
+        
+        XCTAssertNil(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.extractionState)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?.count, 2)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["20"]?.variations?.device?.iPhone?.variations?.plural?.one?.stringUnit?.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["20"]?.variations?.device?.iPhone?.variations?.plural?.one?.stringUnit?.value, "Hello iPhone %d!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["20"]?.variations?.device?.iPhone?.variations?.plural?.other.stringUnit?.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["20"]?.variations?.device?.iPhone?.variations?.plural?.other.stringUnit?.value, "Hellos iPhone %d!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["20"]?.variations?.device?.other?.stringUnit?.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["20"]?.variations?.device?.other?.stringUnit?.value, "Hello Other Device %d!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.device?.appleWatch?.variations?.plural?.one?.stringUnit?.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.device?.appleWatch?.variations?.plural?.one?.stringUnit?.value, "Greetings and Salutation Apple Watch %d!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.device?.appleWatch?.variations?.plural?.other.stringUnit?.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.device?.appleWatch?.variations?.plural?.other.stringUnit?.value, "Greetings and Salutations Apple Watch %d!")
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.device?.other?.stringUnit?.state, .translated)
+        XCTAssertEqual(stringsDocument.strings[stringsDocument.orderedStringKeys[4]]?.localisations?["en"]?.variations?.width?["70"]?.variations?.device?.other?.stringUnit?.value, "Greetings and Salutations Other Device %d!")
     }
 }
 
