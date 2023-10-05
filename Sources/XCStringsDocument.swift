@@ -47,6 +47,10 @@ extension XCStringsDocument {
         /// The different extraction states for a string localisation.
         enum ExtractionState: String, Decodable {
             
+            /// The string was migrated from a legacy strings file or strings
+            /// dict.
+            case migrated
+            
             /// The string was extracted manually i.e was entered directly in to
             /// the `.xcstrings` file.
             case manual

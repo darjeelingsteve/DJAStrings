@@ -18,7 +18,7 @@ final class ParsedStringsDocumentTests: XCTestCase {
     
     func testItInitialisesFromAURL() throws {
         try givenAParsedStringsDocument(fromFileNamed: "Simple Localisations")
-        XCTAssertEqual(parsedStringsDocument.stringsDocument.strings.count, 8)
+        XCTAssertEqual(parsedStringsDocument.stringsDocument.strings.count, 9)
         XCTAssertEqual(parsedStringsDocument.tableName, "Simple Localisations")
     }
     
