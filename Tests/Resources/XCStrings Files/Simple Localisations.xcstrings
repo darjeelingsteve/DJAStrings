@@ -7,6 +7,9 @@
     "Manually added untranslated string" : {
       "extractionState" : "manual"
     },
+    "Migrated string" : {
+      "extractionState" : "migrated"
+    },
     "Plain string" : {
       "localizations" : {
         "de" : {
