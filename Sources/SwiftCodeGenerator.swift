@@ -74,6 +74,7 @@ private extension Localisation {
         let formattedComment = comment?.components(separatedBy: .newlines).joined(separator: " ")
         let defaultLanguageValue = self.defaultLanguageValue?
             .replacingOccurrences(of: "\n", with: "\\n")
+            .replacingOccurrences(of: "\"", with: "\\\"")
         let localizedStringParameters = [
             "\"\(key)\"",
             "tableName: \"\(tableName)\"",

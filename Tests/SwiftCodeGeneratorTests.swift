@@ -333,6 +333,30 @@ private final class DJAStringsBundleClass {}
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
     }
+    
+    func testItGeneratesTheCorrectOutputForLocalisationsWithDefaultValuesContainingQuotationMarks() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "I contain \"quotation marks\".", comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "I contain \\"quotation marks\\".", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
 }
 
 // MARK: - Comment Parameter
