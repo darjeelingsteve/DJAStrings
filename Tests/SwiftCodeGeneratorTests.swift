@@ -309,6 +309,54 @@ private final class DJAStringsBundleClass {}
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
     }
+    
+    func testItGeneratesTheCorrectOutputForLocalisationsWithDefaultValuesContainingNewlines() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "I contain a\nnewline character.", comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "I contain a\\nnewline character.", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItGeneratesTheCorrectOutputForLocalisationsWithDefaultValuesContainingQuotationMarks() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "I contain \"quotation marks\".", comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "I contain \\"quotation marks\\".", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
 }
 
 // MARK: - Comment Parameter
@@ -471,6 +519,30 @@ public enum Root {
     /// **Comment**
     /// I have multiple previews
     static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "I have multiple previews")
+}
+
+private final class DJAStringsBundleClass {}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItProducesTheCorrectDocumentationCommentsForLocalisationsWithPreviewsContainingNewlines() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Value\n\nOne")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Value  One
+    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
 }
 
 private final class DJAStringsBundleClass {}

@@ -72,6 +72,9 @@ private extension Localisation {
     var swiftRepresentation: String {
         let symbolName = (key.components(separatedBy: ".").last ?? key).camelCased()
         let formattedComment = comment?.components(separatedBy: .newlines).joined(separator: " ")
+        let defaultLanguageValue = self.defaultLanguageValue?
+            .replacingOccurrences(of: "\n", with: "\\n")
+            .replacingOccurrences(of: "\"", with: "\\\"")
         let localizedStringParameters = [
             "\"\(key)\"",
             "tableName: \"\(tableName)\"",
@@ -157,7 +160,7 @@ private extension Localisation.Placeholder.DataType {
 
 private extension Localisation.Preview {
     var documentationComment: String {
-        let valueComment = "/// \(value)"
+        let valueComment = "/// \(value.replacingOccurrences(of: "\n", with: " "))"
         guard let description else {
             return valueComment
         }
