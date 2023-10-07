@@ -92,7 +92,7 @@ static let \(symbolName) = \(localizedStringFunctionCall)
             return """
 \(documentationComment(withLocalisationComment: formattedComment))
 static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
-    String(format: \(localizedStringFunctionCall), \(placeholderVarArgs))
+    String.localizedStringWithFormat(\(localizedStringFunctionCall), \(placeholderVarArgs))
 }
 """
         }
