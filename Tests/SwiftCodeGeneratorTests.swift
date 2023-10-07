@@ -128,7 +128,7 @@ public enum Root {
 
         /// Child One Two
         static func two(_ p0: CustomStringConvertible) -> String {
-            String(format: NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), p0.description)
+            String.localizedStringWithFormat(NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), p0.description)
         }
     }
 
@@ -138,7 +138,7 @@ public enum Root {
 
         /// Child Two Two
         static func two(messageCount: Int) -> String {
-            String(format: NSLocalizedString("child_two.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), messageCount)
+            String.localizedStringWithFormat(NSLocalizedString("child_two.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), messageCount)
         }
 
         public enum NestedChild {
@@ -212,7 +212,7 @@ public enum Root {
 
         /// Child One Two
         static func two(_ p0: CustomStringConvertible) -> String {
-            String(format: NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), p0.description)
+            String.localizedStringWithFormat(NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), p0.description)
         }
     }
 
@@ -222,7 +222,7 @@ public enum Root {
 
         /// Child Two Two
         static func two(messageCount: Int) -> String {
-            String(format: NSLocalizedString("child_two.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), messageCount)
+            String.localizedStringWithFormat(NSLocalizedString("child_two.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), messageCount)
         }
 
         public enum NestedChild {
@@ -299,7 +299,7 @@ public enum Root {
         static let one = NSLocalizedString("child_one.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Child One", comment: "")
 
         static func two(_ p0: CustomStringConvertible) -> String {
-            String(format: NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Child Two", comment: ""), p0.description)
+            String.localizedStringWithFormat(NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Child Two", comment: ""), p0.description)
         }
     }
 }
