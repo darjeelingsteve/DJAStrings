@@ -44,10 +44,14 @@ import Foundation
 
 public enum Root {
     /// Localised
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", comment: "")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -71,13 +75,17 @@ import Foundation
 
 public enum Root {
     /// Localised One
-    static let localisationOne = NSLocalizedString("localisation_one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+    static let localisationOne = DJALocalizedString("localisation_one", tableName: "Localizable", comment: "")
 
     /// Localised Two
-    static let localisationTwo = NSLocalizedString("localisation_two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+    static let localisationTwo = DJALocalizedString("localisation_two", tableName: "Localizable", comment: "")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -124,31 +132,35 @@ import Foundation
 public enum Root {
     public enum ChildOne {
         /// Child One One
-        static let one = NSLocalizedString("child_one.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+        static let one = DJALocalizedString("child_one.one", tableName: "Localizable", comment: "")
 
         /// Child One Two
         static func two(_ p0: CustomStringConvertible) -> String {
-            String.localizedStringWithFormat(NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), p0.description)
+            String.localizedStringWithFormat(DJALocalizedString("child_one.two", tableName: "Localizable", comment: ""), p0.description)
         }
     }
 
     public enum ChildTwo {
         /// Child Two One
-        static let one = NSLocalizedString("child_two.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+        static let one = DJALocalizedString("child_two.one", tableName: "Localizable", comment: "")
 
         /// Child Two Two
         static func two(messageCount: Int) -> String {
-            String.localizedStringWithFormat(NSLocalizedString("child_two.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), messageCount)
+            String.localizedStringWithFormat(DJALocalizedString("child_two.two", tableName: "Localizable", comment: ""), messageCount)
         }
 
         public enum NestedChild {
             /// Child Two Nested One
-            static let one = NSLocalizedString("child_two.nested_child.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+            static let one = DJALocalizedString("child_two.nested_child.one", tableName: "Localizable", comment: "")
         }
     }
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -201,38 +213,42 @@ import Foundation
 
 public enum Root {
     /// Localisation One
-    static let localisationOne = NSLocalizedString("localisation_one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+    static let localisationOne = DJALocalizedString("localisation_one", tableName: "Localizable", comment: "")
 
     /// Localisation Two
-    static let localisationTwo = NSLocalizedString("localisation_two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+    static let localisationTwo = DJALocalizedString("localisation_two", tableName: "Localizable", comment: "")
 
     public enum ChildOne {
         /// Child One One
-        static let one = NSLocalizedString("child_one.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+        static let one = DJALocalizedString("child_one.one", tableName: "Localizable", comment: "")
 
         /// Child One Two
         static func two(_ p0: CustomStringConvertible) -> String {
-            String.localizedStringWithFormat(NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), p0.description)
+            String.localizedStringWithFormat(DJALocalizedString("child_one.two", tableName: "Localizable", comment: ""), p0.description)
         }
     }
 
     public enum ChildTwo {
         /// Child Two One
-        static let one = NSLocalizedString("child_two.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+        static let one = DJALocalizedString("child_two.one", tableName: "Localizable", comment: "")
 
         /// Child Two Two
         static func two(messageCount: Int) -> String {
-            String.localizedStringWithFormat(NSLocalizedString("child_two.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: ""), messageCount)
+            String.localizedStringWithFormat(DJALocalizedString("child_two.two", tableName: "Localizable", comment: ""), messageCount)
         }
 
         public enum NestedChild {
             /// Child Two Nested One
-            static let one = NSLocalizedString("child_two.nested_child.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+            static let one = DJALocalizedString("child_two.nested_child.one", tableName: "Localizable", comment: "")
         }
     }
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -257,13 +273,17 @@ public enum Root {
         public enum ChildTwo {
             public enum ChildThree {
                 /// Child Three
-                static let one = NSLocalizedString("child_one.child_two.child_three.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+                static let one = DJALocalizedString("child_one.child_two.child_three.one", tableName: "Localizable", comment: "")
             }
         }
     }
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -292,19 +312,23 @@ import Foundation
 
 public enum Root {
 
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Localisation", comment: "")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", value: "Localisation", comment: "")
 
     public enum ChildOne {
 
-        static let one = NSLocalizedString("child_one.one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Child One", comment: "")
+        static let one = DJALocalizedString("child_one.one", tableName: "Localizable", value: "Child One", comment: "")
 
         static func two(_ p0: CustomStringConvertible) -> String {
-            String.localizedStringWithFormat(NSLocalizedString("child_one.two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "Child Two", comment: ""), p0.description)
+            String.localizedStringWithFormat(DJALocalizedString("child_one.two", tableName: "Localizable", value: "Child Two", comment: ""), p0.description)
         }
     }
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -325,10 +349,14 @@ import Foundation
 
 public enum Root {
     /// Localised
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "I contain a\\nnewline character.", comment: "")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", value: "I contain a\\nnewline character.", comment: "")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -349,10 +377,14 @@ import Foundation
 
 public enum Root {
     /// Localised
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), value: "I contain \\"quotation marks\\".", comment: "")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", value: "I contain \\"quotation marks\\".", comment: "")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -383,16 +415,20 @@ public enum Root {
     ///
     /// **Comment**
     /// Comment One
-    static let localisationOne = NSLocalizedString("localisation_one", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "Comment One")
+    static let localisationOne = DJALocalizedString("localisation_one", tableName: "Localizable", comment: "Comment One")
 
     /// Localised Two
     ///
     /// **Comment**
     /// Comment Two
-    static let localisationTwo = NSLocalizedString("localisation_two", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "Comment Two")
+    static let localisationTwo = DJALocalizedString("localisation_two", tableName: "Localizable", comment: "Comment Two")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -416,10 +452,14 @@ public enum Root {
     ///
     /// **Comment**
     /// Comment with newlines
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "Comment with newlines")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", comment: "Comment with newlines")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -445,10 +485,14 @@ import Foundation
 public enum Root {
     /// **Description**
     /// Value
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", comment: "")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -480,10 +524,14 @@ public enum Root {
     ///
     /// **Description Three**
     /// Value Three
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", comment: "")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -518,10 +566,14 @@ public enum Root {
     ///
     /// **Comment**
     /// I have multiple previews
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "I have multiple previews")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", comment: "I have multiple previews")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -542,10 +594,14 @@ import Foundation
 
 public enum Root {
     /// Value  One
-    static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", comment: "")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
@@ -571,10 +627,14 @@ import Foundation
 
 public enum Root {
             /// Localisation
-            static let localisation = NSLocalizedString("localisation", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
+            static let localisation = DJALocalizedString("localisation", tableName: "Localizable", comment: "")
 }
 
 private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+            NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
