@@ -21,6 +21,10 @@ final class SwiftCodeGenerator {
             \(rootLocalisationsTreeNode.swiftRepresentation)
             
             private final class \(SwiftCodeGenerator.StringsBundleClassName) {}
+            
+            private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+                NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self), value: value, comment: comment)
+            }
             """
             var output = ""
             let formatter = try SwiftFormatter(configuration: formatConfiguration)
@@ -78,11 +82,10 @@ private extension Localisation {
         let localizedStringParameters = [
             "\"\(key)\"",
             "tableName: \"\(tableName)\"",
-            "bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self)",
             defaultLanguageValue != nil ? " value: \"\(defaultLanguageValue!)\"" : nil,
             "comment: \"\(formattedComment ?? "")\""
         ]
-        let localizedStringFunctionCall = "NSLocalizedString(\(localizedStringParameters.compactMap { $0 }.joined(separator: ", ")))"
+        let localizedStringFunctionCall = "DJALocalizedString(\(localizedStringParameters.compactMap { $0 }.joined(separator: ", ")))"
         if placeholders.isEmpty {
             return """
 \(documentationComment(withLocalisationComment: formattedComment))
