@@ -177,13 +177,16 @@ private extension XCStringsDocument.StringLocalisation.Localisation {
 private extension Dictionary where Key == String, Value == XCStringsDocument.StringLocalisation.Localisation.Substitution {
     var placeholders: [Localisation.Placeholder] {
         get throws {
-            let flattenedSubstitutions: [(key: String, argumentNumber: Int, formatSpecifier: String)] = reduce(into: []) { partialResult, substituionPair in
+            let flattenedSubstitutions: [(key: String, argumentNumber: Int?, formatSpecifier: String)] = reduce(into: []) { partialResult, substituionPair in
                 partialResult.append((key: substituionPair.key,
                                       argumentNumber: substituionPair.value.argumentNumber,
                                       formatSpecifier: substituionPair.value.formatSpecifier))
             }
             return try flattenedSubstitutions
-                .sorted(by: { $0.argumentNumber < $1.argumentNumber })
+                .sorted(by: { comparisonResult(forSubstituionOneKey: $0.key,
+                                               substitutionOneArgumentNumber: $0.argumentNumber,
+                                               substitutionTwoKey: $1.key,
+                                               substitutionTwoArgumentNumber: $1.argumentNumber) })
                 .map { flattenedSubstitution in
                     Localisation.Placeholder(name: flattenedSubstitution.key,
                                              type: try Localisation.Placeholder.DataType(formatSpecifier: flattenedSubstitution.formatSpecifier))
@@ -193,7 +196,10 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
     
     func previews(forSourceLanguageLocalisedString sourceLanguageLocalisedString: String, descriptionPrefix: String? = nil) -> [Localisation.Preview] {
         let includedInSource = filter { sourceLanguageLocalisedString.contains($0.key.asSubstitutionPlaceholder) }
-        let argumentNameAndPreviews = includedInSource.sorted(by: { $0.value.argumentNumber < $1.value.argumentNumber }).map { ArgumentNameAndPreviews(argumentName: $0.key, substitution: $0.value) }
+        let argumentNameAndPreviews = includedInSource.sorted(by: { comparisonResult(forSubstituionOneKey: $0.key,
+                                                                                     substitutionOneArgumentNumber: $0.value.argumentNumber,
+                                                                                     substitutionTwoKey: $1.key,
+                                                                                     substitutionTwoArgumentNumber: $1.value.argumentNumber) }).map { ArgumentNameAndPreviews(argumentName: $0.key, substitution: $0.value) }
         guard let firstArgumentNameAndPreviews = argumentNameAndPreviews.first else { return [] }
         
         /// Build an array of previews using the previews for localisation's
@@ -232,6 +238,13 @@ private extension Dictionary where Key == String, Value == XCStringsDocument.Str
                 fatalError("Substitution arguments cannot be varied by width")
             }
         }
+    }
+    
+    private func comparisonResult(forSubstituionOneKey substitutionOneKey: String, substitutionOneArgumentNumber: Int?, substitutionTwoKey: String, substitutionTwoArgumentNumber: Int?) -> Bool {
+        if let substitutionOneArgumentNumber, let substitutionTwoArgumentNumber {
+            return substitutionOneArgumentNumber < substitutionTwoArgumentNumber
+        }
+        return substitutionOneKey < substitutionTwoKey
     }
 }
 
