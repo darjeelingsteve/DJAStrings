@@ -118,7 +118,7 @@ extension XCStringsDocument {
                 
                 /// The number of the placeholder argument in the localised
                 /// string to which this substitution applies.
-                let argumentNumber: Int
+                let argumentNumber: Int?
                 
                 /// The format specifier applied to the value that will take the
                 /// place of this substitution.

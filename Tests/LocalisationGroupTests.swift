@@ -227,6 +227,17 @@ extension LocalisationGroupTests {
         ])
     }
     
+    func testItProducesTheCorrectPlaceholdersForLocalisationsWithPluralisedWhoseSubstitutionsHaveNoArgumentNumbers() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Pluralised Localisations")
+        XCTAssertEqual(localisationGroup.localisations[0].key, "WholeStringSubstitutions")
+        XCTAssertEqual(localisationGroup.localisations[0].placeholders.count, 2)
+        XCTAssertEqual(localisationGroup.localisations[0].placeholders, [
+            Localisation.Placeholder(name: "keycount", type: .integer),
+            Localisation.Placeholder(name: "tablecount", type: .integer)
+        ])
+    }
+    
     func testItProducesTheCorrectPlaceholdersForLocalisationsWithoutPluralisedVariations() throws {
         givenALocalisationGroup()
         try whenAParsedStringsDocumentIsApplied(withFilename: "Namespace-keyed Simple Localisations")
