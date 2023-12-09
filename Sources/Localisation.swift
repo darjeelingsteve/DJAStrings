@@ -22,6 +22,9 @@ struct Localisation: Equatable {
     /// will return `nil` for this property.
     let defaultLanguageValue: String?
     
+    /// The extraction state of the localisation, if any.
+    let extractionState: ExtractionState?
+    
     /// The comment assigned to the localisation, if any.
     let comment: String?
     
@@ -33,6 +36,30 @@ struct Localisation: Equatable {
     /// have a single preview, whereas localisations with plural or width
     /// variations will have a preview for each variation.
     let previews: [Preview]
+}
+
+// MARK: - Localisation.ExtractionState
+
+extension Localisation {
+    /// The different extraction states for a string localisation.
+    enum ExtractionState {
+        
+        /// The string was migrated from a legacy strings file or strings
+        /// dict.
+        case migrated
+        
+        /// The string was extracted manually i.e was entered directly in to
+        /// the `.xcstrings` file.
+        case manual
+        
+        /// The string was extracted automatically by Xcode from usage of
+        /// `NSLocalizedStringWithDefaultValue`, or from a XIB file.
+        case extractedWithValue
+        
+        /// The string was extracted automatically by Xcode, but has since
+        /// been modified in the location from which it was extracted.
+        case stale
+    }
 }
 
 // MARK: - Localisation.Placeholder

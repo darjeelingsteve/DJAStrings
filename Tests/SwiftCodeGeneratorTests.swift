@@ -32,7 +32,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectOutputForASingleNodeWithOneLocalisation() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised")
                                                                                             ])
                                                                                           ],
@@ -60,10 +60,10 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     func testItProducesTheCorrectOutputForASingleNodeWithMultipleLocalisations() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised One")
                                                                                             ]),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised Two")
                                                                                             ])
                                                                                           ],
@@ -97,27 +97,27 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: []),
                                                                                             TestLocalisationsTreeNode(name: "child_two",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
+                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: [
                                                                                                                         TestLocalisationsTreeNode(name: "nested_child",
                                                                                                                                                   localisations: [
-                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                                                                         Localisation.Preview(description: nil, value: "Child Two Nested One")
                                                                                                                                                     ])
                                                                                                                                                   ],
@@ -169,37 +169,37 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     func testItProducesTheCorrectOutputForASingleNodeWithMultipleLocalisationsAndMultipleChildNodes() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation One")
                                                                                             ]),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation Two")
                                                                                             ])
                                                                                           ],
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child One Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: []),
                                                                                             TestLocalisationsTreeNode(name: "child_two",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                                                        Localisation(key: "child_two.one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two One")
                                                                                                                         ]),
-                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
+                                                                                                                        Localisation(key: "child_two.two", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: "message_count", type: .integer)], previews: [
                                                                                                                             Localisation.Preview(description: nil, value: "Child Two Two")
                                                                                                                         ])
                                                                                                                       ],
                                                                                                                       childNodes: [
                                                                                                                         TestLocalisationsTreeNode(name: "nested_child",
                                                                                                                                                   localisations: [
-                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                                                                                    Localisation(key: "child_two.nested_child.one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                                                                         Localisation.Preview(description: nil, value: "Child Two Nested One")
                                                                                                                                                     ])
                                                                                                                                                   ],
@@ -255,7 +255,7 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     }
     
     func testItProducesTheCorrectOutputForDeeplyNestedChildNodes() throws {
-        let childThree = TestLocalisationsTreeNode(name: "child_three", localisations: [Localisation(key: "child_one.child_two.child_three.one", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [Localisation.Preview(description: nil, value: "Child Three")])], childNodes: [])
+        let childThree = TestLocalisationsTreeNode(name: "child_three", localisations: [Localisation(key: "child_one.child_two.child_three.one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [Localisation.Preview(description: nil, value: "Child Three")])], childNodes: [])
         let childTwo = TestLocalisationsTreeNode(name: "child_two", localisations: [], childNodes: [childThree])
         let childOne = TestLocalisationsTreeNode(name: "child_one", localisations: [], childNodes: [childTwo])
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
@@ -290,19 +290,163 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     }
 }
 
+// MARK: - LocalizedString Function Selection
+
+extension SwiftCodeGeneratorTests {
+    func testItUsesTheCorrectLocalizedStringFunctionForStringsWithTheMigratedExtractionState() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "Migrated", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .migrated, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let migrated = DJALocalizedString("Migrated", tableName: "Localizable", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItUsesTheCorrectLocalizedStringFunctionForStringsWithTheManualExtractionState() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "Manual", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let manual = DJALocalizedString("Manual", tableName: "Localizable", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItUsesTheCorrectLocalizedStringFunctionForStringsWithTheExtractedWithValueExtractionState() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "Extracted", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .extractedWithValue, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let extracted = NSLocalizedString("Extracted", tableName: "Localizable", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItUsesTheCorrectLocalizedStringFunctionForStringsWithTheStaleExtractionState() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "Stale", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .stale, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let stale = DJALocalizedString("Stale", tableName: "Localizable", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItUsesTheCorrectLocalizedStringFunctionForStringsWithNoExtractionState() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "no_extraction", tableName: "Localizable", defaultLanguageValue: nil, extractionState: nil, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let noExtraction = NSLocalizedString("no_extraction", tableName: "Localizable", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+}
+
 // MARK: - Default Value Parameter
 
 extension SwiftCodeGeneratorTests {
     func testItGeneratesTheCorrectOutputForLocalisationsWithDefaultValues() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "Localisation", comment: nil, placeholders: [], previews: [])
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "Localisation", extractionState: .manual, comment: nil, placeholders: [], previews: [])
                                                                                           ],
                                                                                           childNodes: [
                                                                                             TestLocalisationsTreeNode(name: "child_one",
                                                                                                                       localisations: [
-                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: "Child One", comment: nil, placeholders: [], previews: []),
-                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: "Child Two", comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [])
+                                                                                                                        Localisation(key: "child_one.one", tableName: "Localizable", defaultLanguageValue: "Child One", extractionState: .manual, comment: nil, placeholders: [], previews: []),
+                                                                                                                        Localisation(key: "child_one.two", tableName: "Localizable", defaultLanguageValue: "Child Two", extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [])
                                                                                                                       ],
                                                                                                                       childNodes: [])]))
         try whenSwiftCodeIsVended()
@@ -337,7 +481,7 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     func testItGeneratesTheCorrectOutputForLocalisationsWithDefaultValuesContainingNewlines() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "I contain a\nnewline character.", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "I contain a\nnewline character.", extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised")
                                                                                             ])
                                                                                           ],
@@ -365,7 +509,7 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     func testItGeneratesTheCorrectOutputForLocalisationsWithDefaultValuesContainingQuotationMarks() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "I contain \"quotation marks\".", comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: "I contain \"quotation marks\".", extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised")
                                                                                             ])
                                                                                           ],
@@ -397,10 +541,10 @@ extension SwiftCodeGeneratorTests {
     func testItIncludesTheLocalisationCommentsInTheCallToTheLocalizedStringFunctionAndDocumentation() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, comment: "Comment One", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_one", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: "Comment One", placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised One")
                                                                                             ]),
-                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, comment: "Comment Two", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation_two", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: "Comment Two", placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised Two")
                                                                                             ])
                                                                                           ],
@@ -437,7 +581,7 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     func testItProducesTheCorrectCommentWhenTheSourceFileCommentContainsNewlines() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: "Comment\nwith\nnewlines", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: "Comment\nwith\nnewlines", placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localised")
                                                                                             ])
                                                                                           ],
@@ -472,7 +616,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectDocumentationCommentForLocalisationPreviewsWithADescription() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: "Description", value: "Value")
                                                                                             ])
                                                                                           ],
@@ -501,7 +645,7 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     func testItProducesTheCorrectDocumentationCommentsForLocalisationsWithMultiplePreviews() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: "Description One", value: "Value One"),
                                                                                                 Localisation.Preview(description: "Description Two", value: "Value Two"),
                                                                                                 Localisation.Preview(description: "Description Three", value: "Value Three"),
@@ -540,7 +684,7 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     func testItProducesTheCorrectDocumentationCommentsForLocalisationsWithMultiplePreviewsAndAComment() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: "I have multiple previews", placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: "I have multiple previews", placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: "Description One", value: "Value One"),
                                                                                                 Localisation.Preview(description: "Description Two", value: "Value Two"),
                                                                                                 Localisation.Preview(description: "Description Three", value: "Value Three"),
@@ -582,7 +726,7 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     func testItProducesTheCorrectDocumentationCommentsForLocalisationsWithPreviewsContainingNewlines() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Value\n\nOne")
                                                                                             ])
                                                                                           ],
@@ -614,7 +758,7 @@ extension SwiftCodeGeneratorTests {
     func testItProducesTheCorrectOutputWhenACustomFormattingConfigurationIsSpecified() throws {
         givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
                                                                                           localisations: [
-                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, comment: nil, placeholders: [], previews: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
                                                                                                 Localisation.Preview(description: nil, value: "Localisation")
                                                                                             ])
                                                                                           ],

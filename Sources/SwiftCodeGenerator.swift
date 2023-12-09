@@ -85,7 +85,7 @@ private extension Localisation {
             defaultLanguageValue != nil ? " value: \"\(defaultLanguageValue!)\"" : nil,
             "comment: \"\(formattedComment ?? "")\""
         ]
-        let localizedStringFunctionCall = "DJALocalizedString(\(localizedStringParameters.compactMap { $0 }.joined(separator: ", ")))"
+        let localizedStringFunctionCall = "\(extractionState.localizedStringFunctionName)(\(localizedStringParameters.compactMap { $0 }.joined(separator: ", ")))"
         if placeholders.isEmpty {
             return """
 \(documentationComment(withLocalisationComment: formattedComment))
@@ -137,6 +137,17 @@ static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
                 return parameterName
             }
         }.joined(separator: ", ")
+    }
+}
+
+private extension Optional where Wrapped == Localisation.ExtractionState {
+    var localizedStringFunctionName: String {
+        switch self {
+        case .migrated, .manual, .stale:
+            return "DJALocalizedString"
+        case .extractedWithValue, .none:
+            return "NSLocalizedString"
+        }
     }
 }
 
