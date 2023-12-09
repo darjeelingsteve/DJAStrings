@@ -76,11 +76,29 @@ private extension Localisation {
         }
         self.key = key
         self.tableName = tableName
+        extractionState = ExtractionState(documentExtractionState: documentLocalisation.extractionState)
         comment = documentLocalisation.comment
         let sourceLanguageLocalisation = documentLocalisation.localisations?[sourceLanguage]
         defaultLanguageValue = sourceLanguageLocalisation?.defaultLanguageValue
         placeholders = try sourceLanguageLocalisation?.placeholders ?? []
         previews = try sourceLanguageLocalisation?.previews ?? []
+    }
+}
+
+private extension Localisation.ExtractionState {
+    init?(documentExtractionState: XCStringsDocument.StringLocalisation.ExtractionState?) {
+        switch documentExtractionState {
+        case .migrated:
+            self = .migrated
+        case .manual:
+            self = .manual
+        case .extractedWithValue:
+            self = .extractedWithValue
+        case .stale:
+            self = .stale
+        case nil:
+            return nil
+        }
     }
 }
 
