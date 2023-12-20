@@ -288,6 +288,84 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
     }
+    
+    func testItProducesTheCorrectFunctionParameterTypesForAllSupportedFormatSpecifiers() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "custom_string_convertible", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .object)], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Custom String Convertible")
+                                                                                            ]),
+                                                                                            Localisation(key: "float", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .float)], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Float")
+                                                                                            ]),
+                                                                                            Localisation(key: "integer", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .integer)], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Integer")
+                                                                                            ]),
+                                                                                            Localisation(key: "unsigned_integer", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .unsignedInteger)], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Unsigned Integer")
+                                                                                            ]),
+                                                                                            Localisation(key: "char", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .char)], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Char")
+                                                                                            ]),
+                                                                                            Localisation(key: "c_string", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .cString)], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "C String")
+                                                                                            ]),
+                                                                                            Localisation(key: "pointer", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .pointer)], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Pointer")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// C String
+    static func cString(_ p0: UnsafePointer<CChar>) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("c_string", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// Char
+    static func char(_ p0: CChar) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("char", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// Custom String Convertible
+    static func customStringConvertible(_ p0: CustomStringConvertible) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("custom_string_convertible", tableName: "Localizable", comment: ""), p0.description)
+    }
+
+    /// Float
+    static func float(_ p0: Double) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("float", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// Integer
+    static func integer(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("integer", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// Pointer
+    static func pointer(_ p0: UnsafeRawPointer) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("pointer", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// Unsigned Integer
+    static func unsignedInteger(_ p0: UInt) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("unsigned_integer", tableName: "Localizable", comment: ""), p0)
+    }
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
 }
 
 // MARK: - LocalizedString Function Selection
