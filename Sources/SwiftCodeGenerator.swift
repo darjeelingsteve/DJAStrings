@@ -157,7 +157,7 @@ private extension Localisation.Placeholder.DataType {
         case .object:
             return "CustomStringConvertible"
         case .float:
-            return "Float"
+            return "Double"
         case .integer:
             return "Int"
         case .unsignedInteger:
