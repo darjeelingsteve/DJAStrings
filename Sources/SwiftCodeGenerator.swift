@@ -74,7 +74,7 @@ public enum \(name.titleCased()) {
 
 private extension Localisation {
     var swiftRepresentation: String {
-        let symbolName = (key.components(separatedBy: ".").last ?? key).camelCased()
+        let symbolName = (key.components(separatedBy: ".").last ?? key).camelCased().backtickedIfNeeded()
         let formattedComment = comment?.components(separatedBy: .newlines).joined(separator: " ")
         let defaultLanguageValue = self.defaultLanguageValue?
             .replacingOccurrences(of: "\n", with: "\\n")

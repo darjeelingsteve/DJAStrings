@@ -368,6 +368,522 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
     }
 }
 
+// MARK: - Swift Keywords
+
+extension SwiftCodeGeneratorTests {
+    func testItProducesTheCorrectOutputForLocalisationsWithSwiftKeywordNames() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            "as",
+                                                                                            "associatedtype",
+                                                                                            "break",
+                                                                                            "case",
+                                                                                            "catch",
+                                                                                            "class",
+                                                                                            "continue",
+                                                                                            "default",
+                                                                                            "defer",
+                                                                                            "deinit",
+                                                                                            "do",
+                                                                                            "else",
+                                                                                            "enum",
+                                                                                            "extension",
+                                                                                            "fallthrough",
+                                                                                            "false",
+                                                                                            "fileprivate",
+                                                                                            "for",
+                                                                                            "func",
+                                                                                            "guard",
+                                                                                            "if",
+                                                                                            "import",
+                                                                                            "in",
+                                                                                            "init",
+                                                                                            "inout",
+                                                                                            "internal",
+                                                                                            "is",
+                                                                                            "let",
+                                                                                            "nil",
+                                                                                            "open",
+                                                                                            "operator",
+                                                                                            "precedencegroup",
+                                                                                            "private",
+                                                                                            "protocol",
+                                                                                            "public",
+                                                                                            "repeat",
+                                                                                            "rethrows",
+                                                                                            "return",
+                                                                                            "self",
+                                                                                            "Self",
+                                                                                            "static",
+                                                                                            "struct",
+                                                                                            "subscript",
+                                                                                            "super",
+                                                                                            "switch",
+                                                                                            "throw",
+                                                                                            "throws",
+                                                                                            "true",
+                                                                                            "try",
+                                                                                            "typealias",
+                                                                                            "var",
+                                                                                            "where",
+                                                                                            "while"
+                                                                                          ].flatMap {
+                                                                                              plainAndPlaceholderLocalisations(forLocalisationWithKey: $0)
+                                                                                          },
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Self
+    static let `self` = DJALocalizedString("Self", tableName: "Localizable", comment: "")
+
+    /// Self
+    static func `self`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("Self", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// as
+    static let `as` = DJALocalizedString("as", tableName: "Localizable", comment: "")
+
+    /// as
+    static func `as`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("as", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// associatedtype
+    static let `associatedtype` = DJALocalizedString("associatedtype", tableName: "Localizable", comment: "")
+
+    /// associatedtype
+    static func `associatedtype`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("associatedtype", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// break
+    static let `break` = DJALocalizedString("break", tableName: "Localizable", comment: "")
+
+    /// break
+    static func `break`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("break", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// case
+    static let `case` = DJALocalizedString("case", tableName: "Localizable", comment: "")
+
+    /// case
+    static func `case`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("case", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// catch
+    static let `catch` = DJALocalizedString("catch", tableName: "Localizable", comment: "")
+
+    /// catch
+    static func `catch`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("catch", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// class
+    static let `class` = DJALocalizedString("class", tableName: "Localizable", comment: "")
+
+    /// class
+    static func `class`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("class", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// continue
+    static let `continue` = DJALocalizedString("continue", tableName: "Localizable", comment: "")
+
+    /// continue
+    static func `continue`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("continue", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// default
+    static let `default` = DJALocalizedString("default", tableName: "Localizable", comment: "")
+
+    /// default
+    static func `default`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("default", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// defer
+    static let `defer` = DJALocalizedString("defer", tableName: "Localizable", comment: "")
+
+    /// defer
+    static func `defer`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("defer", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// deinit
+    static let `deinit` = DJALocalizedString("deinit", tableName: "Localizable", comment: "")
+
+    /// deinit
+    static func `deinit`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("deinit", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// do
+    static let `do` = DJALocalizedString("do", tableName: "Localizable", comment: "")
+
+    /// do
+    static func `do`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("do", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// else
+    static let `else` = DJALocalizedString("else", tableName: "Localizable", comment: "")
+
+    /// else
+    static func `else`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("else", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// enum
+    static let `enum` = DJALocalizedString("enum", tableName: "Localizable", comment: "")
+
+    /// enum
+    static func `enum`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("enum", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// extension
+    static let `extension` = DJALocalizedString("extension", tableName: "Localizable", comment: "")
+
+    /// extension
+    static func `extension`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("extension", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// fallthrough
+    static let `fallthrough` = DJALocalizedString("fallthrough", tableName: "Localizable", comment: "")
+
+    /// fallthrough
+    static func `fallthrough`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("fallthrough", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// false
+    static let `false` = DJALocalizedString("false", tableName: "Localizable", comment: "")
+
+    /// false
+    static func `false`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("false", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// fileprivate
+    static let `fileprivate` = DJALocalizedString("fileprivate", tableName: "Localizable", comment: "")
+
+    /// fileprivate
+    static func `fileprivate`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("fileprivate", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// for
+    static let `for` = DJALocalizedString("for", tableName: "Localizable", comment: "")
+
+    /// for
+    static func `for`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("for", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// func
+    static let `func` = DJALocalizedString("func", tableName: "Localizable", comment: "")
+
+    /// func
+    static func `func`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("func", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// guard
+    static let `guard` = DJALocalizedString("guard", tableName: "Localizable", comment: "")
+
+    /// guard
+    static func `guard`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("guard", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// if
+    static let `if` = DJALocalizedString("if", tableName: "Localizable", comment: "")
+
+    /// if
+    static func `if`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("if", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// import
+    static let `import` = DJALocalizedString("import", tableName: "Localizable", comment: "")
+
+    /// import
+    static func `import`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("import", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// in
+    static let `in` = DJALocalizedString("in", tableName: "Localizable", comment: "")
+
+    /// in
+    static func `in`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("in", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// init
+    static let `init` = DJALocalizedString("init", tableName: "Localizable", comment: "")
+
+    /// init
+    static func `init`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("init", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// inout
+    static let `inout` = DJALocalizedString("inout", tableName: "Localizable", comment: "")
+
+    /// inout
+    static func `inout`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("inout", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// internal
+    static let `internal` = DJALocalizedString("internal", tableName: "Localizable", comment: "")
+
+    /// internal
+    static func `internal`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("internal", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// is
+    static let `is` = DJALocalizedString("is", tableName: "Localizable", comment: "")
+
+    /// is
+    static func `is`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("is", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// let
+    static let `let` = DJALocalizedString("let", tableName: "Localizable", comment: "")
+
+    /// let
+    static func `let`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("let", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// nil
+    static let `nil` = DJALocalizedString("nil", tableName: "Localizable", comment: "")
+
+    /// nil
+    static func `nil`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("nil", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// open
+    static let `open` = DJALocalizedString("open", tableName: "Localizable", comment: "")
+
+    /// open
+    static func `open`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("open", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// operator
+    static let `operator` = DJALocalizedString("operator", tableName: "Localizable", comment: "")
+
+    /// operator
+    static func `operator`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("operator", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// precedencegroup
+    static let `precedencegroup` = DJALocalizedString("precedencegroup", tableName: "Localizable", comment: "")
+
+    /// precedencegroup
+    static func `precedencegroup`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("precedencegroup", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// private
+    static let `private` = DJALocalizedString("private", tableName: "Localizable", comment: "")
+
+    /// private
+    static func `private`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("private", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// protocol
+    static let `protocol` = DJALocalizedString("protocol", tableName: "Localizable", comment: "")
+
+    /// protocol
+    static func `protocol`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("protocol", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// public
+    static let `public` = DJALocalizedString("public", tableName: "Localizable", comment: "")
+
+    /// public
+    static func `public`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("public", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// repeat
+    static let `repeat` = DJALocalizedString("repeat", tableName: "Localizable", comment: "")
+
+    /// repeat
+    static func `repeat`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("repeat", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// rethrows
+    static let `rethrows` = DJALocalizedString("rethrows", tableName: "Localizable", comment: "")
+
+    /// rethrows
+    static func `rethrows`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("rethrows", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// return
+    static let `return` = DJALocalizedString("return", tableName: "Localizable", comment: "")
+
+    /// return
+    static func `return`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("return", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// self
+    static let `self` = DJALocalizedString("self", tableName: "Localizable", comment: "")
+
+    /// self
+    static func `self`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("self", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// static
+    static let `static` = DJALocalizedString("static", tableName: "Localizable", comment: "")
+
+    /// static
+    static func `static`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("static", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// struct
+    static let `struct` = DJALocalizedString("struct", tableName: "Localizable", comment: "")
+
+    /// struct
+    static func `struct`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("struct", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// subscript
+    static let `subscript` = DJALocalizedString("subscript", tableName: "Localizable", comment: "")
+
+    /// subscript
+    static func `subscript`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("subscript", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// super
+    static let `super` = DJALocalizedString("super", tableName: "Localizable", comment: "")
+
+    /// super
+    static func `super`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("super", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// switch
+    static let `switch` = DJALocalizedString("switch", tableName: "Localizable", comment: "")
+
+    /// switch
+    static func `switch`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("switch", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// throw
+    static let `throw` = DJALocalizedString("throw", tableName: "Localizable", comment: "")
+
+    /// throw
+    static func `throw`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("throw", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// throws
+    static let `throws` = DJALocalizedString("throws", tableName: "Localizable", comment: "")
+
+    /// throws
+    static func `throws`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("throws", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// true
+    static let `true` = DJALocalizedString("true", tableName: "Localizable", comment: "")
+
+    /// true
+    static func `true`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("true", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// try
+    static let `try` = DJALocalizedString("try", tableName: "Localizable", comment: "")
+
+    /// try
+    static func `try`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("try", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// typealias
+    static let `typealias` = DJALocalizedString("typealias", tableName: "Localizable", comment: "")
+
+    /// typealias
+    static func `typealias`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("typealias", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// var
+    static let `var` = DJALocalizedString("var", tableName: "Localizable", comment: "")
+
+    /// var
+    static func `var`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("var", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// where
+    static let `where` = DJALocalizedString("where", tableName: "Localizable", comment: "")
+
+    /// where
+    static func `where`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("where", tableName: "Localizable", comment: ""), p0)
+    }
+
+    /// while
+    static let `while` = DJALocalizedString("while", tableName: "Localizable", comment: "")
+
+    /// while
+    static func `while`(_ p0: Int) -> String {
+        String.localizedStringWithFormat(DJALocalizedString("while", tableName: "Localizable", comment: ""), p0)
+    }
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    private func plainAndPlaceholderLocalisations(forLocalisationWithKey key: String) -> [Localisation] {
+        [
+            Localisation(key: key, tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
+                Localisation.Preview(description: nil, value: key)
+            ]),
+            Localisation(key: key, tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [Localisation.Placeholder(name: nil, type: .integer)], previews: [
+                Localisation.Preview(description: nil, value: key)
+            ])
+        ]
+    }
+}
+
 // MARK: - LocalizedString Function Selection
 
 extension SwiftCodeGeneratorTests {
