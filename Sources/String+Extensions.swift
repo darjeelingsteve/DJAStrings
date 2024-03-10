@@ -8,6 +8,9 @@
 import Foundation
 
 extension String {
+    private static let swiftKeywords = try! JSONDecoder().decode([String].self,
+                                                                 from: try! Data(contentsOf: Bundle.module.url(forResource: "Swift Keywords", withExtension: "json")!))
+    
     func camelCased() -> String {
         components(separatedBy: "_").enumerated().map{ element -> String in
             let token = element.element
@@ -29,6 +32,11 @@ extension String {
             let token = element.element
             return token.prefix(1).lowercased() + token.dropFirst()
         }.joined(separator: "_")
+    }
+    
+    func backtickedIfNeeded() -> String {
+        guard String.swiftKeywords.contains(self) else { return self }
+        return "`\(self)`"
     }
     
     private func firstCharacter(forToken token: String, atIndex index: Int) -> String {
