@@ -18,9 +18,6 @@ let package = Package(
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "SwiftFormat", package: "swift-format")
-            ],
-            resources: [
-                .copy("Resources/Swift Keywords.json")
             ]
         ),
         .testTarget(
