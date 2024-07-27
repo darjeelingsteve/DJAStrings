@@ -65,14 +65,14 @@ extension String {
     ]
     
     func camelCased() -> String {
-        components(separatedBy: "_").enumerated().map{ element -> String in
+        components(separatedBy: .keyComponentSeparators).enumerated().map{ element -> String in
             let token = element.element
             return firstCharacter(forToken: token, atIndex: element.offset) + token.dropFirst()
         }.joined()
     }
     
     func titleCased() -> String {
-        components(separatedBy: "_").enumerated().map { element -> String in
+        components(separatedBy: .keyComponentSeparators).enumerated().map { element -> String in
             let token = element.element
             return token.prefix(1).uppercased() + token.dropFirst()
         }.joined()
@@ -99,4 +99,8 @@ extension String {
             return token.prefix(1).uppercased()
         }
     }
+}
+
+private extension CharacterSet {
+    static let keyComponentSeparators = CharacterSet.whitespacesAndNewlines.union(["_", "-", "—"])
 }
