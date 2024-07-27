@@ -366,6 +366,90 @@ private func DJALocalizedString(_ key: String, tableName: String? = nil, value: 
 """
         XCTAssertEqual(vendedSwiftCode, expectedOutput)
     }
+    
+    func testItProducesTheCorrectOutputForKeysContainingDashes() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "key-with-dashes", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "key-with-dashes")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// key-with-dashes
+    static let keyWithDashes = DJALocalizedString("key-with-dashes", tableName: "Localizable", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItProducesTheCorrectOutputForKeysContainingEMDashes() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "key—with—em—dashes", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "key—with—em—dashes")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// key—with—em—dashes
+    static let keyWithEmDashes = DJALocalizedString("key—with—em—dashes", tableName: "Localizable", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItProducesTheCorrectOutputForKeysContainingSpaces() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "key with  spaces", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "key with  spaces")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []))
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// key with  spaces
+    static let keyWithSpaces = DJALocalizedString("key with  spaces", tableName: "Localizable", comment: "")
+}
+
+private final class DJAStringsBundleClass {}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
 }
 
 // MARK: - Swift Keywords
