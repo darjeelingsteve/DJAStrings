@@ -22,7 +22,7 @@ final class SwiftCodeGenerator {
             
             private final class \(SwiftCodeGenerator.StringsBundleClassName) {}
             
-            private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> String {
+            private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
                 NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self), value: value, comment: comment)
             }
             """
@@ -94,8 +94,8 @@ static let \(symbolName) = \(localizedStringFunctionCall)
         } else {
             return """
 \(documentationComment(withLocalisationComment: formattedComment))
-static func \(symbolName)(\(placeholderFunctionParameters)) -> String {
-    String.localizedStringWithFormat(\(localizedStringFunctionCall), \(placeholderVarArgs))
+static func \(symbolName)(\(placeholderFunctionParameters)) -> Swift.String {
+    Swift.String.localizedStringWithFormat(\(localizedStringFunctionCall), \(placeholderVarArgs))
 }
 """
         }
