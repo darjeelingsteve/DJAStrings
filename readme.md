@@ -96,7 +96,7 @@ In this action, call the `djastrings` binary, passing parameters as described in
 
 This will cause the generated Swift file to be created before your build process begins, ensuring that its symbols are available when compilation begins. Don't forget to select your app's target for the "Provide build settings from" setting if you require access to your target's build settings when determining input and output paths to be passed to `DJAStrings`.
 
-Alternatively, you may instead add a "Run Script" build phase to your target to execute the DJAStrings command. If you opt for this strategy, you will also need to set the "User Script Sandboxing" (`ENABLE_USER_SCRIPT_SANDBOXING`) build setting to `NO`.
+Alternatively, you may instead add a "Run Script" build phase to your target to execute the DJAStrings command.
 
 After building, add the generated Swift file to your Xcode project (it will be written in the directory given by the `-o` parameter, or in the directory from which the command is run if no path is given). You may also add the generated file to your `.gitignore` as it is automatically generated during building.
 
