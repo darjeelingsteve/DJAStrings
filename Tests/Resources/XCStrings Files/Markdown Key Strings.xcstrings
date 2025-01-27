@@ -1,0 +1,24 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "[just-a-link](https://darjeelingsteve.com)" : {
+      "extractionState" : "manual"
+    },
+    "^[Fast & Delicious](rainbow: 'extreme') Food" : {
+      "extractionState" : "manual"
+    },
+    "Add ^[%lld item](inflect: true) to cart" : {
+      "extractionState" : "manual"
+    },
+    "I contain ![an image](https://darjeelingsteve.com/articles/images/externallocalisations01.png)" : {
+      "extractionState" : "manual"
+    },
+    "I contain [a link](https://darjeelingsteve.com)" : {
+      "extractionState" : "manual"
+    },
+    "Zoom ^[0.5](formatNumber: true)" : {
+      "extractionState" : "manual"
+    }
+  },
+  "version" : "1.0"
+}

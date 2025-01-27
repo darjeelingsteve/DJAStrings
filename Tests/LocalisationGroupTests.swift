@@ -307,6 +307,17 @@ extension LocalisationGroupTests {
     }
 }
 
+// MARK: - Markdown
+
+extension LocalisationGroupTests {
+    func testItDoesNotProduceLocalisationsForStringsWhoseKeysContainMarkdown() throws {
+        givenALocalisationGroup()
+        try whenAParsedStringsDocumentIsApplied(withFilename: "Markdown Key Strings")
+        XCTAssertTrue(localisationGroup.localisations.isEmpty)
+        XCTAssertTrue(localisationGroup.childGroups.isEmpty)
+    }
+}
+
 // MARK: - Previews
 
 extension LocalisationGroupTests {
