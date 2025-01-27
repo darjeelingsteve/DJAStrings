@@ -345,9 +345,13 @@ private extension String {
         let allFormatCharacters = Localisation.Placeholder.DataType.allCases.flatMap { $0.formatCharacters }
         return try! Regex("[%](.*?)[\(allFormatCharacters)]")
     }()
+    private static let markdownRegex = #/\[.+]\((?:.*)\)/#
     
     var isSuitableSwiftSymbol: Bool {
-        rangeOfCharacter(from: .whitespaces) == nil
+        if rangeOfCharacter(from: .whitespaces) != nil {
+            return false
+        }
+        return firstMatch(of: Self.markdownRegex) == nil
     }
     
     var placeholders: [Localisation.Placeholder] {
