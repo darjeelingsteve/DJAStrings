@@ -17,8 +17,10 @@ final class SwiftCodeGeneratorTests: XCTestCase {
         super.tearDown()
     }
     
-    private func givenASwiftCodeGenerator(withRootLocalisationsTreeNode rootLocalisationsTreeNode: LocalisationsTreeNode, formattingConfigurationFileURL: URL? = nil) {
-        swiftCodeGenerator = SwiftCodeGenerator(rootLocalisationsTreeNode: rootLocalisationsTreeNode, formattingConfigurationFileURL: formattingConfigurationFileURL)
+    private func givenASwiftCodeGenerator(withRootLocalisationsTreeNode rootLocalisationsTreeNode: LocalisationsTreeNode, resourceBundleLocationKind: ResourceBundleLocationKind = .standard, formattingConfigurationFileURL: URL? = nil) {
+        swiftCodeGenerator = SwiftCodeGenerator(rootLocalisationsTreeNode: rootLocalisationsTreeNode,
+                                                resourceBundleLocationKind: resourceBundleLocationKind,
+                                                formattingConfigurationFileURL: formattingConfigurationFileURL)
     }
     
     private func whenSwiftCodeIsVended() throws {
@@ -445,6 +447,33 @@ private final class DJAStringsBundleClass {}
 
 private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
     NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItProducesTheCorrectOutputForWhenLoadingStringsFromASwiftPackageResourceBundle() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "localisation", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .manual, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []),
+                                 resourceBundleLocationKind: .swiftPackage)
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let localisation = DJALocalizedString("localisation", tableName: "Localizable", comment: "")
+}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle.module, value: value, comment: comment)
 }
 
 """
@@ -1042,13 +1071,40 @@ import Foundation
 
 public enum Root {
     /// Localised
-    static let extracted = NSLocalizedString("Extracted", tableName: "Localizable", comment: "")
+    static let extracted = NSLocalizedString("Extracted", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
 }
 
 private final class DJAStringsBundleClass {}
 
 private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
     NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItUsesTheCorrectLocalizedStringFunctionForStringsWithTheExtractedWithValueExtractionStateWhenLoadingStringsFromASwiftPackageResourceBundle() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "Extracted", tableName: "Localizable", defaultLanguageValue: nil, extractionState: .extractedWithValue, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []),
+                                 resourceBundleLocationKind: .swiftPackage)
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let extracted = NSLocalizedString("Extracted", tableName: "Localizable", bundle: Bundle.module, comment: "")
+}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle.module, value: value, comment: comment)
 }
 
 """
@@ -1098,13 +1154,40 @@ import Foundation
 
 public enum Root {
     /// Localised
-    static let noExtraction = NSLocalizedString("no_extraction", tableName: "Localizable", comment: "")
+    static let noExtraction = NSLocalizedString("no_extraction", tableName: "Localizable", bundle: Bundle(for: DJAStringsBundleClass.self), comment: "")
 }
 
 private final class DJAStringsBundleClass {}
 
 private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
     NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: DJAStringsBundleClass.self), value: value, comment: comment)
+}
+
+"""
+        XCTAssertEqual(vendedSwiftCode, expectedOutput)
+    }
+    
+    func testItUsesTheCorrectLocalizedStringFunctionForStringsWithNoExtractionStateWhenLoadingStringsFromASwiftPackageResourceBundle() throws {
+        givenASwiftCodeGenerator(withRootLocalisationsTreeNode: TestLocalisationsTreeNode(name: "Root",
+                                                                                          localisations: [
+                                                                                            Localisation(key: "no_extraction", tableName: "Localizable", defaultLanguageValue: nil, extractionState: nil, comment: nil, placeholders: [], previews: [
+                                                                                                Localisation.Preview(description: nil, value: "Localised")
+                                                                                            ])
+                                                                                          ],
+                                                                                          childNodes: []),
+                                 resourceBundleLocationKind: .swiftPackage)
+        try whenSwiftCodeIsVended()
+        let expectedOutput =
+        """
+import Foundation
+
+public enum Root {
+    /// Localised
+    static let noExtraction = NSLocalizedString("no_extraction", tableName: "Localizable", bundle: Bundle.module, comment: "")
+}
+
+private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
+    NSLocalizedString(key, tableName: tableName, bundle: Bundle.module, value: value, comment: comment)
 }
 
 """

@@ -21,6 +21,9 @@ struct DJAStrings: ParsableCommand {
     @Flag(name: .shortAndLong, help: "When enabled, includes the localisation table name as a namespace in the output Swift source file.")
     private var includesTableNameNamespaces: Bool = false
     
+    @Option(name: .long, help: "Determines the bundle location used by the generated code to look for localisation assets.")
+    private var resourceBundleLocationKind: ResourceBundleLocationKind = .standard
+    
     @Option(name: .shortAndLong, help: "The path to the directory where the output of the command should be written.")
     private var outputDirectory: String = FileManager.default.currentDirectoryPath
     
@@ -53,7 +56,9 @@ struct DJAStrings: ParsableCommand {
         let formattingConfigurationFileURL = formattingConfigurationFilePath != nil ? URL(fileURLWithPath: formattingConfigurationFilePath!) : nil
         
         let outputString = SourceFileDecorator().addAttributionDocumentation(forFilenameAndExtension: outputPathURL.lastPathComponent,
-                                                                             sourceFileContents: try SwiftCodeGenerator(rootLocalisationsTreeNode: rootLocalisationGroup, formattingConfigurationFileURL: formattingConfigurationFileURL).swiftSource)
+                                                                             sourceFileContents: try SwiftCodeGenerator(rootLocalisationsTreeNode: rootLocalisationGroup,
+                                                                                                                        resourceBundleLocationKind: resourceBundleLocationKind,
+                                                                                                                        formattingConfigurationFileURL: formattingConfigurationFileURL).swiftSource)
         
         /*
          Only write the output to disk if it differs from the file that is

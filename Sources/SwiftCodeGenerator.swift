@@ -11,20 +11,14 @@ import SwiftFormatConfiguration
 
 /// The code generator for producing Swift code from a localisations tree.
 final class SwiftCodeGenerator {
-    fileprivate static let StringsBundleClassName = "DJAStringsBundleClass"
-    
     /// The generated Swift source from the receiver's localisation tree.
     var swiftSource: String {
         get throws {
             let rawSource = """
             import Foundation
-            \(rootLocalisationsTreeNode.swiftRepresentation)
+            \(rootLocalisationsTreeNode.swiftRepresentation(forResourceBundleLocationKind: resourceBundleLocationKind))
             
-            private final class \(SwiftCodeGenerator.StringsBundleClassName) {}
-            
-            private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
-                NSLocalizedString(key, tableName: tableName, bundle: Bundle(for: \(SwiftCodeGenerator.StringsBundleClassName).self), value: value, comment: comment)
-            }
+            \(resourceBundleLocationKind.djaLocalizedStringFunction)
             """
             var output = ""
             let formatter = try SwiftFormatter(configuration: formatConfiguration)
@@ -34,6 +28,7 @@ final class SwiftCodeGenerator {
     }
     
     private let rootLocalisationsTreeNode: LocalisationsTreeNode
+    private let resourceBundleLocationKind: ResourceBundleLocationKind
     private let formattingConfigurationFileURL: URL?
     
     private var formatConfiguration: SwiftFormatConfiguration.Configuration {
@@ -49,23 +44,24 @@ final class SwiftCodeGenerator {
         }
     }
     
-    init(rootLocalisationsTreeNode: LocalisationsTreeNode, formattingConfigurationFileURL: URL?) {
+    init(rootLocalisationsTreeNode: LocalisationsTreeNode, resourceBundleLocationKind: ResourceBundleLocationKind, formattingConfigurationFileURL: URL?) {
         self.rootLocalisationsTreeNode = rootLocalisationsTreeNode
+        self.resourceBundleLocationKind = resourceBundleLocationKind
         self.formattingConfigurationFileURL = formattingConfigurationFileURL
     }
 }
 
 private extension LocalisationsTreeNode {
-    var swiftRepresentation: String {
+    func swiftRepresentation(forResourceBundleLocationKind resourceBundleLocationKind: ResourceBundleLocationKind) -> String {
         var swiftRepresentation = """
 public enum \(name.titleCased()) {
-\(localisations.sorted(by: { $0.key < $1.key }).map { $0.swiftRepresentation }.joined(separator: "\n\n"))
+\(localisations.sorted(by: { $0.key < $1.key }).map { $0.swiftRepresentation(forResourceBundleLocationKind: resourceBundleLocationKind) }.joined(separator: "\n\n"))
 """
         if !childNodes.isEmpty {
             if !localisations.isEmpty {
                 swiftRepresentation.append("\n\n")
             }
-            swiftRepresentation.append(childNodes.sorted(by: { $0.name < $1.name }).map { $0.swiftRepresentation }.joined(separator: "\n\n"))
+            swiftRepresentation.append(childNodes.sorted(by: { $0.name < $1.name }).map { $0.swiftRepresentation(forResourceBundleLocationKind: resourceBundleLocationKind) }.joined(separator: "\n\n"))
         }
         swiftRepresentation.append("}")
         return swiftRepresentation
@@ -73,15 +69,17 @@ public enum \(name.titleCased()) {
 }
 
 private extension Localisation {
-    var swiftRepresentation: String {
+    func swiftRepresentation(forResourceBundleLocationKind resourceBundleLocationKind: ResourceBundleLocationKind) -> String {
         let symbolName = (key.components(separatedBy: ".").last ?? key).camelCased().backtickedIfNeeded()
         let formattedComment = comment?.components(separatedBy: .newlines).joined(separator: " ")
         let defaultLanguageValue = self.defaultLanguageValue?
             .replacingOccurrences(of: "\n", with: "\\n")
             .replacingOccurrences(of: "\"", with: "\\\"")
+        let inlineBundleParameter = extractionState.inlineBundleParameter(forResourceBundleLocationKind: resourceBundleLocationKind)
         let localizedStringParameters = [
             "\"\(key)\"",
             "tableName: \"\(tableName)\"",
+            inlineBundleParameter != nil ? "bundle: \(inlineBundleParameter!)" : nil,
             defaultLanguageValue != nil ? " value: \"\(defaultLanguageValue!)\"" : nil,
             "comment: \"\(formattedComment ?? "")\""
         ]
@@ -149,6 +147,15 @@ private extension Optional where Wrapped == Localisation.ExtractionState {
             return "NSLocalizedString"
         }
     }
+    
+    func inlineBundleParameter(forResourceBundleLocationKind resourceBundleLocationKind: ResourceBundleLocationKind) -> String? {
+        switch self {
+        case .migrated, .manual, .stale:
+            nil
+        case .extractedWithValue, .none:
+            resourceBundleLocationKind.bundle
+        }
+    }
 }
 
 private extension Localisation.Placeholder.DataType {
@@ -179,5 +186,37 @@ private extension Localisation.Preview {
             return valueComment
         }
         return "/// **\(description)**\n\(valueComment)"
+    }
+}
+
+private extension ResourceBundleLocationKind {
+    static let StringsBundleClassName = "DJAStringsBundleClass"
+    
+    var bundle: String {
+        switch self {
+        case .standard:
+            "Bundle(for: \(ResourceBundleLocationKind.StringsBundleClassName).self)"
+        case .swiftPackage:
+            "Bundle.module"
+        }
+    }
+    
+    var djaLocalizedStringFunction: String {
+        switch self {
+        case .standard:
+            """
+            private final class \(ResourceBundleLocationKind.StringsBundleClassName) {}
+            
+            private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
+                NSLocalizedString(key, tableName: tableName, bundle: \(bundle), value: value, comment: comment)
+            }
+            """
+        case .swiftPackage:
+            """
+            private func DJALocalizedString(_ key: String, tableName: String? = nil, value: String = "", comment: String) -> Swift.String {
+                NSLocalizedString(key, tableName: tableName, bundle: \(bundle), value: value, comment: comment)
+            }
+            """
+        }
     }
 }
