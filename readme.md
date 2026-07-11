@@ -1,3 +1,9 @@
+# Archive Notice
+
+This repository is now archived and the framework is no longer in development. Please transition to using the `STRING_CATALOG_GENERATE_SYMBOLS` Xcode build setting.
+
+
+
 ![](Images/Banner.png)
 
 
